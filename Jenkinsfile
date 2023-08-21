@@ -16,7 +16,7 @@ pipeline{
                 withCredentials([sshUserPrivateKey(credentialsId: '6418520a-09b4-481e-925e-88c36a2a88cc', keyFileVariable: 'SSH_KEY')]) {
                     sh """
                         ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@43.201.20.90 '
-                        git clone https://github.com/FISA-on-Top/frontend.git
+                        git clone -b feature/jenkins https://github.com/FISA-on-Top/frontend.git
                         docker build -t nodejs-builder -f ~/frontend/dockerfile .
                         docker run --rm -d \
                         -p 3000:3000 \
