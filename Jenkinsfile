@@ -17,7 +17,8 @@ pipeline{
                     sh """
                         ssh -o StrictHostKeyChecking=no -i $SSH_KEY ubuntu@43.201.20.90 '
                         git clone -b feature/jenkins https://github.com/FISA-on-Top/frontend.git
-                        docker build -t nodejs-builder -f ~/frontend/dockerfile .
+                        cd frontend
+                        docker build -t nodejs-builder .
                         docker run --rm -d \
                         -p 3000:3000 \
                         -v ~/nginx/build:/usr/src/app/build \
