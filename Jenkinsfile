@@ -23,7 +23,7 @@ pipeline{
                         docker build --no-cache -t nodejs-builder .
                         docker run --rm -d \
                         -p 3000:3000 \
-                        -v ~/nginx/build : /usr/src/app/build \
+                        -v ~/nginx/build:/usr/src/app/build \
                         --name react-build nodejs-builder:latest
                         '
                     '''               
