@@ -3,7 +3,7 @@ pipeline{
     stages{
         stage('for deploy test in feature branch'){
             when{
-                branch "feature*"
+                branch "feature/*"
             }
             steps {
                 echo 'this is just test '
