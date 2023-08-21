@@ -1,10 +1,10 @@
 FROM node:18.17.1-alpine as builder
 
 # 작업 폴더를 만들고 npm 설치
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-ENV PATH /usr/src/app/node_modules/.bin:$PATH
+#RUN mkdir /usr/src/app
 COPY ./package* /usr/src/app/
+WORKDIR /usr/src/app
+#ENV PATH /usr/src/app/node_modules/.bin:$PATH
 RUN npm install
 #RUN npm install react-scripts@2.1.3 -g --silent
 
