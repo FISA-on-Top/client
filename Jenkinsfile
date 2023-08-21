@@ -15,7 +15,7 @@ pipeline{
             steps {
                 withCredentials([sshUserPrivateKey(credentialsId: '6418520a-09b4-481e-925e-88c36a2a88cc', keyFileVariable: 'SSH_KEY')]) {
                     sh """
-                        ssh -o StrictHostKeyChecking=yes -i $SSH_KEY ubuntu@43.201.20.90 <<'ENDSSH' 
+                        ssh -o StrictHostKeyChecking=yes -i $SSH_KEY ubuntu@43.201.20.90 '
                         rm -rf frontend/
                         git clone -b feature/jenkins https://github.com/FISA-on-Top/frontend.git
                         cd frontend
@@ -24,7 +24,7 @@ pipeline{
                         -p 3000:3000 \
                         -v ~/nginx/build:/usr/src/app/build \
                         --name react-build nodejs-builder
-                       ENDSSH
+                        '
                     """                
                 }
             }
