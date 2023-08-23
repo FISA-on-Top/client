@@ -8,10 +8,10 @@ pipeline{
             when{
                 branch pattern: "feature/*"
             }
-            steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'devfront-server', keyFileVariable: 'SSH_KEY')]) {
+            steps { 
+                sshagent(credentials: ['devfront-server']){
                     sh '''
-                        ssh -o StrictHostKeyChecking=no -i ${SSH_KEY} ubuntu@${DEV_FRONT_SERVER_IP} '
+                        ssh -o StrictHostKeyChecking=yes ubuntu@${DEV_FRONT_SERVER_IP} '
                         rm -rf frontend/ || true
                         git clone -b feature/jenkins https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
