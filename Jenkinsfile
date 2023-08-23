@@ -9,7 +9,7 @@ pipeline{
                 branch pattern: "feature/*"
             }
             steps {
-                sshagent(['DevFront ']) {
+                sshagent(['devfront-server']) {
                     sh '''
                         ssh -o StrictHostKeyChecking=yes ubuntu@${DEV_FRONT_SERVER_IP} '
                         rm -rf frontend/ || true
