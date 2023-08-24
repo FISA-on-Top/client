@@ -48,7 +48,7 @@ pipeline{
         stage('Build Docker Image'){
             when{
                 // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
-                changeset "dockerfile"
+                //changeset "dockerfile"
             }
             steps{
                 script{
@@ -72,7 +72,7 @@ pipeline{
         stage('Push to ECR') {
             when{
                 // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
-                changeset "dockerfile"
+                //changeset "dockerfile"
             }
             steps {
                 script {
