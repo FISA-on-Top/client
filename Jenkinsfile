@@ -112,7 +112,7 @@ pipeline{
                             rm -rf $FOLDER_NAME
                         fi
 
-                        git clone -b feature/jenkins https://github.com/FISA-on-Top/frontend.git frontend
+                        git clone -b $TARGET_BRANCH https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
 
                         # Run a new Docker container using the image from ECR
