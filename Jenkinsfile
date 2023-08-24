@@ -67,9 +67,6 @@ pipeline{
                 failure {
                     error 'fail dockerizing project' // exit pipeline
                 }
-                skipped {
-                    echo 'skipped build docker image'
-                }
             }
         }
         stage('Push to ECR') {
@@ -94,9 +91,6 @@ pipeline{
                 }
                 failure {
                     error 'fail upload image' // exit pipeline
-                }
-                skipped {
-                    echo 'skipped upload docker image'
                 }
             }
         }
