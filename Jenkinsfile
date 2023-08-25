@@ -117,7 +117,7 @@ pipeline{
                         docker pull $ECR_PATH/$IMAGE_NAME:latest
 
                         # Remove the existing folder, if it exists
-                        if cd -a | grep $FOLDER_NAME; then
+                        if ls ~/ | grep $FOLDER_NAME; then
                             rm -rf $FOLDER_NAME
                         fi
 
