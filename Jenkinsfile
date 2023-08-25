@@ -97,7 +97,7 @@ pipeline{
         stage('Pull and Delpoy'){
             when {
                 anyOf {
-                    branch 'feature*'
+                    branch 'feature/*'
                     branch 'develop'
                 }
             }
