@@ -1,0 +1,68 @@
+[
+    {
+      "ipo_id": 1,
+      "corp_code": 123456,
+      "corp_name": "Company 1",
+      "sbd": "2023-08-01",
+      "pymd": "2023-08-15",
+      "refund": "2023-08-20",
+      "ipo_date": "2023-08-25",
+      "slprc": 100.123,
+      "corp_cls": "Class A",
+      "stkcnt": 10000,
+      "capital_increase": "Increase"
+    },
+    {
+      "ipo_id": 2,
+      "corp_code": 789012,
+      "corp_name": "Company 2",
+      "sbd": "2023-08-02",
+      "pymd": "2023-08-16",
+      "refund": "2023-08-21",
+      "ipo_date": "2023-08-26",
+      "slprc": 200.456,
+      "corp_cls": "Class B",
+      "stkcnt": 20000,
+      "capital_increase": "Decrease"
+    },
+    {
+      "ipo_id": 3,
+      "corp_code": 345678,
+      "corp_name": "Company 3",
+      "sbd": "2023-08-03",
+      "pymd": "2023-08-17",
+      "refund": "2023-08-22",
+      "ipo_date": "2023-08-27",
+      "slprc": 300.789,
+      "corp_cls": "Class A",
+      "stkcnt": 30000,
+      "capital_increase": "Increase"
+    },
+    {
+      "ipo_id": 4,
+      "corp_code": 901234,
+      "corp_name": "Company 4",
+      "sbd": "2023-08-04",
+      "pymd": "2023-08-18",
+      "refund": "2023-08-23",
+      "ipo_date": "2023-08-28",
+      "slprc": 400.123,
+      "corp_cls": "Class B",
+      "stkcnt": 40000,
+      "capital_increase": "Decrease"
+    },
+    {
+      "ipo_id": 5,
+      "corp_code": 567890,
+      "corp_name": "Company 5",
+      "sbd": "2023-08-05",
+      "pymd": "2023-08-19",
+      "refund": "2023-08-24",
+      "ipo_date": "2023-08-29",
+      "slprc": 500.456,
+      "corp_cls": "Class A",
+      "stkcnt": 50000,
+      "capital_increase": "Increase"
+    }
+  ]
+  
