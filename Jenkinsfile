@@ -83,6 +83,9 @@ pipeline{
                       docker.image("${IMAGE_NAME}:${BUILD_NUMBER}").push()
                       docker.image("${IMAGE_NAME}:latest").push()
                     }
+                    
+                    sh "docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}"
+                    sh "docker rmi ${IMAGE_NAME}:latest"
                 }
             }
             post {
