@@ -31,24 +31,9 @@ pipeline{
                 }
             }
         }  
-        stage('Checkout') {
-            steps {
-                checkout scm
-                sh "ls -al"
-            }
-            post{
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }     
-            }
-        }
-        // stage('Clone'){
-        //     steps{
-        //         git branch: "$env.BRANCH_NAME", 
-        //         url: "$REPOSITORY_URL"
+        // stage('Checkout') {
+        //     steps {
+        //         checkout scm
         //         sh "ls -al"
         //     }
         //     post{
@@ -60,11 +45,26 @@ pipeline{
         //         }     
         //     }
         // }
+        stage('Clone'){
+            steps{
+                git branch: "$env.BRANCH_NAME", 
+                url: "$REPOSITORY_URL"
+                sh "ls -al"
+            }
+            post{
+                success {
+                    echo 'success clone project'
+                }
+                failure {
+                    error 'fail clone project' // exit pipeline
+                }     
+            }
+        }
         stage('Build Docker Image'){
             steps{
                 script{
                     sh '''
-                    docker build --no-cache -t ${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
                     docker build -t ${IMAGE_NAME}:latest .
                     docker tag $IMAGE_NAME:$BUILD_NUMBER $ECR_PATH/$IMAGE_NAME:$BUILD_NUMBER
                     docker tag $IMAGE_NAME:latest $ECR_PATH/$IMAGE_NAME:latest
