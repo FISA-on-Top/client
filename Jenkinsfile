@@ -101,7 +101,7 @@ pipeline{
                     env.GIT_BRANCH == 'develop'
                 }
                 expression {
-                    env.GIT_BRANCH == 'feature/#*'
+                    env.GIT_BRANCH == 'feature*'
                 }
             }
             steps { 
