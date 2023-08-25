@@ -2,7 +2,7 @@ pipeline{
     agent any   
     environment {
         REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
-        TARGET_BRANCH = 'main'
+        TARGET_BRANCH = 'develop'
 
         AWS_CREDENTIAL_NAME = 'ECR-access'
         ECR_PATH = '038331013212.dkr.ecr.ap-northeast-2.amazonaws.com'
@@ -30,21 +30,21 @@ pipeline{
                 }
             }
         }  
-        stage('Clone'){
-            steps{
-                git branch: "$TARGET_BRANCH", 
-                url: "$REPOSITORY_URL"
-                sh "ls -al"
-            }
-            post{
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }     
-            }
-        }
+        // stage('Clone'){
+        //     steps{
+        //         git branch: "$TARGET_BRANCH", 
+        //         url: "$REPOSITORY_URL"
+        //         sh "ls -al"
+        //     }
+        //     post{
+        //         success {
+        //             echo 'success clone project'
+        //         }
+        //         failure {
+        //             error 'fail clone project' // exit pipeline
+        //         }     
+        //     }
+        // }
         stage('Build Docker Image'){
             when{
                 // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
@@ -95,6 +95,13 @@ pipeline{
             }
         }
         stage('Pull and Delpoy'){
+            when {
+                // 조건문을 사용해 develop 브랜치일 때만 이 stage를 실행
+                expression {
+                    env.BRANCH_NAME == 'develop'
+                    env.BRANCH_NAME == 'feature/#*'
+                }
+            }
             steps { 
                 sshagent(credentials: ['devfront']){
                     sh """  
@@ -112,7 +119,7 @@ pipeline{
                             rm -rf $FOLDER_NAME
                         fi
 
-                        git clone -b $TARGET_BRANCH https://github.com/FISA-on-Top/frontend.git frontend
+                        git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
 
                         # Run a new Docker container using the image from ECR
