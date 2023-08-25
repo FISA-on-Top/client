@@ -1,5 +1,6 @@
 pipeline{
     agent any   
+
     environment {
         REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
         TARGET_BRANCH = 'develop'
@@ -15,7 +16,7 @@ pipeline{
 
         FOLDER_NAME = 'frontend'
     }
-    stages {
+    stages {        
         stage('init') {
             steps {
                 echo 'init stage'
@@ -30,9 +31,23 @@ pipeline{
                 }
             }
         }  
+        stage('Checkout') {
+            steps {
+                checkout scm
+                sh "ls -al"
+            }
+            post{
+                success {
+                    echo 'success clone project'
+                }
+                failure {
+                    error 'fail clone project' // exit pipeline
+                }     
+            }
+        }
         // stage('Clone'){
         //     steps{
-        //         git branch: "$TARGET_BRANCH", 
+        //         git branch: "$env.BRANCH_NAME", 
         //         url: "$REPOSITORY_URL"
         //         sh "ls -al"
         //     }
