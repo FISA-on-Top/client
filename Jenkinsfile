@@ -46,10 +46,6 @@ pipeline{
         //     }
         // }
         stage('Build Docker Image'){
-            when{
-                // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
-                changeset "dockerfile"
-            }
             steps{
                 script{
                     sh '''
@@ -70,10 +66,6 @@ pipeline{
             }
         }
         stage('Push to ECR') {
-            when{
-                // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
-                changeset "dockerfile"
-            }
             steps {
                 script {
                     // cleanup current user docker credentials
@@ -121,7 +113,7 @@ pipeline{
                             rm -rf $FOLDER_NAME
                         fi
 
-                        git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
+                        git clone -b feature/#3 https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
 
                         # Run a new Docker container using the image from ECR
