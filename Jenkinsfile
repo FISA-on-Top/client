@@ -96,12 +96,9 @@ pipeline{
         }
         stage('Pull and Delpoy'){
             when {
-                // 조건문을 사용해 develop 브랜치일 때만 이 stage를 실행
-                expression {
-                    env.GIT_BRANCH == 'develop'
-                }
-                expression {
-                    env.GIT_BRANCH == 'feature*'
+                anyOf {
+                    branch 'feature*'
+                    branch 'develop'
                 }
             }
             steps { 
