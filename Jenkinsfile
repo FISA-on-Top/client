@@ -98,8 +98,10 @@ pipeline{
             when {
                 // 조건문을 사용해 develop 브랜치일 때만 이 stage를 실행
                 expression {
-                    env.BRANCH_NAME == 'develop'
-                    env.BRANCH_NAME == 'feature/#*'
+                    env.GIT_BRANCH == 'develop'
+                }
+                expression {
+                    env.GIT_BRANCH == 'feature/#*'
                 }
             }
             steps { 
