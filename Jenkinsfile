@@ -51,8 +51,10 @@ pipeline{
                       docker.image("${IMAGE_NAME}:latest").push()
                     }
                     
-                    sh "docker rmi -f ${IMAGE_NAME}:${IMAGE_VERSION}"
-                    sh "docker rmi -f ${IMAGE_NAME}:latest"
+                    sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:${IMAGE_VERSION}")
+                    sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:latest")
+                    sh("docker rmi -f ${IMAGE_NAME}:${IMAGE_VERSION}")
+                    sh("docker rmi -f ${IMAGE_NAME}:latest")
                 }
             }
             post {
@@ -73,35 +75,35 @@ pipeline{
                 // }
             }
             steps { 
-                 echo "Current branch is ${env.BRANCH_NAME}"
+                echo "Current branch is ${env.BRANCH_NAME}"
 
                 sshagent(credentials: ['devfront']){
                     sh """  
                         ssh -o StrictHostKeyChecking=no $WEBSERVER_USERNAME@$WEBSERVER_IP '
-                        ls
+                            ls
 
-                        # Login to ECR and pull the Docker image
-                        echo "login into aws"
-                        aws ecr get-login-password --region $REGION | docker login --username $ECR_NAME --password-stdin $ECR_PATH
-                        
-                        # Pull image from ECR to web server
-                        echo "pull the image from ECR "
-                        docker pull $ECR_PATH/$IMAGE_NAME:latest
+                            # Login to ECR and pull the Docker image
+                            echo "login into aws"
+                            aws ecr get-login-password --region $REGION | docker login --username $ECR_NAME --password-stdin $ECR_PATH
+                            
+                            # Pull image from ECR to web server
+                            echo "pull the image from ECR "
+                            docker pull $ECR_PATH/$IMAGE_NAME:latest
 
-                        # Remove the existing folder, if it exists
-                        if ls ~/ | grep $FOLDER_NAME; then
-                            rm -rf $FOLDER_NAME
-                        fi
+                            # Remove the existing folder, if it exists
+                            if ls ~/ | grep $FOLDER_NAME; then
+                                rm -rf $FOLDER_NAME
+                            fi
 
-                        echo "clone git repo"
-                        git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
-                        cd frontend
+                            echo "clone git repo"
+                            git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
+                            cd frontend
 
-                        # Run a new Docker container using the image from ECR
-                        echo "docker run"
-                        docker run --rm -p 3000:3000 \
-                        -v ~/nginx/build:/usr/src/app/build \
-                        --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
+                            # Run a new Docker container using the image from ECR
+                            echo "docker run"
+                            docker run --rm -p 3000:3000 \
+                            -v ~/nginx/build:/usr/src/app/build \
+                            --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
                         '
                     """                
                 }
