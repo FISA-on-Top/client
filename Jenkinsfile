@@ -6,6 +6,7 @@ pipeline{
         //TARGET_BRANCH = ''
 
         AWS_CREDENTIAL_NAME = 'ECR-access'
+        ECR_NAME = 'AWS'
         ECR_PATH = '038331013212.dkr.ecr.ap-northeast-2.amazonaws.com'
         IMAGE_NAME = 'web'
         IMAGE_VERSION = "0.${BUILD_NUMBER}"
@@ -18,7 +19,6 @@ pipeline{
         FOLDER_NAME = 'frontend'
     }
     stages {  
-
         stage('Build Docker Image'){
             steps{
                 script{
@@ -65,11 +65,11 @@ pipeline{
         }
         stage('Pull and Delpoy'){
             when {
-                //branch 'develop'
-                anyOf {
-                    branch 'feature/*'
-                    branch 'develop'
-                }
+                branch 'develop'
+                // anyOf {
+                //     branch 'feature/*'
+                //     branch 'develop'
+                // }
             }
             steps { 
                  echo "Current branch is ${env.BRANCH_NAME}"
@@ -81,7 +81,7 @@ pipeline{
 
                         # Login to ECR and pull the Docker image
                         echo "login into aws"
-                        aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_PATH
+                        aws ecr get-login-password --region $REGION | docker login --username $ECR_NAME --password-stdin $ECR_PATH
                         
                         # Pull image from ECR to web server
                         echo "pull the image from ECR "
