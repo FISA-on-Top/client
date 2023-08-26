@@ -8,6 +8,7 @@ pipeline{
         AWS_CREDENTIAL_NAME = 'ECR-access'
         ECR_PATH = '038331013212.dkr.ecr.ap-northeast-2.amazonaws.com'
         IMAGE_NAME = 'web'
+        IMAGE_VERSION = '0.'+ BUILD_NUMBER + '_' + env.BUILD_TIMESTAMP
         REGION = 'ap-northeast-2'        
 
         WEBSERVER_USERNAME = 'ubuntu'
@@ -22,9 +23,9 @@ pipeline{
             steps{
                 script{
                     sh '''
-                    docker build -t ${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
                     docker build -t ${IMAGE_NAME}:latest .
-                    docker tag $IMAGE_NAME:$BUILD_NUMBER $ECR_PATH/$IMAGE_NAME:$BUILD_NUMBER
+                    docker tag $IMAGE_NAME:$IMAGE_VERSION $ECR_PATH/$IMAGE_NAME:$IMAGE_VERSION
                     docker tag $IMAGE_NAME:latest $ECR_PATH/$IMAGE_NAME:latest
                     '''
                 }
@@ -45,11 +46,11 @@ pipeline{
                     sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
 
                     docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_NAME}") {
-                      docker.image("${IMAGE_NAME}:${BUILD_NUMBER}").push()
+                      docker.image("${IMAGE_NAME}:${IMAGE_VERSION}").push()
                       docker.image("${IMAGE_NAME}:latest").push()
                     }
                     
-                    sh "docker rmi ${IMAGE_NAME}:${BUILD_NUMBER}"
+                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_VERSION}"
                     sh "docker rmi ${IMAGE_NAME}:latest"
                 }
             }
