@@ -3,7 +3,7 @@ pipeline{
 
     environment {
         REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
-        TARGET_BRANCH = 'develop'
+        TARGET_BRANCH = 'feature/#3'
 
         AWS_CREDENTIAL_NAME = 'ECR-access'
         ECR_PATH = '038331013212.dkr.ecr.ap-northeast-2.amazonaws.com'
@@ -17,20 +17,20 @@ pipeline{
         FOLDER_NAME = 'frontend'
     }
     stages {        
-        stage('init') {
-            steps {
-                echo 'init stage'
-                deleteDir()
-            }
-            post {
-                success {
-                    echo 'success init in pipeline'
-                }
-                failure {
-                    error 'fail init in pipeline'
-                }
-            }
-        }  
+        // stage('init') {
+        //     steps {
+        //         echo 'init stage'
+        //         deleteDir()
+        //     }
+        //     post {
+        //         success {
+        //             echo 'success init in pipeline'
+        //         }
+        //         failure {
+        //             error 'fail init in pipeline'
+        //         }
+        //     }
+        // }  
         // stage('Checkout') {
         //     steps {
         //         checkout scm
@@ -45,21 +45,21 @@ pipeline{
         //         }     
         //     }
         // }
-        stage('Clone'){
-            steps{
-                git branch: "$env.BRANCH_NAME", 
-                url: "$REPOSITORY_URL"
-                sh "ls -al"
-            }
-            post{
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }     
-            }
-        }
+        // stage('Clone'){
+        //     steps{
+        //         git branch: "$env.BRANCH_NAME", 
+        //         url: "$REPOSITORY_URL"
+        //         sh "ls -al"
+        //     }
+        //     post{
+        //         success {
+        //             echo 'success clone project'
+        //         }
+        //         failure {
+        //             error 'fail clone project' // exit pipeline
+        //         }     
+        //     }
+        // }
         stage('Build Docker Image'){
             steps{
                 script{
@@ -128,7 +128,7 @@ pipeline{
                             rm -rf $FOLDER_NAME
                         fi
 
-                        git clone -b feature/#3 https://github.com/FISA-on-Top/frontend.git frontend
+                        git clone -b $TARGET_BRANCH https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
 
                         # Run a new Docker container using the image from ECR

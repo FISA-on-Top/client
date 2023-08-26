@@ -1,4 +1,4 @@
-FROM node:18.17.1
+FROM node:18.17.1-slim
 
 # 작업 폴더를 만들고 npm 설치
 RUN mkdir /usr/src/app
