@@ -118,9 +118,11 @@ pipeline{
                         ls
 
                         # Login to ECR and pull the Docker image
+                        echo "login into aws"
                         aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_PATH
                         
                         # Pull image from ECR to web server
+                        echo "pull the image from ECR "
                         docker pull $ECR_PATH/$IMAGE_NAME:latest
 
                         # Remove the existing folder, if it exists
@@ -128,10 +130,12 @@ pipeline{
                             rm -rf $FOLDER_NAME
                         fi
 
+                        echo "clone git repo"
                         git clone -b $TARGET_BRANCH https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
 
                         # Run a new Docker container using the image from ECR
+                        echo "docker run"
                         docker run --rm -p 3000:3000 \
                         -v ~/nginx/build:/usr/src/app/build \
                         --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
