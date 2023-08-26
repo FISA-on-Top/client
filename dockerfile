@@ -10,6 +10,7 @@ COPY ./package* /usr/src/app/
 RUN npm install -g npm@9.8.1
 RUN npm install react react-dom
 RUN npm install --save --save-exact react-scripts@5.0.1 --silent
+RUN npm install --save moment
 
 # 소스를 작업폴더로 복사하고 빌드
 COPY . /usr/src/app
