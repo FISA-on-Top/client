@@ -2,6 +2,7 @@ pipeline{
     agent any   
 
     environment {
+        //REPOSITORY_CREDENTIAL_ID = 'gitlab-jenkins-key'
         REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
         //TARGET_BRANCH = ''
 
@@ -63,7 +64,7 @@ pipeline{
                 }
             }
         }
-        stage('Pull and Delpoy'){
+        stage('Pull and Delpoy to web server'){
             when {
                 branch 'develop'
                 // anyOf {
@@ -103,6 +104,14 @@ pipeline{
                         --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
                         '
                     """                
+                }
+            }
+            post{
+                success {
+                    echo 'success deploy to web server'
+                }
+                failure {
+                    error 'fail deploy to web server' // exit pipeline
                 }
             }
         
