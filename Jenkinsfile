@@ -8,7 +8,7 @@ pipeline{
         AWS_CREDENTIAL_NAME = 'ECR-access'
         ECR_PATH = '038331013212.dkr.ecr.ap-northeast-2.amazonaws.com'
         IMAGE_NAME = 'web'
-        IMAGE_VERSION = "0.${BUILD_NUMBER}_${env.BUILD_TIMESTAMP}"
+        IMAGE_VERSION = "0.${BUILD_NUMBER}"
         REGION = 'ap-northeast-2'        
 
         WEBSERVER_USERNAME = 'ubuntu'
