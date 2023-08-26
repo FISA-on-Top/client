@@ -76,7 +76,7 @@ pipeline{
 
                 sshagent(credentials: ['devfront']){
                     sh """  
-                        ssh -o StrictHostKeyChecking=yes $WEBSERVER_USERNAME@$WEBSERVER_IP '
+                        ssh -o StrictHostKeyChecking=no $WEBSERVER_USERNAME@$WEBSERVER_IP '
                         ls
 
                         # Login to ECR and pull the Docker image
