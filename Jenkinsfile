@@ -50,14 +50,15 @@ pipeline{
                       docker.image("${IMAGE_NAME}:${IMAGE_VERSION}").push()
                       docker.image("${IMAGE_NAME}:latest").push()
                     }
-                    
+                }
+            }
+            post {
+                always {
                     sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:${IMAGE_VERSION}")
                     sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:latest")
                     sh("docker rmi -f ${IMAGE_NAME}:${IMAGE_VERSION}")
                     sh("docker rmi -f ${IMAGE_NAME}:latest")
-                }
-            }
-            post {
+                }                
                 success {
                     echo 'success upload image'
                 }
@@ -91,10 +92,11 @@ pipeline{
                             docker pull $ECR_PATH/$IMAGE_NAME:latest
 
                             # Remove the existing folder, if it exists
+                            echo " remove $FOLDER_NAME folder if it exists"
                             if ls ~/ | grep $FOLDER_NAME; then
                                 rm -rf $FOLDER_NAME
                             fi
-
+                            
                             echo "clone git repo"
                             git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
                             cd frontend

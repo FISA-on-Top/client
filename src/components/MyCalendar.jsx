@@ -23,13 +23,13 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('http://43.201.20.90/ipo/list'); //  ./events.json RestAPI경로
+                const response = await fetch('/api/ipo/list'); //  ./events.json RestAPI경로
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
                 const eventData = await response.json();
                 setEvents(eventData);
-
+                
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
