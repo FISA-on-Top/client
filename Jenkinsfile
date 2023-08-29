@@ -83,28 +83,28 @@ pipeline{
                         ssh -o StrictHostKeyChecking=no $WEBSERVER_USERNAME@$WEBSERVER_IP '
                             ls
 
-                        # Login to ECR and pull the Docker image
-                        echo "login into aws"
-                        aws ecr get-login-password --region $REGION | docker login --username $ECR_NAME --password-stdin $ECR_PATH
-                        
-                        # Pull image from ECR to web server
-                        echo "pull the image from ECR "
-                        docker pull $ECR_PATH/$IMAGE_NAME:latest
+                            # Login to ECR and pull the Docker image
+                            echo "login into aws"
+                            aws ecr get-login-password --region $REGION | docker login --username $ECR_NAME --password-stdin $ECR_PATH
+                            
+                            # Pull image from ECR to web server
+                            echo "pull the image from ECR "
+                            docker pull $ECR_PATH/$IMAGE_NAME:latest
 
-                        # Remove the existing folder, if it exists
-                        echo " remove $FOLDER_NAME folder if it exists"
-                        if ls ~/ | grep $FOLDER_NAME; then
-                            rm -rf $FOLDER_NAME
-                        fi
+                            # Remove the existing folder, if it exists
+                            echo " remove $FOLDER_NAME folder if it exists"
+                            if ls ~/ | grep $FOLDER_NAME; then
+                                rm -rf $FOLDER_NAME
+                            fi
 
-                        git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
-                        cd frontend
+                            git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
+                            cd frontend
 
-                        # Run a new Docker container using the image from ECR
-                        echo "docker run"
-                        docker run --rm -p 3000:3000 \
-                        -v ~/nginx/build:/usr/src/app/build \
-                        --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
+                            # Run a new Docker container using the image from ECR
+                            echo "docker run"
+                            docker run --rm -p 3000:3000 \
+                            -v ~/nginx/build:/usr/src/app/build \
+                            --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
                         '
                     """                
                 }
