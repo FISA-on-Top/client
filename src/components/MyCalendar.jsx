@@ -23,7 +23,7 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('./events.json'); // RestAPI경로
+                const response = await fetch('/api/ipo/list'); //  ./events.json RestAPI경로
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }

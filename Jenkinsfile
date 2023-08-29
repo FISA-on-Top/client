@@ -2,6 +2,7 @@ pipeline{
     agent any   
 
     environment {
+        //REPOSITORY_CREDENTIAL_ID = 'gitlab-jenkins-key'
         REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
         //TARGET_BRANCH = ''
 
@@ -49,12 +50,15 @@ pipeline{
                       docker.image("${IMAGE_NAME}:${IMAGE_VERSION}").push()
                       docker.image("${IMAGE_NAME}:latest").push()
                     }
-                    
-                    sh "docker rmi ${IMAGE_NAME}:${IMAGE_VERSION}"
-                    sh "docker rmi ${IMAGE_NAME}:latest"
                 }
             }
             post {
+                always {
+                    sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:${IMAGE_VERSION}")
+                    sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:latest")
+                    sh("docker rmi -f ${IMAGE_NAME}:${IMAGE_VERSION}")
+                    sh("docker rmi -f ${IMAGE_NAME}:latest")
+                }                
                 success {
                     echo 'success upload image'
                 }
@@ -63,21 +67,21 @@ pipeline{
                 }
             }
         }
-        stage('Pull and Delpoy'){
+        stage('Pull and Delpoy to web server'){
             when {
-                branch 'develop'
-                // anyOf {
-                //     branch 'feature/*'
-                //     branch 'develop'
-                // }
+                //branch 'develop'
+                anyOf {
+                    branch 'feature/*'
+                    branch 'develop'
+                }
             }
             steps { 
-                 echo "Current branch is ${env.BRANCH_NAME}"
+                echo "Current branch is ${env.BRANCH_NAME}"
 
                 sshagent(credentials: ['devfront']){
                     sh """  
-                        ssh -o StrictHostKeyChecking=yes $WEBSERVER_USERNAME@$WEBSERVER_IP '
-                        ls
+                        ssh -o StrictHostKeyChecking=no $WEBSERVER_USERNAME@$WEBSERVER_IP '
+                            ls
 
                         # Login to ECR and pull the Docker image
                         echo "login into aws"
@@ -88,11 +92,11 @@ pipeline{
                         docker pull $ECR_PATH/$IMAGE_NAME:latest
 
                         # Remove the existing folder, if it exists
-                        if ls ~/ | grep $FOLDER_NAME; then
+                        echo " remove $FOLDER_NAME folder if it exists"
+                        if cd -a | grep $FOLDER_NAME; then
                             rm -rf $FOLDER_NAME
                         fi
 
-                        echo "clone git repo"
                         git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
                         cd frontend
 
@@ -103,6 +107,14 @@ pipeline{
                         --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
                         '
                     """                
+                }
+            }
+            post{
+                success {
+                    echo 'success deploy to web server'
+                }
+                failure {
+                    error 'fail deploy to web server' // exit pipeline
                 }
             }
         
