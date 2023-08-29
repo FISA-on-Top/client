@@ -69,11 +69,11 @@ pipeline{
         }
         stage('Pull and Delpoy to web server'){
             when {
-                //branch 'develop'
-                anyOf {
-                    branch 'feature/*'
-                    branch 'develop'
-                }
+                branch 'develop'
+                // anyOf {
+                //     branch 'feature/*'
+                //     branch 'develop'
+                // }
             }
             steps { 
                 echo "Current branch is ${env.BRANCH_NAME}"
@@ -93,7 +93,7 @@ pipeline{
 
                         # Remove the existing folder, if it exists
                         echo " remove $FOLDER_NAME folder if it exists"
-                        if cd -a | grep $FOLDER_NAME; then
+                        if ls ~/ | grep $FOLDER_NAME; then
                             rm -rf $FOLDER_NAME
                         fi
 
