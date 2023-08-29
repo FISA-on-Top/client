@@ -1,9 +1,132 @@
-import React from 'react';
+// Nav3.jsx
+import React, { useState, useEffect } from 'react';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from './StyledContents';
+import DatePicker from 'react-datepicker';
+import Dropdown from './Dropdown';
+import { TableContainer, Table, TableHeader, TableRow, TableCell } from './StyledTable.jsx';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Nav3() {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const accounts = JSON.parse(localStorage.getItem('accounts'));
+  const [data, setData] = useState([]);
+  const navigate = useNavigate();
+  const [selectedData, setSelectedData] = useState({
+    id: null,
+    companyName: '',
+    accountNumber: '', // accountNumber 필드 추가
+  });
+
+  // 비동기로 데이터를 가져오는 함수
+  const fetchData = async () => {
+    try {
+      const dummyData = [
+        {
+          id: 1,
+          category: '카테고리1',
+          companyName: '기업1',
+          underwriter: '주관회사1',
+          subscriptionPeriod: '2023-08-01 ~ 2023-08-10',
+          refundDate: '2023-08-15',
+          issuePrice: '10000원',
+          accountNumber: '1234-5678', // accountNumber 필드 추가
+        },
+        {
+          id: 2,
+          category: '카테고리2',
+          companyName: '기업2',
+          underwriter: '주관회사2',
+          subscriptionPeriod: '2023-08-05 ~ 2023-08-12',
+          refundDate: '2023-08-17',
+          issuePrice: '15000원',
+          accountNumber: '5678-1234', // accountNumber 필드 추가
+        },
+      ];
+
+      setData(dummyData);
+    } catch (error) {
+      console.error('데이터를 불러오는 도중 오류가 발생했습니다.', error);
+    }
+  };
+
+  // 버튼 클릭 시 선택된 데이터를 처리하는 함수
+  const handleSelect = (id) => {
+    // 선택된 데이터 처리 로직 작성
+    console.log(`선택된 아이디: ${id}`);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
+
+  const handleButtonClick = (row) => {
+    const updatedData = {
+      id: row.id,
+      companyName: row.companyName,
+      accountNumber: row.accountNumber,
+    };
+    
+    setSelectedData(updatedData);
+    navigate('/nav3sub1', {
+      state: {
+        id: row.id,
+        corpName: row.companyName,
+        accNum: row.accountNumber,
+      }
+    });
+  };
+
+  const onInquiryClick = () => {
+    fetchData();
+  }
+
   return (
     <div>
-      Nav3 페이지 내용
+      <ContainerDiv>
+        <h1>청약 결과 조회</h1>
+        <WrapperDiv>
+          <ContentsDiv>
+            <TitleDiv>계좌 설정</TitleDiv>
+            <TextDiv><Dropdown items={accounts} /></TextDiv>
+          </ContentsDiv>
+          <ContentsDiv>
+            <TitleDiv>조회 기간</TitleDiv>
+            <TextDiv><DatePicker selected={selectedDate} onChange={handleDateChange} /></TextDiv>
+          </ContentsDiv>
+        </WrapperDiv>
+        <button onClick={onInquiryClick}>조회</button>
+      </ContainerDiv>
+
+      <TableContainer>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>선택</TableHeader>
+              <TableHeader>분류</TableHeader>
+              <TableHeader>기업명</TableHeader>
+              <TableHeader>대표주관회사</TableHeader>
+              <TableHeader>청약기간</TableHeader>
+              <TableHeader>환불일</TableHeader>
+              <TableHeader>확정발행가</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {data.map((row) => (
+              <TableRow key={row.id}>
+                <TableCell>
+                <button onClick={() => handleButtonClick(row)}>선택</button>
+                </TableCell>
+                <TableCell>{row.category}</TableCell>
+                <TableCell>{row.companyName}</TableCell>
+                <TableCell>{row.underwriter}</TableCell>
+                <TableCell>{row.subscriptionPeriod}</TableCell>
+                <TableCell>{row.refundDate}</TableCell>
+                <TableCell>{row.issuePrice}</TableCell>
+              </TableRow>
+            ))}
+          </tbody>
+        </Table>
+      </TableContainer>
     </div>
   );
 }

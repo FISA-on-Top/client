@@ -1,11 +1,14 @@
 import React from 'react';
 import SubscriptionItem from './SubscriptionItem';
 
-function SubscriptionList({ items }) {
+function SubscriptionList({ events }) {
   return (
     <div>
-      {items.map((item, index) => (
-        <SubscriptionItem key={index} title={item.title} description={item.description} />
+      {events.map((event, index) => (
+        <SubscriptionItem
+          key={event.ipoId}
+          event={event}
+        />
       ))}
     </div>
   );

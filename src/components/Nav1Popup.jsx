@@ -9,6 +9,8 @@ const PopupOverlay = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: ${props => props.isVisible ? 'block' : 'none'};
+  justify-content: center;
+  align-items: center;
 `;
 
 const PopupContent = styled.div`
@@ -20,6 +22,27 @@ const PopupContent = styled.div`
   padding: 16px;
 `;
 
+const CloseButton = styled.button`
+  display: block;
+  margin: 0 auto;
+`;
+
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+`;
+
+const Th = styled.th`
+  background-color: #f2f2f2;
+  text-align: left;
+  padding: 8px;
+`;
+
+const Td = styled.td`
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+`;
+
 function Nav1Popup({ event, isVisible, onClose }) {
 
     return (
@@ -27,14 +50,62 @@ function Nav1Popup({ event, isVisible, onClose }) {
             <PopupContent>
                 <h2>이벤트 상세 정보</h2>
                 {event ? (
-                    <>
-                        <p>제목: {event.title}</p>
-                        <p>내용: {event.description}</p>
-                    </>
+                                        <Table>
+                                        <tbody>
+                                            <tr>
+                                                <Th>항목</Th>
+                                                <Th>값</Th>
+                                            </tr>
+                                            <tr>
+                                                <Td>ipo_id</Td>
+                                                <Td>{event.ipoId}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>corp_code</Td>
+                                                <Td>{event.corpCode}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>corp_name</Td>
+                                                <Td>{event.corpName}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>sbd</Td>
+                                                <Td>{event.sbd}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>pymd</Td>
+                                                <Td>{event.pymd}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>refund</Td>
+                                                <Td>{event.refund}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>ipo_date</Td>
+                                                <Td>{event.ipoDate}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>slprc</Td>
+                                                <Td>{event.slprc}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>corp_cls</Td>
+                                                <Td>{event.corpCls}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>stkcnt</Td>
+                                                <Td>{event.stkcnt}</Td>
+                                            </tr>
+                                            <tr>
+                                                <Td>capital_increase</Td>
+                                                <Td>{event.capitalIncrease}</Td>
+                                            </tr>
+                                        </tbody>
+                                    </Table>
                 ) : (
                     <p>이벤트 정보를 찾을 수 없습니다.</p>
                 )}
-                <button onClick={onClose}>닫기</button>
+                <CloseButton onClick={onClose}>닫기</CloseButton>
             </PopupContent>
         </PopupOverlay>
     );

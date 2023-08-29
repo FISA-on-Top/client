@@ -10,9 +10,12 @@ const ItemContainer = styled.div`
 `;
 
 const ItemTitle = styled.h3`
+  font-size: 8px;
   margin: 0;
   &:hover {
     color: blue;
+    text-decoration: underline;
+    cursor: pointer;
   }
 `;
 
@@ -20,7 +23,7 @@ const ItemContent = styled.p`
   margin: 8px 0;
 `;
 
-function SubscriptionItem({ title, description }) {
+function SubscriptionItem({ event }) {
     const [popupVisible, setPopupVisible] = useState(false);
 
     const openPopup = () => {
@@ -31,13 +34,16 @@ function SubscriptionItem({ title, description }) {
         setPopupVisible(false);
     };
 
+    const ipoDate = new Date(event.ipoDate);
+    const formattedDate = ipoDate.toISOString().split('T')[0];
+
     return (
         <>
             <ItemContainer onClick={openPopup}>
-                <ItemTitle>{title}</ItemTitle>
-                {/* <ItemContent>{description}</ItemContent> */}
+            <ItemTitle>{event.corpName}</ItemTitle>
+            <ItemContent>{formattedDate}</ItemContent>
             </ItemContainer>
-            <Nav1Popup event={{ title, description }} isVisible={popupVisible} onClose={closePopup} />
+            <Nav1Popup event={event} isVisible={popupVisible} onClose={closePopup} />
         </>
     );
 }

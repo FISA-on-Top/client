@@ -2,17 +2,12 @@ import React from 'react';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from './StyledContents';
 import { useNavigate } from 'react-router';
 
-function MyPage() {
-  const navigate = useNavigate();
+function MyPageMod() {
+  const navigater = useNavigate();
 
   const onModClick = () => {
-    navigate('/mypage/mod');
+    navigater(-1);
   }
-
-  const onWithdrawClick = () => {
-    navigate('/mypage/withdraw');
-  }
-
 
   return (
     <ContainerDiv>
@@ -32,11 +27,11 @@ function MyPage() {
         </ContentsDiv>
         <ContentsDiv>
           <TitleDiv>핸드폰</TitleDiv>
-          <TextDiv>확인 후 받아오고</TextDiv>
+          <TextDiv><input /></TextDiv>
         </ContentsDiv>
         <ContentsDiv>
           <TitleDiv>Email</TitleDiv>
-          <TextDiv>확인 후 받아오고</TextDiv>
+          <TextDiv><input /></TextDiv>
         </ContentsDiv>
         <ContentsDiv>
           <TitleDiv>계좌 번호</TitleDiv>
@@ -45,10 +40,9 @@ function MyPage() {
       </WrapperDiv>
       <div>
         <button onClick={onModClick}>수정하기</button>
-        <button onClick={onWithdrawClick}>탈퇴하기</button>
       </div>
     </ContainerDiv>
   );
 }
 
-export default MyPage;
+export default MyPageMod;

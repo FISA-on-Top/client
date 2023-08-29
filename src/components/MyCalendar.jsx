@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
+// import 'react-calendar/dist/Calendar.css';
+import "./MyCalendar.css";
 import 'react-calendar/dist/Calendar.css';
 import Nav1Popup from './Nav1Popup';
 import moment from "moment"
@@ -12,6 +14,7 @@ const styles = {
         borderRadius: "50%",
         display: "flex",
         marginLeft: "1px",
+        whiteSpace: "nowrap",
     }
 };
 
@@ -23,13 +26,14 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('/api/ipo/list'); //  ./events.json RestAPI경로
+                // const response = await fetch('./ipo.json'); // RestAPI경로
+                const response = await fetch('http://43.201.20.90/api/ipo/list'); // RestAPI경로
+                // const response = await fetch('https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/api/ipo/list'); // RestAPI경로
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
                 const eventData = await response.json();
                 setEvents(eventData);
-                
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -43,7 +47,10 @@ function MyCalendar() {
     }
 
     const handleEventClick = (date) => {
-        const eventForDate = events.find(event => event.date === date.toISOString().split('T')[0]);
+        const eventForDate = events.find(event => {
+            const ipoDate = new Date(event.ipoDate)
+            return ipoDate.getDate() === date.getDate();
+        });
         if (eventForDate) {
             setPopupEvent(eventForDate);
         } else {
@@ -60,16 +67,22 @@ function MyCalendar() {
             <Calendar
                 onChange={handleDateChange}
                 value={selectedDate}
-                formatDay={(locale, date) => moment(date).format("DD")}
+                calendarType="US"
+                formatDay={(locale, date) => moment(date).format("D")}
                 minDetail="month"
                 maxDetail="month"
                 navigationLabel={null}
                 showNeighboringMonth={false}
                 className="mx-auto w-full text-sm border-b"
                 tileContent={({ date }) => {
-                    const eventForDate = events.find(event => event.date === date.toISOString().split('T')[0]);
+                    const eventForDate = events.find(event => {
+                        const ipoDate = new Date(event.ipoDate);
+                        return ipoDate.getDate() === date.getDate();
+                    });
                     if (eventForDate) {
-                        return <div style={styles.dot}></div>;
+                        return (<div style={styles.dot}>
+                            {eventForDate.corpName}
+                        </div>);
                     }
                     return null;
                 }}

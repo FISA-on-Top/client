@@ -27,7 +27,7 @@ function Nav1Sub() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('/api/ipo/list'); // ./events.json RestAPI경로
+                const response = await fetch('http://43.201.20.90/api/ipo/list'); // RestAPI경로
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
@@ -55,7 +55,7 @@ function Nav1Sub() {
                 <NavButton onClick={nav1ButtonClick}>청약 일정 조회</NavButton>
                 <NavButton onClick={nav1subButtonClick} isActive={true}>청약 목록 조회</NavButton>
             </NavButtonDiv>
-            <SubscriptionList items={events} />
+            <SubscriptionList events={events}/>
         </div>
     );
 }
