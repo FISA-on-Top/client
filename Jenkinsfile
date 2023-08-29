@@ -96,7 +96,8 @@ pipeline{
                             if ls ~/ | grep $FOLDER_NAME; then
                                 rm -rf $FOLDER_NAME
                             fi
-
+                            
+                            echo "clone git repo"
                             git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
                             cd frontend
 
