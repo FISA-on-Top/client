@@ -96,14 +96,14 @@ pipeline{
                             if ls ~/ | grep $FOLDER_NAME; then
                                 rm -rf $FOLDER_NAME
                             fi
-                            
+
                             echo "clone git repo"
                             git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
                             cd frontend
 
                             # Run a new Docker container using the image from ECR
                             echo "docker run"
-                            docker run --rm -p 3000:3000 \
+                            docker run --rm \
                             -v ~/nginx/build:/usr/src/app/build \
                             --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
                         '
