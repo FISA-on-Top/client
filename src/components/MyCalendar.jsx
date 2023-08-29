@@ -27,9 +27,10 @@ function MyCalendar() {
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
+                console.log('response ok' + eventData);
                 const eventData = await response.json();
                 setEvents(eventData);
-
+                
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
