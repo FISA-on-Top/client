@@ -37,7 +37,7 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
                 const eventData = await response.json();
 
                 // 비교하여 로그인 성공 여부 판단
-                const isValidLogin = eventData[0].user_id === id && eventData[0].user_pw === pw;
+                const isValidLogin = eventData[0].userId === id && eventData[0].userPw === pw;
                 
                 // 로그인 성공 시, '/' 경로로 이동
                 if (isValidLogin) {

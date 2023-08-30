@@ -68,11 +68,11 @@ function Navbar({ onNavClick, isLoggedIn}) {
         <li>
         {isLoggedIn ? (
             <NavLinkStyled to="/nav3" onClick={() => onNavClick('nav3')}>
-              공모주 신청
+              청약 결과 조회/취소
             </NavLinkStyled>
           ) : (
             <NavLinkStyled to="/login" onClick={() => onNavClick('nav3')}>
-              공모주 신청
+              청약 결과 조회/취소
             </NavLinkStyled>
           )}
         </li>

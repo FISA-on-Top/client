@@ -9,6 +9,11 @@ import Nav2 from './components/Nav2';
 import Nav3 from './components/Nav3';
 import LoginPage from './components/LoginPage';
 import Nav1Sub from './components/Nav1Sub';
+import Nav2Sub1 from './components/Nav2Sub1';
+import Nav2Sub2 from './components/Nav2Sub2';
+import MyPageMod from './components/MyPageMod';
+import MyPageWithdraw from './components/MyPageWithdraw';
+import Nav3Sub1 from './components/Nav3Sub1';
 
 const styles = {
   main: {
@@ -18,7 +23,8 @@ const styles = {
 };
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); 임시
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   const [currentNav, setCurrentNav] = useState('nav1');
 
   const handleLogin = () => {
@@ -48,6 +54,11 @@ function App() {
           <Route path="/nav3" element={<Nav3 />} />
           <Route path="/mypage" element={<MyPageUser />} />
           <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} onLogin={handleLogin} currentNav={currentNav}/>} />
+          <Route path="/nav2/:ipo_id" element={<Nav2Sub1 />} />
+          <Route path="/nav2/:ipo_id/sub2" element={<Nav2Sub2 />} />
+          <Route path="/mypage/mod" element={<MyPageMod />} />
+          <Route path="/mypage/withdraw" element={<MyPageWithdraw />} />
+          <Route path="/nav3sub1" element={<Nav3Sub1 />} />
         </Routes>
       </main>
     </div>
