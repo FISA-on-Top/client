@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Dropdown from '../components/Dropdown';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import CustomSelect from '../components/CustomSelect';
 
 function Nav2Sub1() {
     const navigate = useNavigate();
@@ -19,6 +19,7 @@ function Nav2Sub1() {
     const [subscriptionPrice, setSubscriptionPrice] = useState(''); //공모가(확정발행가)
     const [subscriptionDeposit, setSubscriptionDeposit] =useState(''); //청약증거금
     const [phoneNum, setPhoneNum] = useState(''); //연락처
+    const [phoneError, setPhoneError] = useState('');
 
     useEffect(() => {
         // 임시로 localStorage에 사용자 정보 및 계좌 리스트 저장
@@ -94,12 +95,23 @@ function Nav2Sub1() {
         }
     };
 
+    const handlePhoneNum = (event) => {      
+        setPhoneNum(event.target.value);
+    };
+
     const onBackClick = () => {
         navigate(-1);
     }
 
     const onNextClick = () => {
-        navigate(`/nav2/sub2`);
+        const phoneRegex = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;  
+        console.log(phoneRegex.test(phoneNum));        
+        if (!phoneRegex.test(phoneNum)){
+            setPhoneError("연락처를 다시 확인해 주세요.");
+        }else{
+            setPhoneError('');
+            navigate(`/nav2/sub2`); 
+        }        
     }
 
     return (
@@ -129,15 +141,15 @@ function Nav2Sub1() {
 
                     <ContentsDiv>
                         <TitleDiv>청약 가능 금액</TitleDiv>
-                        <TextDiv> {subscriptionData && subscriptionData.balance}</TextDiv>
+                        <TextDiv> {subscriptionData && subscriptionData.balance ? subscriptionData.balance: ""}</TextDiv>
                         <TitleDiv>청약 등급</TitleDiv>
-                        <TextDiv>{subscriptionData && subscriptionData.grade}</TextDiv>                        
+                        <TextDiv>{subscriptionData && subscriptionData.grade ? subscriptionData.grade:""}</TextDiv>                        
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>청약 수수료</TitleDiv>
-                        <TextDiv>{subscriptionData && subscriptionData.commission}</TextDiv>
+                        <TextDiv>{subscriptionData && subscriptionData.commission ? subscriptionData.commission : ""}</TextDiv>
                         <TitleDiv>청약 가능 수량</TitleDiv>
-                        <TextDiv>{subscriptionData && subscriptionData.orderableAmount}</TextDiv>                        
+                        <TextDiv>{subscriptionData && subscriptionData.orderableAmount ? subscriptionData.orderableAmount: ""}</TextDiv>                        
                     </ContentsDiv>                    
                 </WrapperDiv>
             </ContainerDiv>
@@ -147,16 +159,28 @@ function Nav2Sub1() {
                 <WrapperDiv>
                     <ContentsDiv>
                         <TitleDiv>청약 수량</TitleDiv>
-                        <TextDiv>toggle 수량</TextDiv>
+                        <TextDiv>
+                        <CustomSelect onOptionChange={option => setSubscriptionQuantity(option)} />
+                        </TextDiv>
                         <TitleDiv>공모가(확정발행가)</TitleDiv>
-                        <TextDiv>{subscriptionData && subscriptionData.slprc}</TextDiv>
+                        <TextDiv>{subscriptionData && subscriptionData.slprc ? subscriptionData.slprc:""}</TextDiv>
                     </ContentsDiv>
 
                     <ContentsDiv>
                         <TitleDiv>청약 증거금</TitleDiv>
-                        <TextDiv>받아와?</TextDiv>
+                        <TextDiv>{subscriptionDeposit}</TextDiv>
                         <TitleDiv>연락처</TitleDiv>
-                        <TextDiv>전화번호 입력</TextDiv>
+                        <TextDiv>
+                        <input
+                                type="text"
+                                value={phoneNum}
+                                placeholder="연락처를 입력하세요."
+                                style={{ display: 'inline-block', marginRight: '4px' }}
+                                //onChange={(e) => setPhoneNum(e.target.value)
+                                onChange={handlePhoneNum}
+                            />
+                        
+                        </TextDiv>
                     </ContentsDiv>
                     <div style={{
                         display: 'flex',
@@ -166,7 +190,15 @@ function Nav2Sub1() {
                         marginTop: '10px'
                     }}>
                         <button onClick={onBackClick}>이전</button>
-                        <button onClick={onNextClick}>다음</button>
+                        <button onClick={onNextClick}>다음</button> 
+                    </div>
+                    <div>
+                        {phoneError && 
+                        <div>
+                            <p style={{ color: 'red', textAlign: 'center' }}>
+                            {phoneError}
+                            </p>
+                        </div>}
                     </div>
                 </WrapperDiv>
             </ContainerDiv >
