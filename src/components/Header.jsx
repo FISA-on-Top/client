@@ -11,45 +11,41 @@ const HeaderDiv = styled.div`
 `;
 
 const LogButtonDiv = styled.div`
-display: flex;
-flex-direction: row;
-gap: 4px;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
 `;
 
 function Header({ isLoggedIn, onLogin, onLogout }) {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const handleMyPageClick = () => {
-    // 마이페이지 버튼 클릭 시 '/mypage' 경로로 이동합니다.
-    navigate('/mypage');
-  };
+    const handleMyPageClick = () => {
+        navigate('/mypage');
+    };
 
-  const handleLoginClick = () => {
-    // 로그인 버튼 클릭 시 '/login' 경로로 이동합니다.
-    // onLogin();
-    navigate('/login');
-  };
+    const handleLoginClick = () => {
+        navigate('/login');
+    };
 
-  const handleLogoutClick = () => {
-    // 로그아웃 버튼 클릭 시 '/mainpage' 경로로 이동합니다.
-    navigate('/nav1');
-    onLogout(); // 로그아웃 동작 실행
-  };
+    const handleLogoutClick = () => {
+        navigate('/nav1');
+        onLogout();
+    };
 
-  return (
-    <HeaderDiv>
-      <header>
-        {isLoggedIn ? (
-          <LogButtonDiv>
-            <button onClick={handleMyPageClick}>마이페이지 버튼</button>
-            <button onClick={handleLogoutClick}>로그아웃 버튼</button>
-          </LogButtonDiv>
-        ) : (
-          <button onClick={handleLoginClick} isLoggedIn={isLoggedIn} onLogin={onLogin}>로그인 버튼</button>
-        )}
-      </header>
-    </HeaderDiv>
-  );
+    return (
+        <HeaderDiv>
+            <header>
+                {isLoggedIn ? (
+                    <LogButtonDiv>
+                        <button onClick={handleMyPageClick}>마이페이지 버튼</button>
+                        <button onClick={handleLogoutClick}>로그아웃 버튼</button>
+                    </LogButtonDiv>
+                ) : (
+                    <button onClick={handleLoginClick} isLoggedIn={isLoggedIn} onLogin={onLogin}>로그인 버튼</button>
+                )}
+            </header>
+        </HeaderDiv>
+    );
 }
 
 export default Header;

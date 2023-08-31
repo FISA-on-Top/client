@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
-// import 'react-calendar/dist/Calendar.css';
 import "./MyCalendar.css";
-import 'react-calendar/dist/Calendar.css';
+//import 'react-calendar/dist/Calendar.css';
 import Nav1Popup from './Nav1Popup';
 import moment from "moment"
 

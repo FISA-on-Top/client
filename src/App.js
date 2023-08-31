@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Header from './components/Header';
 import Navbar from './components/Navbar';
-import MyPageUser from './components/MyPageUser';
-import Nav1 from './components/Nav1';
-import Nav2 from './components/Nav2';
-import Nav3 from './components/Nav3';
-import LoginPage from './components/LoginPage';
-import Nav1Sub from './components/Nav1Sub';
-import Nav2Sub1 from './components/Nav2Sub1';
-import Nav2Sub2 from './components/Nav2Sub2';
-import MyPageMod from './components/MyPageMod';
-import MyPageWithdraw from './components/MyPageWithdraw';
-import Nav3Sub1 from './components/Nav3Sub1';
+import MyPageUser from './pages/MyPageUser';
+import Nav1 from './pages/Nav1';
+import Nav2 from './pages/Nav2';
+import Nav3 from './pages/Nav3';
+import LoginPage from './pages/LoginPage';
+import Nav1Sub from './pages/Nav1Sub';
+import Nav2Sub1 from './pages/Nav2Sub1';
+import Nav2Sub2 from './pages/Nav2Sub2';
+import MyPageMod from './pages/MyPageMod';
+import MyPageWithdraw from './pages/MyPageWithdraw';
+import Nav3Sub1 from './pages/Nav3Sub1';
+import Nav3Sub2 from './pages/Nav3Sub2';
 
 const styles = {
   main: {
@@ -28,12 +28,10 @@ function App() {
   const [currentNav, setCurrentNav] = useState('nav1');
 
   const handleLogin = () => {
-    // 로그인 처리 로직
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
-    // 로그아웃 처리 로직
     setIsLoggedIn(false);
   };
 
@@ -54,11 +52,12 @@ function App() {
           <Route path="/nav3" element={<Nav3 />} />
           <Route path="/mypage" element={<MyPageUser />} />
           <Route path="/login" element={<LoginPage isLoggedIn={isLoggedIn} onLogin={handleLogin} currentNav={currentNav}/>} />
-          <Route path="/nav2/:ipo_id" element={<Nav2Sub1 />} />
-          <Route path="/nav2/:ipo_id/sub2" element={<Nav2Sub2 />} />
+          <Route path="/nav2/sub1" element={<Nav2Sub1 />} />
+          <Route path="/nav2/sub2" element={<Nav2Sub2 />} />
           <Route path="/mypage/mod" element={<MyPageMod />} />
           <Route path="/mypage/withdraw" element={<MyPageWithdraw />} />
-          <Route path="/nav3sub1" element={<Nav3Sub1 />} />
+          <Route path="/nav3/sub1" element={<Nav3Sub1 />} />
+          <Route path="/nav3/sub2" element={<Nav3Sub2 />} />
         </Routes>
       </main>
     </div>

@@ -38,13 +38,14 @@ function SubscriptionItem({ event }) {
     const formattedDate = ipoDate.toISOString().split('T')[0];
 
     return (
-        <>
+      
+        <div>
             <ItemContainer onClick={openPopup}>
             <ItemTitle>{event.corpName}</ItemTitle>
             <ItemContent>{formattedDate}</ItemContent>
             </ItemContainer>
             <Nav1Popup event={event} isVisible={popupVisible} onClose={closePopup} />
-        </>
+        </div>
     );
 }
 
