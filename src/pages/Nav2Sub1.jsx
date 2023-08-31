@@ -7,30 +7,91 @@ function Nav2Sub1() {
     const navigate = useNavigate();
     const { ipoId } = useParams();
     const [isAccountVisible, setIsAccountVisible] = useState(false);
-    const [accountNumber, setAccountNumber] = useState('');
+    const [accountNum, setAccountNum] = useState('');
     const [accountPassword, setAccountPassword] = useState('');
     const [selectedAccount, setSelectedAccount] = useState('');
-    const [subscriptionAmount, setSubscriptionAmount] = useState('');
-    const [subscriptionQuantity, setSubscriptionQuantity] = useState('');
-    const [availableAmount, setAvailableAmount] = useState('');
-    const [availableQuantity, setAvailableQuantity] = useState('');
-
-    const accounts = JSON.parse(localStorage.getItem('accounts'));
+    const [subscriptionData,setSubsriptionData] = useState(''); 
+    const [subscriptionAvailableQuantity, setAvailableQuantity] = useState(''); //청약 가능 금액
+    const [subscriptionGrade, setSubscriptionGrade] = useState(''); // 청약등급
+    const [subscriptionCommission , setSubscriptionCommission] =useState(''); //청약 수수료
+    const [subscriptionAvailableAmount, setSubscriptionAvailableAmount] = useState(''); //청약 가능 수량
+    const [subscriptionQuantity, setSubscriptionQuantity] = useState(''); // 청약 수량
+    const [subscriptionPrice, setSubscriptionPrice] = useState(''); //공모가(확정발행가)
+    const [subscriptionDeposit, setSubscriptionDeposit] =useState(''); //청약증거금
+    const [phoneNum, setPhoneNum] = useState(''); //연락처
 
     useEffect(() => {
         // 임시로 localStorage에 사용자 정보 및 계좌 리스트 저장
-        localStorage.setItem("user_id", "1111");
-        localStorage.setItem("user_account", "1234-1234");
-        localStorage.setItem("user_name", "홍길동");
-        localStorage.setItem('accounts', JSON.stringify(['1234-1234', '3456-3456', '5678-5678']));
-        console.log(localStorage.getItem('accounts'));
+        localStorage.setItem("userId", "user01");
+        //localStorage.setItem("user_account", "1234-1234");
+        //localStorage.setItem("user_name", "홍길동");
+        //localStorage.setItem('accounts', JSON.stringify(['1234-1234', '3456-3456', '5678-5678']));
+        //console.log(localStorage.getItem('accounts'));
         // 서버로부터 비동기
+
+        const fetchEvents = async () => {
+            // REST API의 URL
+            const apiUrl = 'https://49c63d20-10d7-40ca-bf3a-0be4bf52acfa.mock.pstmn.io/api/orders/account';            
+            // localStorage에서 userId 정보를 가져옵니다.
+            const userId = localStorage.getItem('userId');
+            
+            if(userId){
+                try{
+                    const response = await fetch(apiUrl, {
+                        method: 'GET',
+                        headers: {
+                          'Content-Type': 'application/json',
+                          'userId': userId  // 이 부분에서 헤더에 userId 정보를 추가합니다.
+                        },
+                      });
+
+                    const accountJson = await response.json();
+                    console.log(accountJson); 
+
+                    if(accountJson.resultCode === "0000") {
+                        console.log(accountJson.data.accountNum);
+                        setAccountNum(accountJson.data.accountNum);
+                        localStorage.setItem("accountNum", accountJson.data.accountNum);
+                    }else {
+                        console.error('Error retrieving data:', accountJson.resultMessage);
+                    }
+                } catch(error){
+                    console.error("Error fetching the data", error);
+                }
+            }
+            else{
+                alert("로그아웃 상태입니다")
+            }
+        };
+
+        fetchEvents();        
     }, []);
 
     const handleSubmit = async () => {
-        // 비동기 rest api 호출
-        // const response = await sendDataToServer(accountNumber, isAccountVisible, accountPassword);
-        // const data = await response.json();
+        // REST API의 URL
+        const apiUrl = 'https://49c63d20-10d7-40ca-bf3a-0be4bf52acfa.mock.pstmn.io/api/orders/account/verify';     
+
+        try{
+            const response = await fetch(apiUrl, {
+                method: 'GET',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'accountNum': accountNum,
+                  'accountPw' : accountPassword
+                },
+              });
+
+            const subscriptionJson  = await response.json();
+            console.log(subscriptionJson); 
+
+            if(subscriptionJson.resultCode === "0000") {   
+                setSubsriptionData(subscriptionJson.data);
+            }else {
+                console.error('Error retrieving data:', subscriptionJson.resultMessage);
+            }
+        } catch(error){
+            console.error("Error fetching the data", error);
+        }
     };
 
     const onBackClick = () => {
@@ -52,7 +113,7 @@ function Nav2Sub1() {
                     <ContentsDiv>
                         <TitleDiv>계좌 번호</TitleDiv>
                         <TextDiv>
-                            {accounts}
+                            {accountNum}
                         </TextDiv>
                         <TitleDiv>계좌 비밀번호</TitleDiv>
                         <TextDiv>
@@ -68,10 +129,16 @@ function Nav2Sub1() {
 
                     <ContentsDiv>
                         <TitleDiv>청약 가능 금액</TitleDiv>
-                        <TextDiv>확인 후 받아오고</TextDiv>
-                        <TitleDiv>청약 수수료</TitleDiv>
-                        <TextDiv>2000원임? 받아옴?</TextDiv>
+                        <TextDiv> {subscriptionData && subscriptionData.balance}</TextDiv>
+                        <TitleDiv>청약 등급</TitleDiv>
+                        <TextDiv>{subscriptionData && subscriptionData.grade}</TextDiv>                        
                     </ContentsDiv>
+                    <ContentsDiv>
+                        <TitleDiv>청약 수수료</TitleDiv>
+                        <TextDiv>{subscriptionData && subscriptionData.commission}</TextDiv>
+                        <TitleDiv>청약 가능 수량</TitleDiv>
+                        <TextDiv>{subscriptionData && subscriptionData.orderableAmount}</TextDiv>                        
+                    </ContentsDiv>                    
                 </WrapperDiv>
             </ContainerDiv>
 
@@ -81,8 +148,8 @@ function Nav2Sub1() {
                     <ContentsDiv>
                         <TitleDiv>청약 수량</TitleDiv>
                         <TextDiv>toggle 수량</TextDiv>
-                        <TitleDiv>공모가</TitleDiv>
-                        <TextDiv>받아옴?</TextDiv>
+                        <TitleDiv>공모가(확정발행가)</TitleDiv>
+                        <TextDiv>{subscriptionData && subscriptionData.slprc}</TextDiv>
                     </ContentsDiv>
 
                     <ContentsDiv>

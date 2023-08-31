@@ -56,49 +56,49 @@ function MyPage() {
                 <Table>
                     <thead>
                         <tr>
-            <TableHeader>신청</TableHeader>
-            <TableHeader>(법인)구분</TableHeader>
-            <TableHeader>기업명</TableHeader>
-            <TableHeader>청약기일</TableHeader>
-            <TableHeader>환불일</TableHeader>
-            <TableHeader>확정발행가</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-        {ipoData && ipoData.data.ipoSummary ? (
-            Array.isArray(ipoData.data.ipoSummary) 
-              ? (
-                ipoData.data.ipoSummary.map((item) => (
-                  <TableRow key={item.ipoId}>
-                    <TableCell>
-                      <Link to={`/nav2/sub1`}>신청</Link>
-                    </TableCell>
-                    <TableCell>{item.corpcls}</TableCell>
-                    <TableCell>{item.corpName}</TableCell>
-                    <TableCell>{item.sbd}</TableCell>
-                    <TableCell>{item.refund}</TableCell>
-                    <TableCell>{item.slprc}</TableCell>
-                  </TableRow>
-                ))
-              )
-              : (
-                  <TableRow key={ipoData.data.ipoSummary.ipoId}>
-                    <TableCell>
-                      <Link to={`/nav2/sub1`}>신청</Link>
-                    </TableCell>
-                    <TableCell>{ipoData.data.ipoSummary.corpcls}</TableCell>
-                    <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>
-                    <TableCell>{ipoData.data.ipoSummary.sbd}</TableCell>
-                    <TableCell>{ipoData.data.ipoSummary.refund}</TableCell>
-                    <TableCell>{ipoData.data.ipoSummary.slprc}</TableCell>
-                  </TableRow>
-                )
-          )  : (
-                <TableRow>
-                    <TableCell colSpan="12">기간을 설정해주세요.</TableCell>
-                </TableRow>
-          )}
-        </tbody>
+                        <TableHeader>신청</TableHeader>
+                        <TableHeader>(법인)구분</TableHeader>
+                        <TableHeader>기업명</TableHeader>
+                        <TableHeader>청약기일</TableHeader>
+                        <TableHeader>환불일</TableHeader>
+                        <TableHeader>확정발행가</TableHeader>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {ipoData && ipoData.data.ipoSummary ? (
+                        Array.isArray(ipoData.data.ipoSummary) 
+                        ? (
+                            ipoData.data.ipoSummary.map((item) => (
+                            <TableRow key={item.ipoId}>
+                                <TableCell>
+                                <Link to={`/nav2/sub1`}>신청</Link>
+                                </TableCell>
+                                <TableCell>{item.corpcls}</TableCell>
+                                <TableCell>{item.corpName}</TableCell>
+                                <TableCell>{item.sbd}</TableCell>
+                                <TableCell>{item.refund}</TableCell>
+                                <TableCell>{item.slprc}</TableCell>
+                            </TableRow>
+                            ))
+                        )
+                        : (
+                            <TableRow key={ipoData.data.ipoSummary.ipoId}>
+                                <TableCell>
+                                <Link to={`/nav2/sub1`}>신청</Link>
+                                </TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.corpcls}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.sbd}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.refund}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.slprc}</TableCell>
+                            </TableRow>
+                            )
+                    )  : (
+                            <TableRow>
+                                <TableCell colSpan="12">기간을 설정해주세요.</TableCell>
+                            </TableRow>
+                    )}
+                    </tbody>
                 </Table>
             </Nav2TableContainer>
     </div>
