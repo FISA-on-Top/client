@@ -11,27 +11,46 @@ const Nav2TableContainer = styled(TableContainer)`
 
 function MyPage() {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [data, setData] = useState(null);
+  const [ipoData, setipoData] = useState(null);
 
     console.log(typeof selectedDate);
 
-    const fetchData = async () => {
-        try {
-            const formattedDate = selectedDate.toISOString().split('T')[0];
+  const fetchData = async () => {
+    //const apiUrl = '/api/orders/';
+    const apiUrl = 'https://49c63d20-10d7-40ca-bf3a-0be4bf52acfa.mock.pstmn.io/api/orders/';
+    try {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
+      const [yy, mm, dd] = formattedDate.split('-');
 
-            console.log(formattedDate);
+      // URL의 쿼리 매개변수 생성
+      const queryParams = new URLSearchParams({ yy, mm, dd }).toString();
+      
+      console.log(formattedDate);
+      console.log("yy : %s, mm: %s, dd : %s", yy, mm, dd);
+      console.log (`${apiUrl}?${queryParams}`);
+      //const response = await fetch(`/api/data?date=${formattedDate}`); // 서버에 날짜 전송
+      // const response = await fetch('./신청.json'); // 서버에 날짜 전송
+      // if (!response.ok) {
+      //   throw new Error('Failed to fetch data');
+      // }
+      // const result = await response.json();
+      // setData(result);
+     
+      const response = await fetch(`${apiUrl}?${queryParams}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setipoData(data);
+      })
+      .catch(error=>{
+        console.log(error);
+        throw new Error('Failed to fetch data');
+      });
 
-            //const response = await fetch(`/api/data?date=${formattedDate}`); // 서버에 날짜 전송
-            const response = await fetch('./신청.json');
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+     } catch (error) {
+       console.error('Error fetching data:', error);
+     }
+  };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -49,50 +68,53 @@ function MyPage() {
                 <Table>
                     <thead>
                         <tr>
-                            <TableHeader>신청</TableHeader>
-                            <TableHeader>ipo_id</TableHeader>
-                            <TableHeader>기업코드</TableHeader>
-                            <TableHeader>기업명</TableHeader>
-                            <TableHeader>청약기일</TableHeader>
-                            <TableHeader>납입기일</TableHeader>
-                            <TableHeader>환불일</TableHeader>
-                            <TableHeader>상장예정일</TableHeader>
-                            <TableHeader>확정발행가</TableHeader>
-                            <TableHeader>법인구분</TableHeader>
-                            <TableHeader>증권수량</TableHeader>
-                            <TableHeader>증자방법</TableHeader>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data && data.length > 0 ? (
-                            data.map((item) => (
-                                <TableRow key={item.ipoId}>
-                                    <TableCell>
-                                        <Link to={`/nav2/sub1`}>신청</Link>
-                                    </TableCell>
-                                    <TableCell>{item.ipoId}</TableCell>
-                                    <TableCell>{item.corpCode}</TableCell>
-                                    <TableCell>{item.corpName}</TableCell>
-                                    <TableCell>{item.sbd}</TableCell>
-                                    <TableCell>{item.pymd}</TableCell>
-                                    <TableCell>{item.refund}</TableCell>
-                                    <TableCell>{item.ipoDate}</TableCell>
-                                    <TableCell>{item.slprc}</TableCell>
-                                    <TableCell>{item.corpCls}</TableCell>
-                                    <TableCell>{item.stkcnt}</TableCell>
-                                    <TableCell>{item.capitalIncrease}</TableCell>
-                                </TableRow>
-                            ))
-                        ) : (
-                            <TableRow>
-                                <TableCell colSpan="12">기간을 설정해주세요.</TableCell>
-                            </TableRow>
-                        )}
-                    </tbody>
+            <TableHeader>신청</TableHeader>
+            <TableHeader>(법인)구분</TableHeader>
+            <TableHeader>기업명</TableHeader>
+            <TableHeader>청약기일</TableHeader>
+            <TableHeader>환불일</TableHeader>
+            <TableHeader>확정발행가</TableHeader>
+          </tr>
+        </thead>
+        <tbody>
+        {ipoData && ipoData.data.ipoSummary ? (
+            Array.isArray(ipoData.data.ipoSummary) 
+              ? (
+                ipoData.data.ipoSummary.map((item) => (
+                  <TableRow key={item.ipoId}>
+                    <TableCell>
+                      <Link to={`/nav2/sub1`}>신청</Link>
+                    </TableCell>
+                    <TableCell>{item.corpcls}</TableCell>
+                    <TableCell>{item.corpName}</TableCell>
+                    <TableCell>{item.sbd}</TableCell>
+                    <TableCell>{item.refund}</TableCell>
+                    <TableCell>{item.slprc}</TableCell>
+                  </TableRow>
+                ))
+              )
+              : (
+                  <TableRow key={ipoData.data.ipoSummary.ipoId}>
+                    <TableCell>
+                      <Link to={`/nav2/sub1`}>신청</Link>
+                    </TableCell>
+                    <TableCell>{ipoData.data.ipoSummary.corpcls}</TableCell>
+                    <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>
+                    <TableCell>{ipoData.data.ipoSummary.sbd}</TableCell>
+                    <TableCell>{ipoData.data.ipoSummary.refund}</TableCell>
+                    <TableCell>{ipoData.data.ipoSummary.slprc}</TableCell>
+                  </TableRow>
+                )
+          )  : (
+                <TableRow>
+                    <TableCell colSpan="12">기간을 설정해주세요.</TableCell>
+                </TableRow>
+          )}
+        </tbody>
                 </Table>
             </Nav2TableContainer>
-        </div>
-    );
+    </div>
+  );
 
 }
 
