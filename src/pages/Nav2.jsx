@@ -20,22 +20,10 @@ function MyPage() {
     const apiUrl = 'https://49c63d20-10d7-40ca-bf3a-0be4bf52acfa.mock.pstmn.io/api/orders/';
     try {
       const formattedDate = selectedDate.toISOString().split('T')[0];
-      const [yy, mm, dd] = formattedDate.split('-');
 
-      // URL의 쿼리 매개변수 생성
-      const queryParams = new URLSearchParams({ yy, mm, dd }).toString();
-      
       console.log(formattedDate);
-      console.log("yy : %s, mm: %s, dd : %s", yy, mm, dd);
-      console.log (`${apiUrl}?${queryParams}`);
-      //const response = await fetch(`/api/data?date=${formattedDate}`); // 서버에 날짜 전송
-      // const response = await fetch('./신청.json'); // 서버에 날짜 전송
-      // if (!response.ok) {
-      //   throw new Error('Failed to fetch data');
-      // }
-      // const result = await response.json();
-      // setData(result);
-     
+      // URL의 쿼리 매개변수 생성
+      const queryParams = new URLSearchParams(formattedDate);
       const response = await fetch(`${apiUrl}?${queryParams}`)
       .then(response => response.json())
       .then(data => {
