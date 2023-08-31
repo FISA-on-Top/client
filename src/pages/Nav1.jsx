@@ -21,7 +21,6 @@ const NavButtonDiv = styled.div`
 
 function Nav1() {
     const navigate = useNavigate();
-
     const [calData, onChange] = useState(new Date());
 
     const nav1ButtonClick = () => {

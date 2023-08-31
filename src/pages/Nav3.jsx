@@ -90,7 +90,10 @@ function Nav3() {
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>조회 기간</TitleDiv>
-                        <TextDiv><DatePicker selected={selectedDate} onChange={handleDateChange} /></TextDiv>
+                        <TextDiv><DatePicker
+                            dateFormat="yyyy-MM-dd" 
+                            selected={selectedDate} 
+                            onChange={handleDateChange} /></TextDiv>
                     </ContentsDiv>
                 </WrapperDiv>
                 <button onClick={onInquiryClick}>조회</button>

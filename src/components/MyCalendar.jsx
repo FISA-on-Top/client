@@ -21,26 +21,31 @@ function MyCalendar() {
     const [events, setEvents] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [popupEvent, setPopupEvent] = useState(null);
+    const [yy, setyy] = useState(selectedDate.getFullYear());
+    const [mm, setmm] = useState(selectedDate.getMonth() + 1);
 
     useEffect(() => {
         const fetchEvents = async () => {
+            console.log("주소: "+`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/calendar/yy=${yy}&mm=${mm}`);
             try {
-                // const response = await fetch('./ipo.json'); // RestAPI경로
-                const response = await fetch('http://43.201.20.90/api/ipo/list'); // RestAPI경로
-                // const response = await fetch('https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/api/ipo/list'); // RestAPI경로
+                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/calendar/yy=${yy}&mm=${mm}`);
+                //const response = await fetch('http://43.201.20.90/api/ipo/list');
+                // const response = await fetch('https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/api/ipo/list');
+    
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
                 const eventData = await response.json();
-                setEvents(eventData);
+                setEvents(eventData.data.ipo);
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
         };
-
+        
         fetchEvents();
-    }, []);
-
+    }, [yy, mm]);
+    
+    
     const handleDateChange = (date) => {
         setSelectedDate(date);
     }
@@ -55,6 +60,11 @@ function MyCalendar() {
         } else {
             setPopupEvent(null);
         }
+    }
+
+    const handleNextClick = ({activeStartDate}) => {
+        setyy(activeStartDate.getFullYear());
+        setmm((activeStartDate.getMonth() + 1));
     }
 
     const closePopup = () => {
@@ -75,7 +85,7 @@ function MyCalendar() {
                 className="mx-auto w-full text-sm border-b"
                 tileContent={({ date }) => {
                     const eventForDate = events.find(event => {
-                        const ipoDate = new Date(event.ipoDate);
+                        const ipoDate = new Date(event.sbd);
                         return ipoDate.getDate() === date.getDate();
                     });
                     if (eventForDate) {
@@ -86,6 +96,12 @@ function MyCalendar() {
                     return null;
                 }}
                 onClickDay={handleEventClick}
+                prevLabel="-"
+                nextLabel="+"
+                prev2Label={null}
+                next2Label={null}
+                onActiveStartDateChange={handleNextClick}
+                
             />
             <Nav1Popup event={popupEvent} isVisible={!!popupEvent} onClose={closePopup} />
         </div>

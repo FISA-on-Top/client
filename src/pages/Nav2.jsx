@@ -13,6 +13,8 @@ function MyPage() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [data, setData] = useState(null);
 
+    console.log(typeof selectedDate);
+
     const fetchData = async () => {
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];
@@ -38,7 +40,10 @@ function MyPage() {
     return (
         <div>
             <h1>청약 신청 조회</h1>
-            <DatePicker selected={selectedDate} onChange={handleDateChange} />
+            <DatePicker
+                dateFormat="yyyy-MM-dd" 
+                selected={selectedDate} 
+                onChange={handleDateChange} />
             <button onClick={fetchData}>조회</button>
             <Nav2TableContainer>
                 <Table>
