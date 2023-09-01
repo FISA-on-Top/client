@@ -10,7 +10,7 @@ const Nav2TableContainer = styled(TableContainer)`
 `;
 
 function MyPage() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [ipoData, setipoData] = useState(null);
 
     console.log(typeof selectedDate);

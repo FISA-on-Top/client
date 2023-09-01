@@ -183,10 +183,6 @@ function Nav2Sub1() {
         setPhoneNum(event.target.value);
     };
 
-    const onBackClick = () => {
-        navigate(-1);
-    }
-
     const onNextClick = () => {
         let verify = true;
 
@@ -209,7 +205,7 @@ function Nav2Sub1() {
         }
         
         if(verify)
-            navigate(`/nav2/sub2`); 
+            navigate(`/nav2/sub2`,); 
     }
 
     return (
@@ -291,7 +287,7 @@ function Nav2Sub1() {
                         alignItems: 'center',
                         marginTop: '10px'
                     }}>
-                        <button onClick={onBackClick}>이전</button>
+                        <button onClick={[()=> navigate(-1)]}>이전</button>
                         <button onClick={onNextClick}>다음</button> 
                     </div>
                     <div>
