@@ -22,13 +22,12 @@ function MyCalendar() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [popupEvent, setPopupEvent] = useState(null);
     const [yy, setyy] = useState(selectedDate.getFullYear());
-    const [mm, setmm] = useState(selectedDate.getMonth() + 1);
+    const [mm, setmm] = useState(String(selectedDate.getMonth() + 1).padStart(2, '0'));
 
     useEffect(() => {
         const fetchEvents = async () => {
-            console.log("주소: "+`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/calendar/yy=${yy}&mm=${mm}`);
             try {
-                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/calendar/yy=${yy}&mm=${mm}`);
+                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/calendar?yyyy=${yy}&mm=${mm}`);
                 //const response = await fetch('http://43.201.20.90/api/ipo/list');
                 // const response = await fetch('https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/api/ipo/list');
     
@@ -45,6 +44,19 @@ function MyCalendar() {
         fetchEvents();
     }, [yy, mm]);
     
+    const fetchDetails = async (ipoId) => {
+        try {
+            const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/list?ipoId=${ipoId}`);
+
+            if (!response.ok){
+                throw new Error('Failed to fetch detail');
+            }
+            const detailData = await response.json();
+            setPopupEvent(detailData.data.ipo[0]);
+        } catch (error) {
+            console.error('Error fetching Detail:', error);
+        }
+    }
     
     const handleDateChange = (date) => {
         setSelectedDate(date);
@@ -52,11 +64,11 @@ function MyCalendar() {
 
     const handleEventClick = (date) => {
         const eventForDate = events.find(event => {
-            const ipoDate = new Date(event.ipoDate)
-            return ipoDate.getDate() === date.getDate();
+            const sbd = new Date(event.sbd)
+            return sbd.getDate() === date.getDate();
         });
         if (eventForDate) {
-            setPopupEvent(eventForDate);
+            fetchDetails(eventForDate.ipoId);
         } else {
             setPopupEvent(null);
         }
@@ -64,7 +76,7 @@ function MyCalendar() {
 
     const handleNextClick = ({activeStartDate}) => {
         setyy(activeStartDate.getFullYear());
-        setmm((activeStartDate.getMonth() + 1));
+        setmm(String(activeStartDate.getMonth() + 1).padStart(2, '0'));
     }
 
     const closePopup = () => {

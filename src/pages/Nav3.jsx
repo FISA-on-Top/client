@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import DatePicker from 'react-datepicker';
 import Dropdown from '../components/Dropdown';
@@ -7,42 +7,53 @@ import { useNavigate } from 'react-router-dom';
 
 function Nav3() {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const accounts = JSON.parse(localStorage.getItem('accounts'));
-    const [selectedAccount, setSelectedAccount] = useState('');
-    const [data, setData] = useState([]);
+    const [data, setData] = useState('');
     const navigate = useNavigate();
+    const [userAccount, setUserAccount] = useState('');
+    const [urlDate, setUrlDate] = useState(new Date().toISOString().split('T')[0]);
     const [selectedData, setSelectedData] = useState({
         id: null,
         companyName: '',
         accountNumber: '',
     });
+    const userId = 'user01';
+
+    useEffect(() => {
+        const fetchAccount = async () => {
+            try {
+                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/orders/account/`, {
+                    method: 'GET',
+                    headers: { 'userId': userId }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Account response was not ok');
+                }
+
+                const data = await response.json();
+                setUserAccount(data.data.accountNum);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchAccount();
+    }, []);
 
     const fetchData = async () => {
         try {
-            const dummyData = [
-                {
-                    id: 1,
-                    category: '카테고리1',
-                    companyName: '기업1',
-                    underwriter: '주관회사1',
-                    subscriptionPeriod: '2023-08-01 ~ 2023-08-10',
-                    refundDate: '2023-08-15',
-                    issuePrice: '10000원',
-                    accountNumber: '1234-5678',
-                },
-                {
-                    id: 2,
-                    category: '카테고리2',
-                    companyName: '기업2',
-                    underwriter: '주관회사2',
-                    subscriptionPeriod: '2023-08-05 ~ 2023-08-12',
-                    refundDate: '2023-08-17',
-                    issuePrice: '15000원',
-                    accountNumber: '5678-1234',
-                },
-            ];
+            const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/orders?date=${urlDate}`, {
+                method: 'GET',
+                header: { 'userId': userId }
+            });
 
-            setData(dummyData);
+            if (!response.ok) {
+                throw new Error('Account response was not ok');
+            }
+
+            const datas = await response.json();
+            setData(datas.data[0].orderList);
+            console.log(data);
         } catch (error) {
             console.error('데이터를 불러오는 도중 오류가 발생했습니다.', error);
         }
@@ -53,20 +64,16 @@ function Nav3() {
     };
 
     const handleDateChange = (date) => {
+        const parseDate = date.toISOString().split('T')[0];
+        setUrlDate(parseDate);
         setSelectedDate(date);
     };
 
     const handleButtonClick = (row) => {
-        const updatedData = {
-            id: row.id,
-            companyName: row.companyName,
-            accountNumber: row.accountNumber,
-        };
-
-        setSelectedData(updatedData);
+        // setSelectedData(updatedData);여기수정수정수정수정
         navigate('/nav3/sub1', {
             state: {
-                id: row.id,
+                userAccount: userAccount,
                 corpName: row.companyName,
                 accNum: row.accountNumber,
             }
@@ -85,14 +92,14 @@ function Nav3() {
                     <ContentsDiv>
                         <TitleDiv>계좌 설정</TitleDiv>
                         <TextDiv>
-                            {accounts}
+                            {userAccount}
                         </TextDiv>
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>조회 기간</TitleDiv>
                         <TextDiv><DatePicker
-                            dateFormat="yyyy-MM-dd" 
-                            selected={selectedDate} 
+                            dateFormat="yyyy-MM-dd"
+                            selected={selectedDate}
                             onChange={handleDateChange} /></TextDiv>
                     </ContentsDiv>
                 </WrapperDiv>
@@ -106,22 +113,22 @@ function Nav3() {
                             <TableHeader>선택</TableHeader>
                             <TableHeader>분류</TableHeader>
                             <TableHeader>기업명</TableHeader>
-                            <TableHeader>대표주관회사</TableHeader>
+                            <TableHeader>청약종목번호</TableHeader>
                             <TableHeader>청약기간</TableHeader>
                             <TableHeader>환불일</TableHeader>
                             <TableHeader>확정발행가</TableHeader>
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((row) => (
-                            <TableRow key={row.id}>
+                        {data.length > 0 && data.map((row, index) => (
+                            <TableRow key={index}>
                                 <TableCell>
                                     <button onClick={() => handleButtonClick(row)}>선택</button>
                                 </TableCell>
-                                <TableCell>{row.category}</TableCell>
-                                <TableCell>{row.companyName}</TableCell>
-                                <TableCell>{row.underwriter}</TableCell>
-                                <TableCell>{row.subscriptionPeriod}</TableCell>
+                                <TableCell>{row.corpCls}</TableCell>
+                                <TableCell>{row.corpName}</TableCell>
+                                <TableCell>{row.corpCode}</TableCell>
+                                <TableCell>{row.sbd} ~ {(new Date(row.sbd).getDate() + 1)}</TableCell>
                                 <TableCell>{row.refundDate}</TableCell>
                                 <TableCell>{row.issuePrice}</TableCell>
                             </TableRow>

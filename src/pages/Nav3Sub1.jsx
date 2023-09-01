@@ -23,7 +23,7 @@ function Nav3Sub1() {
                         청약계좌
                     </TitleDiv>
                     <TextDiv>
-                        계좌를 보여줍시다.
+                        {location.state.userAccount}
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
@@ -32,7 +32,7 @@ function Nav3Sub1() {
                     </TitleDiv>
                     <TextDiv>
                         <input></input>
-                        <button>확인</button>
+                        {/* <button>확인</button> */}
                     </TextDiv>
                 </ContentsDiv>
             </WrapperDiv>
