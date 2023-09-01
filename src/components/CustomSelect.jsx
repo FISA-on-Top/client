@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Select from 'react-select';
-import Options from './Options';
 
 const CSelect = (props) => {
   const { children, ...restProps } = props;
@@ -13,22 +12,14 @@ const CSelect = (props) => {
   );
 };
 
-export default function CustomSelect({ onOptionChange }) {
+export default function CustomSelect({ options,onOptionChange }) {
   const [isClearable, setIsClearable] = useState(false);
   const [isSearchable, setIsSearchable] = useState(false);
   const [isDisabled, setIsDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRtl, setIsRtl] = useState(false);
-  const Options = [
-    { value: '5', label: '5'},
-    { value: '10', label: '10'},
-    { value: '50', label: '50'},
-    { value: '100', label: '100'},
-    { value: '1000', label: '1000'},
-    { value: '10000', label: '10000'},
-    { value: '100000', label: '100000'},
-  ];
 
+  // 옵션예시 나중에 보렴~
   // const colourOptions = [
   //   { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
   //   { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
@@ -53,7 +44,7 @@ export default function CustomSelect({ onOptionChange }) {
         isClearable={isClearable}
         isRtl={isRtl}
         isSearchable={isSearchable}
-        options={Options}
+        options={options}
         onChange={onOptionChange} // 사용자가 선택할 때마다 상위 컴포넌트로 선택된 옵션을 전달합니다.
       />
 
