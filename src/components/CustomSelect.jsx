@@ -45,6 +45,7 @@ export default function CustomSelect({ options,onOptionChange }) {
         isRtl={isRtl}
         isSearchable={isSearchable}
         options={options}
+        styles={{maxHeight: '10px'}}
         onChange={onOptionChange} // 사용자가 선택할 때마다 상위 컴포넌트로 선택된 옵션을 전달합니다.
       />
 
@@ -55,6 +56,7 @@ export default function CustomSelect({ options,onOptionChange }) {
           fontSize: 10,
           fontStyle: 'italic',
           marginTop: '1em',
+          height: '10px',
         }}
       >
       </div>

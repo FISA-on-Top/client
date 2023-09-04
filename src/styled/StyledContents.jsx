@@ -28,21 +28,26 @@ export const ContentsDiv = styled.div`
 `;
 
 export const TitleDiv = styled.div`
-  width: 30%; /* 좌우 여백을 가지고 있는 요소 너비 조정 */
+  width: 135px; /* 좌우 여백을 가지고 있는 요소 너비 조정 */
   height: 30px; /* 높이 조정 */
   background-color: #f2f2f2; /* 배경색 */
   padding-left: 10px;
   padding-right: 10px;
+  line-height : 30px;
+  font-size: 15px;
 `;
 
 export const TextDiv = styled.div`
 display: flex;
+flex: 1;
 flex-direction: row;
-  width: 60%; /* 좌우 여백을 가지고 있는 요소 너비 조정 */
+  /*width: 60%;  좌우 여백을 가지고 있는 요소 너비 조정 */
   height: 30px; /* 높이 조정 */
   background-color: #e0e0e0; /* 배경색 */
   padding-left: 10px;
   padding-right: 10px;
   margin-left: 4px;
   margin-right: 4px; /* 우측 여백 */
+  line-height : 30px;
+    font-size: 15px;
 `;

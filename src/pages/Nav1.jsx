@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import MyCalendar from '../components/MyCalendar';
+import { dataState, pageState } from '../state/stateForNav2';
 
 const NavButton = styled.button`
     background-color: ${props => props.isActive ? 'blue' : 'gray'};

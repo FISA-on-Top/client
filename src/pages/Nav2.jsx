@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 import styled from 'styled-components';
+import { useRecoilState } from 'recoil';
+import { calendarDate, ipoList, selectedIpo} from '../state/stateForNav2.js';
+
 
 const Nav2TableContainer = styled(TableContainer)`
   width: 1200px;
 `;
 
-function MyPage() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [ipoData, setipoData] = useState(null);
+function SubscriptionRequest() {
+  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useRecoilState(calendarDate);
+  const [ipoData, setIpoData] = useRecoilState(ipoList);
+  const [ipoId, setIpoId] = useRecoilState(selectedIpo);
 
-    console.log(typeof selectedDate);
+  console.log(typeof selectedDate);
 
   const fetchData = async () => {
     //const apiUrl = '/api/orders/';
@@ -23,12 +28,14 @@ function MyPage() {
 
       console.log(formattedDate);
       // URL의 쿼리 매개변수 생성
-      const queryParams = new URLSearchParams(formattedDate);
+      const queryParams = new URLSearchParams();
+      queryParams.append('date', formattedDate);
+
       const response = await fetch(`${apiUrl}?${queryParams}`)
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        setipoData(data);
+        setIpoData(data);
       })
       .catch(error=>{
         console.log(error);
@@ -40,9 +47,19 @@ function MyPage() {
      }
   };
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+  const handleDateChange = (date) => {
+      setSelectedDate(date);
+  };
+
+  useEffect(() => {
+    if(ipoId && ipoId.length>0)
+      navigate('/nav2/sub1');
+  }, [ipoId]);
+  
+  const onRequestClick = (selectedIpoId) => {
+    setIpoId(selectedIpoId);
+    
+  }
 
     return (
         <div>
@@ -56,7 +73,7 @@ function MyPage() {
                 <Table>
                     <thead>
                         <tr>
-                        <TableHeader>신청</TableHeader>
+                        <TableHeader>선택</TableHeader>
                         <TableHeader>(법인)구분</TableHeader>
                         <TableHeader>기업명</TableHeader>
                         <TableHeader>청약기일</TableHeader>
@@ -71,7 +88,8 @@ function MyPage() {
                             ipoData.data.ipoSummary.map((item) => (
                             <TableRow key={item.ipoId}>
                                 <TableCell>
-                                <Link to={`/nav2/sub1`}>신청</Link>
+                                {/* <Link to={`/nav2/sub1`}>청약하기</Link> */}
+                                <button onClick={onRequestClick(item.ipoId)}>청약하기</button>
                                 </TableCell>
                                 <TableCell>{item.corpcls}</TableCell>
                                 <TableCell>{item.corpName}</TableCell>
@@ -84,7 +102,8 @@ function MyPage() {
                         : (
                             <TableRow key={ipoData.data.ipoSummary.ipoId}>
                                 <TableCell>
-                                <Link to={`/nav2/sub1`}>신청</Link>
+                                {/* <Link to={`/nav2/sub1`}>청약하기</Link> */}
+                                <button onClick={onRequestClick(ipoData.data.ipoSummary.ipoId)}>청약하기</button>
                                 </TableCell>
                                 <TableCell>{ipoData.data.ipoSummary.corpcls}</TableCell>
                                 <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>
@@ -106,4 +125,4 @@ function MyPage() {
 
 }
 
-export default MyPage;
+export default SubscriptionRequest;

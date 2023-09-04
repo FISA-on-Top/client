@@ -1,30 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import CustomSelect from '../components/CustomSelect';
+import { useRecoilState } from 'recoil';
+import { accountNumber, phoneNumber, commissionPrice, orderAmount, deposit, selectedIpo } from '../state/stateForNav2.js';
 
 function Nav2Sub1() {
     const navigate = useNavigate();
-    const { ipoId } = useParams();
+    //const { ipoId } = useParams();
     const [isAccountVisible, setIsAccountVisible] = useState(false);
-    const [accountNum, setAccountNum] = useState('');
+    //const [accountNum, setAccountNum] = useState('');
     const [accountPassword, setAccountPassword] = useState('');
     const [selectedAccount, setSelectedAccount] = useState('');
     const [subscriptionData,setSubsriptionData] = useState(''); 
 
     const [balance, setBalance] = useState(''); //청약 가능 금액
     //const [Grade, setGrade] = useState(''); // 청약등급 -> 고정 값
-    //const [Commission , setSubscriptionCommission] = useState(''); //청약 수수료 -> 고정 값
     const [subscriptionAvailableAmount, setSubscriptionAvailableAmount] = useState(''); //청약 가능 수량
     const [subscriptionPrice, setSubscriptionPrice] = useState(''); //공모가(확정발행가)
-    const [selectedAmount, setSelectedAmount] = useState(''); // 청약 수량
-    const [selectedDeposit, setSelectedDeposit] = useState(''); //청약증거금
     const [selectedDepositError, setSelectedDepositError] = useState(''); 
-    const [phoneNum, setPhoneNum] = useState(''); //연락처
+    const [selectedAmount, setSelectedAmount] = useRecoilState(orderAmount); // 청약 수량
+    const [selectedDeposit, setSelectedDeposit] = useRecoilState(deposit); //청약증거금
+
+    const [accountNum, setAccountNum] = useRecoilState(accountNumber);//계좌번호 
+    const [commission, setCommission] = useRecoilState(commissionPrice);  //수수료 -> 고정값 2000
+    const [phoneNum, setPhoneNum] = useRecoilState(phoneNumber);//연락처
     const [phoneError, setPhoneError] = useState('');
 
     const [subscriptionAmountSelect, setSubscriptionAmountSelect] = useState([]); //청약 수량 select 배열
-
+    const [ipoId, setIpoId] = useRecoilState(selectedIpo);
+    
     const Options =[
         { value: 'select..', label: '계좌 인증 필요', isDisabled: true},
     ];
@@ -38,6 +43,8 @@ function Nav2Sub1() {
         //console.log(localStorage.getItem('accounts'));
         // 서버로부터 비동기
 
+        console.log("ipoId 받아왔지? "+ipoId);
+
         const fetchEvents = async () => {
             // REST API의 URL
             const apiUrl = 'https://49c63d20-10d7-40ca-bf3a-0be4bf52acfa.mock.pstmn.io/api/orders/account';            
@@ -50,7 +57,7 @@ function Nav2Sub1() {
                         method: 'GET',
                         headers: {
                           'Content-Type': 'application/json',
-                          'userId': userId  // 이 부분에서 헤더에 userId 정보를 추가합니다.
+                          'userId': userId
                         },
                       });
 
@@ -96,8 +103,6 @@ function Nav2Sub1() {
                 numericAmount = Math.floor(numericAmount / division);
                 divisionSize ++;
             }
-            // 100 미만의 값을 추가합니다.
-            console.log('100 미만의 값을 추가합니다.'+ numericAmount)
             if (numericAmount >= 10) {
                 newOptions.push({ value: numericAmount.toString(), label: numericAmount.toString()});
             }else{
@@ -120,7 +125,7 @@ function Nav2Sub1() {
         };
 
         const updateSelectedDeposit = async () => {
-            const commission = 2000; //수수료
+            //const commission = 2000; //수수료
             const grade = 0.5; // 할인율 50% 할인;
             const price = parseFloat(subscriptionPrice.replace(/,/g,'')); //공모가
             const amount = Number(selectedAmount); //청약 수량
@@ -142,8 +147,6 @@ function Nav2Sub1() {
                 setSelectedDeposit(resultStr);
                 setSelectedDepositError('');
             }
-            
-            console.log('여기 오나요/ : ' + selectedAmount)
         }
 
         fetchEvents();        
@@ -159,7 +162,8 @@ function Nav2Sub1() {
                 headers: {
                   'Content-Type': 'application/json',
                   'accountNum': accountNum,
-                  'accountPw' : accountPassword
+                  'accountPw' : accountPassword,
+                  'ipoId' : ipoId
                 },
               });
 
@@ -183,6 +187,10 @@ function Nav2Sub1() {
         setPhoneNum(event.target.value);
     };
 
+    const onPreClick = () =>{
+        navigate(-1);
+    }
+
     const onNextClick = () => {
         let verify = true;
 
@@ -203,9 +211,10 @@ function Nav2Sub1() {
         }else{
             setSelectedDepositError("");
         }
-        
-        if(verify)
+
+        if(verify){
             navigate(`/nav2/sub2`,); 
+        }
     }
 
     return (
@@ -226,7 +235,7 @@ function Nav2Sub1() {
                             <input
                                 type="password"
                                 value={accountPassword}
-                                style={{ display: 'inline-block', marginRight: '4px' }}
+                                style={{ display: 'inline-block', flex: '1', marginRight: '4px' , width: '50px', border: 'none', outline: 'none'}}
                                 onChange={(e) => setAccountPassword(e.target.value)}
                             />
                             <button style={{ display: 'inline-block' }} onClick={handleSubmit}>확인</button>
@@ -273,7 +282,7 @@ function Nav2Sub1() {
                                 type="text"
                                 value={phoneNum}
                                 placeholder="연락처를 입력하세요."
-                                style={{ display: 'inline-block', marginRight: '4px' }}
+                                style={{ display: 'inline-block', marginRight: '4px', border: 'none', outline: 'none', background: 'transparent' }}
                                 //onChange={(e) => setPhoneNum(e.target.value)
                                 onChange={handlePhoneNum}
                             />
@@ -287,7 +296,7 @@ function Nav2Sub1() {
                         alignItems: 'center',
                         marginTop: '10px'
                     }}>
-                        <button onClick={[()=> navigate(-1)]}>이전</button>
+                        <button onClick={onPreClick}>이전</button>
                         <button onClick={onNextClick}>다음</button> 
                     </div>
                     <div>
