@@ -44,7 +44,10 @@ function Nav3() {
         try {
             const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/orders?date=${urlDate}`, {
                 method: 'GET',
-                header: { 'userId': userId }
+                header: { 
+                    // 'Content-Type': 'application/json',
+                    'userId': userId 
+                }
             });
 
             if (!response.ok) {
@@ -74,8 +77,7 @@ function Nav3() {
         navigate('/nav3/sub1', {
             state: {
                 userAccount: userAccount,
-                corpName: row.companyName,
-                accNum: row.accountNumber,
+                row: row
             }
         });
     };
@@ -116,21 +118,21 @@ function Nav3() {
                             <TableHeader>청약종목번호</TableHeader>
                             <TableHeader>청약기간</TableHeader>
                             <TableHeader>환불일</TableHeader>
-                            <TableHeader>확정발행가</TableHeader>
+                            <TableHeader>청약증거금</TableHeader>
                         </tr>
                     </thead>
                     <tbody>
                         {data.length > 0 && data.map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell>
-                                    <button onClick={() => handleButtonClick(row)}>선택</button>
+                                    <button onClick={() => handleButtonClick(row)}>취소하기</button>
                                 </TableCell>
                                 <TableCell>{row.corpCls}</TableCell>
                                 <TableCell>{row.corpName}</TableCell>
                                 <TableCell>{row.corpCode}</TableCell>
                                 <TableCell>{row.sbd} ~ {(new Date(row.sbd).getDate() + 1)}</TableCell>
-                                <TableCell>{row.refundDate}</TableCell>
-                                <TableCell>{row.issuePrice}</TableCell>
+                                <TableCell>{row.refund}</TableCell>
+                                <TableCell>{row.deposit}</TableCell>
                             </TableRow>
                         ))}
                     </tbody>

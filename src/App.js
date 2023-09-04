@@ -14,6 +14,8 @@ import MyPageMod from './pages/MyPageMod';
 import MyPageWithdraw from './pages/MyPageWithdraw';
 import Nav3Sub1 from './pages/Nav3Sub1';
 import Nav3Sub2 from './pages/Nav3Sub2';
+import SignupAccount from './pages/SignupAccount';
+import SignupId from './pages/SignupId';
 
 const styles = {
   main: {
@@ -58,6 +60,8 @@ function App() {
           <Route path="/mypage/withdraw" element={<MyPageWithdraw />} />
           <Route path="/nav3/sub1" element={<Nav3Sub1 />} />
           <Route path="/nav3/sub2" element={<Nav3Sub2 />} />
+          <Route path="/signupAccount" element={<SignupAccount />} />
+          <Route path="/signupId" element={<SignupId />} />
         </Routes>
       </main>
     </div>

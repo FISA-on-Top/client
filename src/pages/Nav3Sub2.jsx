@@ -5,6 +5,7 @@ import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../sty
 function Nav3Sub2() {
     const navigate = useNavigate();
     const location = useLocation();
+    const cancelDate = new Date();
 
     const onSubmitClick = () => {
         navigate('/nav3');
@@ -19,13 +20,13 @@ function Nav3Sub2() {
                         청약계좌번호
                     </TitleDiv>
                     <TextDiv>
-                        정보
+                        {location.state.userAccount}
                     </TextDiv>
                     <TitleDiv>
-                        청약계좌명
+                        청약취소일
                     </TitleDiv>
                     <TextDiv>
-                        정보
+                        {cancelDate.toISOString().split('T')[0]}
                     </TextDiv>
                 </ContentsDiv>
 
@@ -34,13 +35,13 @@ function Nav3Sub2() {
                         청약종목명
                     </TitleDiv>
                     <TextDiv>
-                        정보
+                        {location.state.row.corpName}
                     </TextDiv>
                     <TitleDiv>
                         청약종목번호
                     </TitleDiv>
                     <TextDiv>
-                        데이터
+                        {location.state.row.corpCode}
                     </TextDiv>
                 </ContentsDiv>
             </WrapperDiv>

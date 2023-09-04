@@ -37,7 +37,7 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
                 const eventData = await response.json();
 
                 // 비교하여 로그인 성공 여부 판단
-                const isValidLogin = eventData[0].userId === id && eventData[0].userPw === pw;
+                const isValidLogin = eventData[0].user_id === id && eventData[0].user_pw === pw;
                 
                 // 로그인 성공 시, '/' 경로로 이동
                 if (isValidLogin) {
@@ -56,7 +56,7 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
     return (
         <LogginDiv>
             <HelpTextDiv>
-                <p>아이디:</p>
+                <p>아이디111:</p>
                 <p>비밀번호:</p>
             </HelpTextDiv>
             <TextInputDiv>
@@ -74,7 +74,8 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
                 />
             </TextInputDiv>
 
-                <button onClick={handleLoginClick}>로그인</button>
+                <button onClick={handleLoginClick}>로그인1</button>
+                <p>회원가입</p>
             
         </LogginDiv>
     );

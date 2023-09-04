@@ -4,7 +4,8 @@ import styled from 'styled-components';
 
 const LogginDiv = styled.div`
     display: flex;
-    align: column;
+    flex-direction: row;
+    align-items: center;
     background-color: grey;
 `;
 
@@ -53,6 +54,10 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
             fetchEvents();
         }
 
+        const handleSignUpClick = () => {
+            navigate('/signupAccount');
+        }
+
     return (
         <LogginDiv>
             <HelpTextDiv>
@@ -60,22 +65,21 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
                 <p>비밀번호:</p>
             </HelpTextDiv>
             <TextInputDiv>
-                <textarea
+                <input
                     value={id}
                     onChange={(event) => {
                         setId(event.target.value);
                     }}
                 />
-                <textarea
+                <input
                     value={pw}
                     onChange={(event) => {
                         setPw(event.target.value);
                     }}
                 />
+                <button onClick={handleSignUpClick}>회원가입</button>
             </TextInputDiv>
-
                 <button onClick={handleLoginClick}>로그인</button>
-            
         </LogginDiv>
     );
 }
