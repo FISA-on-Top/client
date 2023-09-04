@@ -1,6 +1,5 @@
 import { atom } from 'recoil';
 
-/* for Nav2 */
 export const calendarDate = atom({
   key: 'calendarDate', // unique ID (with respect to other atoms/selectors)
   default: new Date(),  // default value (aka initial value)
@@ -18,11 +17,11 @@ export const selectedIpo = atom({
 
 export const accountNumber = atom({
   key: 'accountNumber', // unique ID (with respect to other atoms/selectors)
-  default: null,  // default value (aka initial value)
+  default: '',  // default value (aka initial value)
 });
 export const commissionPrice = atom({
   key: 'commissionPrice', // unique ID (with respect to other atoms/selectors)
-  default: 2000,  // default value (aka initial value)
+  default: '2,000',  // default value (aka initial value)
 });
 export const phoneNumber = atom({
   key: 'phoneNumber', // unique ID (with respect to other atoms/selectors)
@@ -36,10 +35,5 @@ export const orderAmount = atom({
 });
 export const deposit = atom({
   key: 'deposit', // unique ID (with respect to other atoms/selectors)
-  default: '',  // default value (aka initial value)
-});
-
-export const applicationDataTime = atom({
-  key: 'applicationDataTime', // unique ID (with respect to other atoms/selectors)
   default: '',  // default value (aka initial value)
 });

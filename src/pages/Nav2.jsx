@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 import styled from 'styled-components';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { calendarDate, ipoList, selectedIpo} from '../state/stateForNav2.js';
 
 
@@ -16,7 +16,7 @@ function SubscriptionRequest() {
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useRecoilState(calendarDate);
   const [ipoData, setIpoData] = useRecoilState(ipoList);
-  const [ipoId, setIpoId] = useRecoilState(selectedIpo);
+  const setIpoId = useSetRecoilState(selectedIpo);
 
   console.log(typeof selectedDate);
 
@@ -50,15 +50,10 @@ function SubscriptionRequest() {
   const handleDateChange = (date) => {
       setSelectedDate(date);
   };
-
-  useEffect(() => {
-    if(ipoId && ipoId.length>0)
-      navigate('/nav2/sub1');
-  }, [ipoId]);
   
-  const onRequestClick = (selectedIpoId) => {
-    setIpoId(selectedIpoId);
-    
+  const onRequestClick = (data) => {
+    setIpoId(data);
+    navigate('/nav2/sub1');
   }
 
     return (
@@ -89,7 +84,7 @@ function SubscriptionRequest() {
                             <TableRow key={item.ipoId}>
                                 <TableCell>
                                 {/* <Link to={`/nav2/sub1`}>청약하기</Link> */}
-                                <button onClick={onRequestClick(item.ipoId)}>청약하기</button>
+                                <button onClick={() => onRequestClick(item.ipoId)}>청약하기</button>
                                 </TableCell>
                                 <TableCell>{item.corpcls}</TableCell>
                                 <TableCell>{item.corpName}</TableCell>
@@ -103,7 +98,7 @@ function SubscriptionRequest() {
                             <TableRow key={ipoData.data.ipoSummary.ipoId}>
                                 <TableCell>
                                 {/* <Link to={`/nav2/sub1`}>청약하기</Link> */}
-                                <button onClick={onRequestClick(ipoData.data.ipoSummary.ipoId)}>청약하기</button>
+                                <button onClick={() => onRequestClick(ipoData.data.ipoSummary.ipoId)}>청약하기</button>
                                 </TableCell>
                                 <TableCell>{ipoData.data.ipoSummary.corpcls}</TableCell>
                                 <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>

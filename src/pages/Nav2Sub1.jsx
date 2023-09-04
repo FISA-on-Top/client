@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import CustomSelect from '../components/CustomSelect';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { accountNumber, phoneNumber, commissionPrice, orderAmount, deposit, selectedIpo } from '../state/stateForNav2.js';
 
 function Nav2Sub1() {
     const navigate = useNavigate();
     //const { ipoId } = useParams();
     const [isAccountVisible, setIsAccountVisible] = useState(false);
-    //const [accountNum, setAccountNum] = useState('');
     const [accountPassword, setAccountPassword] = useState('');
     const [selectedAccount, setSelectedAccount] = useState('');
     const [subscriptionData,setSubsriptionData] = useState(''); 
@@ -23,12 +22,12 @@ function Nav2Sub1() {
     const [selectedDeposit, setSelectedDeposit] = useRecoilState(deposit); //청약증거금
 
     const [accountNum, setAccountNum] = useRecoilState(accountNumber);//계좌번호 
-    const [commission, setCommission] = useRecoilState(commissionPrice);  //수수료 -> 고정값 2000
+    const commission= useRecoilValue(commissionPrice);  //수수료 -> 고정값 2000
     const [phoneNum, setPhoneNum] = useRecoilState(phoneNumber);//연락처
     const [phoneError, setPhoneError] = useState('');
 
     const [subscriptionAmountSelect, setSubscriptionAmountSelect] = useState([]); //청약 수량 select 배열
-    const [ipoId, setIpoId] = useRecoilState(selectedIpo);
+    const ipoId = useRecoilValue(selectedIpo); 
     
     const Options =[
         { value: 'select..', label: '계좌 인증 필요', isDisabled: true},
@@ -42,9 +41,6 @@ function Nav2Sub1() {
         //localStorage.setItem('accounts', JSON.stringify(['1234-1234', '3456-3456', '5678-5678']));
         //console.log(localStorage.getItem('accounts'));
         // 서버로부터 비동기
-
-        console.log("ipoId 받아왔지? "+ipoId);
-
         const fetchEvents = async () => {
             // REST API의 URL
             const apiUrl = 'https://49c63d20-10d7-40ca-bf3a-0be4bf52acfa.mock.pstmn.io/api/orders/account';            
@@ -68,7 +64,7 @@ function Nav2Sub1() {
 
                         //계좌 정보 초기 설정
                         setAccountNum(accountJson.data.accountNum);
-                        localStorage.setItem("accountNum", accountJson.data.accountNum);
+                        //localStorage.setItem("accountNum", accountJson.data.accountNum);
 
                     }else {
                         console.error('Error retrieving data:', accountJson.resultMessage);
@@ -88,7 +84,9 @@ function Nav2Sub1() {
     useEffect(() => {
         const fetchEvents = async () => {
             //청약 수량 select 만들기
-            await updateSubscriptionAmountSelect(subscriptionAvailableAmount);
+            if (subscriptionAvailableAmount.length > 0){
+                await updateSubscriptionAmountSelect(subscriptionAvailableAmount);
+            }
         };
 
         const updateSubscriptionAmountSelect = async (orderableAmount) => {
@@ -96,7 +94,7 @@ function Nav2Sub1() {
             const newOptions = [];
             let division = 1;
             let divisionSize = 1;
-    
+
             while (numericAmount >= division){
                 newOptions.push({ value: numericAmount.toString(), label: numericAmount.toString() });
                 division = division*(10*divisionSize);
@@ -125,7 +123,7 @@ function Nav2Sub1() {
         };
 
         const updateSelectedDeposit = async () => {
-            //const commission = 2000; //수수료
+            const commissionNum = Number(commission.replace(/,/g,'')) //수수료
             const grade = 0.5; // 할인율 50% 할인;
             const price = parseFloat(subscriptionPrice.replace(/,/g,'')); //공모가
             const amount = Number(selectedAmount); //청약 수량
@@ -133,7 +131,7 @@ function Nav2Sub1() {
             // (수수료*할인율) + (공모가*청약수량)
             console.log('price :'+ price)
             console.log('amount :'+ amount)
-            let result = (commission * grade) + (price * amount);
+            let result = (commissionNum * grade) + (price * amount);
     
            
             result = Math.round(result * 100) / 100;  // 소수점 둘째자리에서 반올림
@@ -228,14 +226,15 @@ function Nav2Sub1() {
                     <ContentsDiv>
                         <TitleDiv>계좌 번호</TitleDiv>
                         <TextDiv>
-                            {accountNum}
+                            {accountNum ? accountNum : ""}
                         </TextDiv>
                         <TitleDiv>계좌 비밀번호</TitleDiv>
                         <TextDiv>
                             <input
                                 type="password"
+                                placeholder="비밀번호 입력"
                                 value={accountPassword}
-                                style={{ display: 'inline-block', flex: '1', marginRight: '4px' , width: '50px', border: 'none', outline: 'none'}}
+                                style={{ display: 'inline-block', flex: '1', marginRight: '4px' , width: '50px', border: 'none', outline: 'none', background: 'transparent'}}
                                 onChange={(e) => setAccountPassword(e.target.value)}
                             />
                             <button style={{ display: 'inline-block' }} onClick={handleSubmit}>확인</button>
@@ -281,7 +280,7 @@ function Nav2Sub1() {
                         <input
                                 type="text"
                                 value={phoneNum}
-                                placeholder="연락처를 입력하세요."
+                                placeholder="연락처 입력"
                                 style={{ display: 'inline-block', marginRight: '4px', border: 'none', outline: 'none', background: 'transparent' }}
                                 //onChange={(e) => setPhoneNum(e.target.value)
                                 onChange={handlePhoneNum}
