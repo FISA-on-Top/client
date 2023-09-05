@@ -1,4 +1,4 @@
-const BASE_URL = 'https:43.201.101.144/api';
+const BASE_URL = '43.201.20.90/api';
 // const API = {
 //   signup: `${BASE_URL}/auth/signup`,
 //   signin: `${BASE_URL}/auth/signin`,
