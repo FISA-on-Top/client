@@ -65,7 +65,8 @@ function Nav2Sub2() {
             const seconds = String(now.getSeconds()).padStart(2, '0');
 
             const requestDateTime = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-            
+            const deposit = parseFloat(selectedDeposit.replace(/,/g,''));
+
             // REST API의 URL
             const apiUrl = `${BASE_URL}/orders/approval`;
             // localStorage에서 userId 정보를 가져옵니다.
@@ -85,7 +86,7 @@ function Nav2Sub2() {
                             "orderAmount" : selectedAmount,    // 청약한 주식 수 
                             "PhoneNumber" : phoneNum,
                             "orderDate" : requestDateTime,    // 청약신청한 날짜
-                            "deposit" : selectedDeposit //청약증거금                             
+                            "deposit" : deposit //청약증거금                             
                         }),
                     });
 
