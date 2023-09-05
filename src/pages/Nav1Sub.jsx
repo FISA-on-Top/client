@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import styled from 'styled-components';
 import PageNavigation from '../components/PageNavigation';
 import Nav1Popup from '../components/Nav1Popup.jsx';
+import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 
 const NavButton = styled.button`
     background-color: ${props => props.isActive ? 'blue' : 'gray'};
@@ -33,13 +33,16 @@ function Nav1Sub() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/list?index=${currentPage}`); // RestAPI경로
+                const response = await fetch(`/ipo/list?index=${currentPage}`);
+
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
+
                 const eventData = await response.json();
                 setEvents(eventData.data.ipoSummary);
                 setTotalPage(eventData.data.totalPage);
+                
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -50,16 +53,19 @@ function Nav1Sub() {
 
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`/ipo/list?ipoId=${ipoId}`);
 
             if (!response.ok){
                 throw new Error('Failed to fetch detail');
             }
+
             const detailData = await response.json();
             setSelectedEvent(detailData.data.ipo[0]);
+
         } catch (error) {
             console.error('Error fetching Detail:', error);
         }
+
     }
 
     const nav1ButtonClick = () => {
@@ -104,6 +110,7 @@ function Nav1Sub() {
                             <TableHeader>확정발행가</TableHeader>
                         </tr>
                     </thead>
+
                     <tbody>
                         {events
                             .map((event, index) => (
@@ -130,6 +137,7 @@ function Nav1Sub() {
                 totalPage={totalPage}
                 onPageChange={handlePageChange}
             />
+
             <Nav1Popup event={selectedEvent} isVisible={isPopupVisible} onClose={handleClosePopup} />
         </div>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 import { Link, NavLink } from 'react-router-dom';
+import styled from 'styled-components';
 
 const NavContainer = styled.div`
     background-color: blue;
@@ -48,11 +48,18 @@ function Navbar({ onNavClick, isLoggedIn }) {
                     <p className='bold'>우리증권</p>
                 </NavLinkStyled>
             </LogoDiv>
+            
             <NavUl>
                 <li>
-                    <NavLinkStyled to="/nav1" onClick={() => onNavClick('nav1')}>
-                        공모주 조회
-                    </NavLinkStyled>
+                    {isLoggedIn ? (
+                        <NavLinkStyled to="/nav1" onClick={() => onNavClick('nav1')}>
+                            공모주 조회
+                        </NavLinkStyled>
+                    ) : (
+                        <NavLinkStyled to="/login" onClick={() => onNavClick('nav2')}>
+                            공모주 신청
+                        </NavLinkStyled>
+                    )}
                 </li>
                 <li>
                     {isLoggedIn ? (

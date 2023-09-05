@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
-import DatePicker from 'react-datepicker';
-import Dropdown from '../components/Dropdown';
-import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 
 function Nav3() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -11,17 +10,12 @@ function Nav3() {
     const navigate = useNavigate();
     const [userAccount, setUserAccount] = useState('');
     const [urlDate, setUrlDate] = useState(new Date().toISOString().split('T')[0]);
-    const [selectedData, setSelectedData] = useState({
-        id: null,
-        companyName: '',
-        accountNumber: '',
-    });
-    const userId = 'user01';
+    const userId = localStorage.getItem('userId');
 
     useEffect(() => {
         const fetchAccount = async () => {
             try {
-                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/orders/account/`, {
+                const response = await fetch(`/orders/account/`, {
                     method: 'GET',
                     headers: { 'userId': userId }
                 });
@@ -42,7 +36,7 @@ function Nav3() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/orders?date=${urlDate}`, {
+            const response = await fetch(`/orders?date=${urlDate}`, {
                 method: 'GET',
                 header: { 
                     // 'Content-Type': 'application/json',
@@ -56,14 +50,10 @@ function Nav3() {
 
             const datas = await response.json();
             setData(datas.data[0].orderList);
-            console.log(data);
+            
         } catch (error) {
             console.error('데이터를 불러오는 도중 오류가 발생했습니다.', error);
         }
-    };
-
-    const handleSelect = (id) => {
-        console.log(`선택된 아이디: ${id}`);
     };
 
     const handleDateChange = (date) => {
@@ -73,7 +63,6 @@ function Nav3() {
     };
 
     const handleButtonClick = (row) => {
-        // setSelectedData(updatedData);여기수정수정수정수정
         navigate('/nav3/sub1', {
             state: {
                 userAccount: userAccount,
@@ -90,6 +79,7 @@ function Nav3() {
         <div>
             <ContainerDiv>
                 <h1>청약 결과 조회</h1>
+
                 <WrapperDiv>
                     <ContentsDiv>
                         <TitleDiv>계좌 설정</TitleDiv>
@@ -121,6 +111,7 @@ function Nav3() {
                             <TableHeader>청약증거금</TableHeader>
                         </tr>
                     </thead>
+
                     <tbody>
                         {data.length > 0 && data.map((row, index) => (
                             <TableRow key={index}>
@@ -138,6 +129,7 @@ function Nav3() {
                     </tbody>
                 </Table>
             </TableContainer>
+
         </div>
     );
 }

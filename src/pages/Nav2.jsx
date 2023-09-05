@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
-import styled from 'styled-components';
 
 const Nav2TableContainer = styled(TableContainer)`
   width: 1200px;
@@ -13,15 +13,12 @@ function MyPage() {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [data, setData] = useState(null);
 
-    console.log(typeof selectedDate);
-
     const fetchData = async () => {
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];
 
             console.log(formattedDate);
 
-            //const response = await fetch(`/api/data?date=${formattedDate}`); // 서버에 날짜 전송
             const response = await fetch('./신청.json');
             if (!response.ok) {
                 throw new Error('Failed to fetch data');

@@ -47,6 +47,7 @@ function Nav1Popup({ event, isVisible, onClose }) {
 
     return (
         <PopupOverlay isVisible={isVisible}>
+            
             <PopupContent>
                 <h2>이벤트 상세 정보</h2>
                 {event ? (
@@ -105,7 +106,9 @@ function Nav1Popup({ event, isVisible, onClose }) {
                 ) : (
                     <p>이벤트 정보를 찾을 수 없습니다.</p>
                 )}
+
                 <CloseButton onClick={onClose}>닫기</CloseButton>
+
             </PopupContent>
         </PopupOverlay>
     );

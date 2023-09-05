@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
+import moment from "moment"
 import Calendar from 'react-calendar';
 import "./MyCalendar.css";
-//import 'react-calendar/dist/Calendar.css';
 import Nav1Popup from './Nav1Popup';
-import moment from "moment"
 
 const styles = {
     dot: {
@@ -27,15 +26,15 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/calendar?yyyy=${yy}&mm=${mm}`);
-                //const response = await fetch('http://43.201.20.90/api/ipo/list');
-                // const response = await fetch('https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/api/ipo/list');
+                const response = await fetch(`/ipo/calendar?yyyy=${yy}&mm=${mm}`);
     
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
+
                 const eventData = await response.json();
                 setEvents(eventData.data.ipo);
+
             } catch (error) {
                 console.error('Error fetching events:', error);
             }
@@ -46,13 +45,15 @@ function MyCalendar() {
     
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`/ipo/list?ipoId=${ipoId}`);
 
             if (!response.ok){
                 throw new Error('Failed to fetch detail');
             }
+
             const detailData = await response.json();
             setPopupEvent(detailData.data.ipo[0]);
+
         } catch (error) {
             console.error('Error fetching Detail:', error);
         }
@@ -67,6 +68,7 @@ function MyCalendar() {
             const sbd = new Date(event.sbd)
             return sbd.getDate() === date.getDate();
         });
+
         if (eventForDate) {
             fetchDetails(eventForDate.ipoId);
         } else {
@@ -100,11 +102,13 @@ function MyCalendar() {
                         const ipoDate = new Date(event.sbd);
                         return ipoDate.getDate() === date.getDate();
                     });
+
                     if (eventForDate) {
                         return (<div style={styles.dot}>
                             {eventForDate.corpName}
                         </div>);
                     }
+
                     return null;
                 }}
                 onClickDay={handleEventClick}
@@ -113,8 +117,8 @@ function MyCalendar() {
                 prev2Label={null}
                 next2Label={null}
                 onActiveStartDateChange={handleNextClick}
-                
             />
+            
             <Nav1Popup event={popupEvent} isVisible={!!popupEvent} onClose={closePopup} />
         </div>
     );

@@ -44,7 +44,38 @@ function Nav3Sub2() {
                         {location.state.row.corpCode}
                     </TextDiv>
                 </ContentsDiv>
+
+                <ContentsDiv>
+                    <TitleDiv>
+                        청약수량
+                    </TitleDiv>
+                    <TextDiv>
+                        {location.state.row.orderAmount}
+                    </TextDiv>
+                    <TitleDiv>
+                        잔액
+                    </TitleDiv>
+                    <TextDiv>
+                        {location.state.row.balance}
+                    </TextDiv>
+                </ContentsDiv>
+
+                <ContentsDiv>
+                    <TitleDiv>
+                        청약 등급
+                    </TitleDiv>
+                    <TextDiv>
+                        온라인/50%
+                    </TextDiv>
+                    <TitleDiv>
+                        청약증거금
+                    </TitleDiv>
+                    <TextDiv>
+                        {location.state.row.deposit}
+                    </TextDiv>
+                </ContentsDiv>
             </WrapperDiv>
+            
             <button onClick={onSubmitClick}>확인</button>
         </ContainerDiv>
     );

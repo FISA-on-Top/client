@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import MyCalendar from '../components/MyCalendar';
 
 const NavButton = styled.button`
@@ -38,9 +38,9 @@ function Nav1() {
                 <NavButton onClick={nav1subButtonClick}>청약 목록 조회</NavButton>
             </NavButtonDiv>
             <MyCalendar onChange={onChange} value={calData} />
-
         </div>
     );
+    
 }
 
 export default Nav1;

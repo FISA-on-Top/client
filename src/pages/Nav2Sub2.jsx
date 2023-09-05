@@ -1,6 +1,6 @@
 import React from "react";
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import { useNavigate } from "react-router";
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 
 function Nav2Sub2() {
     const navigate = useNavigate();

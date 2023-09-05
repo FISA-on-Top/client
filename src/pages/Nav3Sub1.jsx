@@ -1,22 +1,27 @@
-import React, { useState } from 'react';
+import { React, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 
 function Nav3Sub1() {
     const [inputValue, setInputValue] = useState('');
-    const [passwordError, setPasswordError] = useState('');
+    const [passwordCheck, setPasswordCheck] = useState(false);
+    const [datas, setDatas] = useState('');
+    const [checked, setChecked] = useState(false);
     const navigate = useNavigate();
     const location = useLocation();
 
-    const fetchAccount = async () => {
+    const fetchCancelOrder = async () => {
         try {
-            const response = await fetch(`https://5674dead-9b15-43f4-9eb4-21debfa1c2be.mock.pstmn.io/orders/cancel`, {
-                method: 'GET',
-                header: {
-                    // 'Content-Type': 'application/json',
+            const response = await fetch(`/orders/cancel`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                     'accountNum': location.state.userAccount,
-                    'accountPw': inputValue
-                }
+                    'accountPw': inputValue,
+                },
+                body: JSON.stringify({
+                    orderId: location.state.row.orderId,
+                })
             });
 
             if (!response.ok) {
@@ -24,10 +29,15 @@ function Nav3Sub1() {
             }
 
             const datas = await response.json();
-            if (datas.resultCode === '1001') {
-                setPasswordError(datas.resultMessage);
+            setChecked(true);
+
+            if (datas.resultCode === '0000') {
+                setPasswordCheck(true);
+                setDatas(datas.data);
+            } else {
+                setPasswordCheck(false);
             }
-            setPasswordError('');
+
         } catch (error) {
             console.error('Error fetching the data', error);
         }
@@ -42,14 +52,18 @@ function Nav3Sub1() {
     }
 
     const onSubmitClick = () => {
-        if (passwordError === '') {
+        fetchCancelOrder();
+
+        if (passwordCheck) {
             navigate('/nav3/sub2', {
                 state: {
                     userAccount: location.state.userAccount,
-                    row: location.state.row
+                    row: datas
                 }
             });
+
         }
+
     }
 
     return (
@@ -72,8 +86,8 @@ function Nav3Sub1() {
                         <TextDiv>
                             <input
                                 type="text"
-                                value={inputValue} // 상태의 값과 input 값을 연결
-                                onChange={handleInputChange} // 입력값이 변경될 때 호출됨
+                                value={inputValue}
+                                onChange={handleInputChange}
                             />
                         </TextDiv>
                     </ContentsDiv>
@@ -99,19 +113,21 @@ function Nav3Sub1() {
                         <TextDiv>{location.state.row.deposit}</TextDiv>
                     </ContentsDiv>
                 </WrapperDiv>
+                
                 <div>
                     <button onClick={onReturnClick}>이전</button>
-                    <button onClick={onSubmitClick}>확인</button>
+                    <button onClick={onSubmitClick}>실행</button>
                 </div>
             </ContainerDiv>
+
             <div>
-                {passwordError &&
+                {checked && passwordCheck === false && (
                     <div>
                         <p style={{ color: 'red', textAlign: 'center' }}>
-                            {passwordError}
+                            비밀번호를 확인해주세요
                         </p>
                     </div>
-                }
+                )}
             </div>
         </div>
     );
