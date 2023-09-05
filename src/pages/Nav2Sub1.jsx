@@ -1,32 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import { React, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Dropdown from '../components/Dropdown';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 
 function Nav2Sub1() {
     const navigate = useNavigate();
-    const { ipoId } = useParams();
-    const [isAccountVisible, setIsAccountVisible] = useState(false);
-    const [accountNumber, setAccountNumber] = useState('');
     const [accountPassword, setAccountPassword] = useState('');
-    const [selectedAccount, setSelectedAccount] = useState('');
-    const [subscriptionAmount, setSubscriptionAmount] = useState('');
-    const [subscriptionQuantity, setSubscriptionQuantity] = useState('');
-    const [availableAmount, setAvailableAmount] = useState('');
-    const [availableQuantity, setAvailableQuantity] = useState('');
-
-    const accounts = JSON.parse(localStorage.getItem('accounts'));
-
-    useEffect(() => {
-        // 임시로 localStorage에 사용자 정보 및 계좌 리스트 저장
-        localStorage.setItem("user_id", "1111");
-        localStorage.setItem("user_account", "1234-1234");
-        localStorage.setItem("user_name", "홍길동");
-        localStorage.setItem('accounts', JSON.stringify(['1234-1234', '3456-3456', '5678-5678']));
-        console.log(localStorage.getItem('accounts'));
-        // 서버로부터 비동기
-    }, []);
-
+    
     const handleSubmit = async () => {
         // 비동기 rest api 호출
         // const response = await sendDataToServer(accountNumber, isAccountVisible, accountPassword);

@@ -7,32 +7,50 @@ const ButtonDiv = styled.div`
     padding-bottom: 8px;
 `;
 
-function PageNavigation({ currentPage, eventsPerPage, totalEvents, totalPage, onPageChange }) {
+function PageNavigation({ currentPage, totalPage, onPageChange }) {
     const pageNumbers = [];
+
     for (let i = 1; i <= totalPage; i++) {
         pageNumbers.push(i);
+    }
+
+    function handlePageChange(pageNumber) {
+        if (currentPage !== pageNumber) {
+            onPageChange(pageNumber);
+        }
     }
 
     return (
         <div>
             <ButtonDiv>
-                <button className={currentPage === 1 ? 'disabled' : ''}>
-                    <button onClick={() => onPageChange(currentPage - 1)} disabled={currentPage === 1}>&laquo;</button>
+                <button
+                    className={currentPage === 1 ? 'disabled' : ''}
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &laquo;
                 </button>
+
                 {pageNumbers.map((pageNumber) => (
-                    <button key={pageNumber} className={currentPage === pageNumber ? 'active' : ''}>
-                        <button onClick={() => onPageChange(pageNumber)} style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
-                            {pageNumber}
-                        </button>
+                    <button
+                        key={pageNumber}
+                        className={currentPage === pageNumber ? 'active' : ''}
+                        onClick={() => handlePageChange(pageNumber)}
+                        style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+                        {pageNumber}
                     </button>
                 ))}
-                <button className={currentPage === totalPage ? 'disabled' : ''}>
-                    <button onClick={() => onPageChange(currentPage + 1)} disabled={currentPage === totalPage}>&raquo;</button>
+
+                <button
+                    className={currentPage === totalPage ? 'disabled' : ''}
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPage}
+                >
+                    &raquo;
                 </button>
             </ButtonDiv>
         </div>
     );
-
 }
 
 export default PageNavigation;

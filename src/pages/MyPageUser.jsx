@@ -1,6 +1,6 @@
 import React from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import { useNavigate } from 'react-router';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 
 function MyPage() {
     const navigate = useNavigate();
@@ -43,10 +43,12 @@ function MyPage() {
                     <TextDiv>확인 후 받아오고</TextDiv>
                 </ContentsDiv>
             </WrapperDiv>
+
             <div>
                 <button onClick={onModClick}>수정하기</button>
                 <button onClick={onWithdrawClick}>탈퇴하기</button>
             </div>
+            
         </ContainerDiv>
     );
 }

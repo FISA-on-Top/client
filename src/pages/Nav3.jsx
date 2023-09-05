@@ -1,74 +1,72 @@
-import React, { useState } from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
-import DatePicker from 'react-datepicker';
-import Dropdown from '../components/Dropdown';
-import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import DatePicker from 'react-datepicker';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 
 function Nav3() {
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const accounts = JSON.parse(localStorage.getItem('accounts'));
-    const [selectedAccount, setSelectedAccount] = useState('');
-    const [data, setData] = useState([]);
+    const [data, setData] = useState('');
     const navigate = useNavigate();
-    const [selectedData, setSelectedData] = useState({
-        id: null,
-        companyName: '',
-        accountNumber: '',
-    });
+    const [userAccount, setUserAccount] = useState('');
+    const [urlDate, setUrlDate] = useState(new Date().toISOString().split('T')[0]);
+    const userId = localStorage.getItem('userId');
+
+    useEffect(() => {
+        const fetchAccount = async () => {
+            try {
+                const response = await fetch(`/orders/account/`, {
+                    method: 'GET',
+                    headers: { 'userId': userId }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Account response was not ok');
+                }
+
+                const data = await response.json();
+                setUserAccount(data.data.accountNum);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        };
+
+        fetchAccount();
+    }, []);
 
     const fetchData = async () => {
         try {
-            const dummyData = [
-                {
-                    id: 1,
-                    category: '카테고리1',
-                    companyName: '기업1',
-                    underwriter: '주관회사1',
-                    subscriptionPeriod: '2023-08-01 ~ 2023-08-10',
-                    refundDate: '2023-08-15',
-                    issuePrice: '10000원',
-                    accountNumber: '1234-5678',
-                },
-                {
-                    id: 2,
-                    category: '카테고리2',
-                    companyName: '기업2',
-                    underwriter: '주관회사2',
-                    subscriptionPeriod: '2023-08-05 ~ 2023-08-12',
-                    refundDate: '2023-08-17',
-                    issuePrice: '15000원',
-                    accountNumber: '5678-1234',
-                },
-            ];
+            const response = await fetch(`/orders?date=${urlDate}`, {
+                method: 'GET',
+                header: { 
+                    // 'Content-Type': 'application/json',
+                    'userId': userId 
+                }
+            });
 
-            setData(dummyData);
+            if (!response.ok) {
+                throw new Error('Account response was not ok');
+            }
+
+            const datas = await response.json();
+            setData(datas.data[0].orderList);
+            
         } catch (error) {
             console.error('데이터를 불러오는 도중 오류가 발생했습니다.', error);
         }
     };
 
-    const handleSelect = (id) => {
-        console.log(`선택된 아이디: ${id}`);
-    };
-
     const handleDateChange = (date) => {
+        const parseDate = date.toISOString().split('T')[0];
+        setUrlDate(parseDate);
         setSelectedDate(date);
     };
 
     const handleButtonClick = (row) => {
-        const updatedData = {
-            id: row.id,
-            companyName: row.companyName,
-            accountNumber: row.accountNumber,
-        };
-
-        setSelectedData(updatedData);
         navigate('/nav3/sub1', {
             state: {
-                id: row.id,
-                corpName: row.companyName,
-                accNum: row.accountNumber,
+                userAccount: userAccount,
+                row: row
             }
         });
     };
@@ -81,16 +79,20 @@ function Nav3() {
         <div>
             <ContainerDiv>
                 <h1>청약 결과 조회</h1>
+
                 <WrapperDiv>
                     <ContentsDiv>
                         <TitleDiv>계좌 설정</TitleDiv>
                         <TextDiv>
-                            {accounts}
+                            {userAccount}
                         </TextDiv>
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>조회 기간</TitleDiv>
-                        <TextDiv><DatePicker selected={selectedDate} onChange={handleDateChange} /></TextDiv>
+                        <TextDiv><DatePicker
+                            dateFormat="yyyy-MM-dd"
+                            selected={selectedDate}
+                            onChange={handleDateChange} /></TextDiv>
                     </ContentsDiv>
                 </WrapperDiv>
                 <button onClick={onInquiryClick}>조회</button>
@@ -103,29 +105,31 @@ function Nav3() {
                             <TableHeader>선택</TableHeader>
                             <TableHeader>분류</TableHeader>
                             <TableHeader>기업명</TableHeader>
-                            <TableHeader>대표주관회사</TableHeader>
+                            <TableHeader>청약종목번호</TableHeader>
                             <TableHeader>청약기간</TableHeader>
                             <TableHeader>환불일</TableHeader>
-                            <TableHeader>확정발행가</TableHeader>
+                            <TableHeader>청약증거금</TableHeader>
                         </tr>
                     </thead>
+
                     <tbody>
-                        {data.map((row) => (
-                            <TableRow key={row.id}>
+                        {data.length > 0 && data.map((row, index) => (
+                            <TableRow key={index}>
                                 <TableCell>
-                                    <button onClick={() => handleButtonClick(row)}>선택</button>
+                                    <button onClick={() => handleButtonClick(row)}>취소하기</button>
                                 </TableCell>
-                                <TableCell>{row.category}</TableCell>
-                                <TableCell>{row.companyName}</TableCell>
-                                <TableCell>{row.underwriter}</TableCell>
-                                <TableCell>{row.subscriptionPeriod}</TableCell>
-                                <TableCell>{row.refundDate}</TableCell>
-                                <TableCell>{row.issuePrice}</TableCell>
+                                <TableCell>{row.corpCls}</TableCell>
+                                <TableCell>{row.corpName}</TableCell>
+                                <TableCell>{row.corpCode}</TableCell>
+                                <TableCell>{row.sbd} ~ {(new Date(row.sbd).getDate() + 1)}</TableCell>
+                                <TableCell>{row.refund}</TableCell>
+                                <TableCell>{row.deposit}</TableCell>
                             </TableRow>
                         ))}
                     </tbody>
                 </Table>
             </TableContainer>
+
         </div>
     );
 }

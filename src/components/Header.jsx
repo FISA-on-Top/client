@@ -40,8 +40,10 @@ function Header({ isLoggedIn, onLogin, onLogout }) {
                         <button onClick={handleMyPageClick}>마이페이지 버튼</button>
                         <button onClick={handleLogoutClick}>로그아웃 버튼</button>
                     </LogButtonDiv>
+
                 ) : (
                     <button onClick={handleLoginClick} isLoggedIn={isLoggedIn} onLogin={onLogin}>로그인 버튼</button>
+                    
                 )}
             </header>
         </HeaderDiv>
