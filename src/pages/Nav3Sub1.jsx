@@ -1,6 +1,7 @@
 import { React, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import BASE_URL from '../config';
 
 function Nav3Sub1() {
     const [inputValue, setInputValue] = useState('');
@@ -12,7 +13,7 @@ function Nav3Sub1() {
 
     const fetchCancelOrder = async () => {
         try {
-            const response = await fetch(`/orders/cancel`, {
+            const response = await fetch(`${BASE_URL}/orders/cancel`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

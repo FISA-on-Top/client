@@ -3,6 +3,7 @@ import moment from "moment"
 import Calendar from 'react-calendar';
 import "./MyCalendar.css";
 import Nav1Popup from './Nav1Popup';
+import BASE_URL from '../config';
 
 const styles = {
     dot: {
@@ -26,7 +27,7 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`/ipo/calendar?yyyy=${yy}&mm=${mm}`);
+                const response = await fetch(`${BASE_URL}/ipo/calendar?yyyy=${yy}&mm=${mm}`);
     
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
@@ -45,7 +46,7 @@ function MyCalendar() {
     
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`${BASE_URL}/ipo/list?ipoId=${ipoId}`);
 
             if (!response.ok){
                 throw new Error('Failed to fetch detail');

@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PageNavigation from '../components/PageNavigation';
 import Nav1Popup from '../components/Nav1Popup.jsx';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import BASE_URL from '../config';
 
 const NavButton = styled.button`
     background-color: ${props => props.isActive ? 'blue' : 'gray'};
@@ -33,7 +34,7 @@ function Nav1Sub() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`/ipo/list?index=${currentPage}`);
+                const response = await fetch(`${BASE_URL}/ipo/list?index=${currentPage}`);
 
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
@@ -53,7 +54,7 @@ function Nav1Sub() {
 
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`${BASE_URL}/ipo/list?ipoId=${ipoId}`);
 
             if (!response.ok){
                 throw new Error('Failed to fetch detail');

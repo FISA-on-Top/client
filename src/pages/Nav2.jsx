@@ -1,38 +1,61 @@
-import { React, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import styled from 'styled-components';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import { calendarDate, ipoList, selectedIpo} from '../state/stateForNav2.js';
+import BASE_URL from '../config.js';
+
 
 const Nav2TableContainer = styled(TableContainer)`
   width: 1200px;
 `;
 
-function MyPage() {
-    const [selectedDate, setSelectedDate] = useState(new Date());
-    const [data, setData] = useState(null);
+function SubscriptionRequest() {
+  const navigate = useNavigate();
+  const [selectedDate, setSelectedDate] = useRecoilState(calendarDate);
+  const [ipoData, setIpoData] = useRecoilState(ipoList);
+  const setIpoId = useSetRecoilState(selectedIpo);
 
-    const fetchData = async () => {
-        try {
-            const formattedDate = selectedDate.toISOString().split('T')[0];
+  console.log(typeof selectedDate);
 
-            console.log(formattedDate);
+  const fetchData = async () => {
+    //const apiUrl = '/api/orders/';
+    const apiUrl = `${BASE_URL}/orders/`;
+    try {
+      const formattedDate = selectedDate.toISOString().split('T')[0];
 
-            const response = await fetch('./신청.json');
-            if (!response.ok) {
-                throw new Error('Failed to fetch data');
-            }
-            const result = await response.json();
-            setData(result);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+      console.log(formattedDate);
+      // URL의 쿼리 매개변수 생성
+      const queryParams = new URLSearchParams();
+      queryParams.append('date', formattedDate);
 
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-    };
+      const response = await fetch(`${apiUrl}?${queryParams}`)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        setIpoData(data);
+      })
+      .catch(error=>{
+        console.log(error);
+        throw new Error('Failed to fetch data');
+      });
+
+     } catch (error) {
+       console.error('Error fetching data:', error);
+     }
+  };
+
+  const handleDateChange = (date) => {
+      setSelectedDate(date);
+  };
+  
+  const onRequestClick = (data) => {
+    setIpoId(data);
+    navigate('/nav2/sub1');
+  }
 
     return (
         <div>
@@ -46,51 +69,56 @@ function MyPage() {
                 <Table>
                     <thead>
                         <tr>
-                            <TableHeader>신청</TableHeader>
-                            <TableHeader>ipo_id</TableHeader>
-                            <TableHeader>기업코드</TableHeader>
-                            <TableHeader>기업명</TableHeader>
-                            <TableHeader>청약기일</TableHeader>
-                            <TableHeader>납입기일</TableHeader>
-                            <TableHeader>환불일</TableHeader>
-                            <TableHeader>상장예정일</TableHeader>
-                            <TableHeader>확정발행가</TableHeader>
-                            <TableHeader>법인구분</TableHeader>
-                            <TableHeader>증권수량</TableHeader>
-                            <TableHeader>증자방법</TableHeader>
+                        <TableHeader>선택</TableHeader>
+                        <TableHeader>(법인)구분</TableHeader>
+                        <TableHeader>기업명</TableHeader>
+                        <TableHeader>청약기일</TableHeader>
+                        <TableHeader>환불일</TableHeader>
+                        <TableHeader>확정발행가</TableHeader>
                         </tr>
                     </thead>
                     <tbody>
-                        {data && data.length > 0 ? (
-                            data.map((item) => (
-                                <TableRow key={item.ipoId}>
-                                    <TableCell>
-                                        <Link to={`/nav2/sub1`}>신청</Link>
-                                    </TableCell>
-                                    <TableCell>{item.ipoId}</TableCell>
-                                    <TableCell>{item.corpCode}</TableCell>
-                                    <TableCell>{item.corpName}</TableCell>
-                                    <TableCell>{item.sbd}</TableCell>
-                                    <TableCell>{item.pymd}</TableCell>
-                                    <TableCell>{item.refund}</TableCell>
-                                    <TableCell>{item.ipoDate}</TableCell>
-                                    <TableCell>{item.slprc}</TableCell>
-                                    <TableCell>{item.corpCls}</TableCell>
-                                    <TableCell>{item.stkcnt}</TableCell>
-                                    <TableCell>{item.capitalIncrease}</TableCell>
-                                </TableRow>
+                    {ipoData && ipoData.data.ipoSummary ? (
+                        Array.isArray(ipoData.data.ipoSummary) 
+                        ? (
+                            ipoData.data.ipoSummary.map((item) => (
+                            <TableRow key={item.ipoId}>
+                                <TableCell>
+                                {/* <Link to={`/nav2/sub1`}>청약하기</Link> */}
+                                <button onClick={() => onRequestClick(item.ipoId)}>청약하기</button>
+                                </TableCell>
+                                <TableCell>{item.corpcls}</TableCell>
+                                <TableCell>{item.corpName}</TableCell>
+                                <TableCell>{item.sbd}</TableCell>
+                                <TableCell>{item.refund}</TableCell>
+                                <TableCell>{item.slprc}</TableCell>
+                            </TableRow>
                             ))
-                        ) : (
+                        )
+                        : (
+                            <TableRow key={ipoData.data.ipoSummary.ipoId}>
+                                <TableCell>
+                                {/* <Link to={`/nav2/sub1`}>청약하기</Link> */}
+                                <button onClick={() => onRequestClick(ipoData.data.ipoSummary.ipoId)}>청약하기</button>
+                                </TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.corpcls}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.sbd}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.refund}</TableCell>
+                                <TableCell>{ipoData.data.ipoSummary.slprc}</TableCell>
+                            </TableRow>
+                            )
+                    )  : (
                             <TableRow>
                                 <TableCell colSpan="12">기간을 설정해주세요.</TableCell>
                             </TableRow>
-                        )}
+                    )}
                     </tbody>
                 </Table>
             </Nav2TableContainer>
-        </div>
-    );
+    </div>
+  );
 
 }
 
-export default MyPage;
+export default SubscriptionRequest;

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import BASE_URL from '../config';
 
 function Nav3() {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -15,7 +16,7 @@ function Nav3() {
     useEffect(() => {
         const fetchAccount = async () => {
             try {
-                const response = await fetch(`/orders/account/`, {
+                const response = await fetch(`${BASE_URL}/orders/account/`, {
                     method: 'GET',
                     headers: { 'userId': userId }
                 });
@@ -36,7 +37,7 @@ function Nav3() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`/orders?date=${urlDate}`, {
+            const response = await fetch(`${BASE_URL}/orders?date=${urlDate}`, {
                 method: 'GET',
                 header: { 
                     // 'Content-Type': 'application/json',

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import BASE_URL from '../config';
 
 const LogginDiv = styled.div`
     display: flex;
@@ -31,7 +32,7 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
 
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`https://ab958cb0-795c-48a3-bb44-2534a1b0784b.mock.pstmn.io/loginauth`, {
+                const response = await fetch(`${BASE_URL}/loginauth`, {
                     method: 'GET',
                     headers: {
                         'userId': id,
