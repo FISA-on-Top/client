@@ -33,13 +33,15 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
         const fetchEvents = async () => {
             try {
                 const response = await fetch(`${BASE_URL}/loginauth`, {
-                    method: 'GET',
+                    method: 'POST',
                     headers: {
-                        'userId': id,
-                        'userPw': pw,
+                        'Content-Type': 'application/json', // Specify the content type
                     },
+                    body: JSON.stringify({ // Convert the data to JSON format
+                        userId: id,
+                        userPw: pw,
+                    }),
                 });
-
                 if (!response.ok) {
                     throw new Error('Failed to login');
                 }
