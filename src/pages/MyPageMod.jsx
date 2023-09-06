@@ -25,9 +25,9 @@ function MyPageMod() {
                     'userId': localStorage.getItem('userId')
                 },
                 body: JSON.stringify({
-                    userId: location.state.accountNum,
+                    userId: location.state.userId,
                     email: formData.email,
-                    phone: formData.phone,
+                    phoneNum: formData.phone,
                     userPw: formData.userPw,
                 })
             });
@@ -91,7 +91,7 @@ function MyPageMod() {
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>계좌 번호</TitleDiv>
-                    <TextDiv>{location.state.phone}</TextDiv>
+                    <TextDiv>{location.state.accountNum}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>비밀 번호</TitleDiv>

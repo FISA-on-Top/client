@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 import PageNavigation from "../components/PageNavigation";
+import BASE_URL from "../config";
 
 
 function AdminPage() {

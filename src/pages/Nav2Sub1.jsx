@@ -75,14 +75,15 @@ function Nav2Sub1() {
 
     useEffect(() => {
         const fetchEvents = async () => {
+
             //청약 수량 select 만들기
-            if (subscriptionAvailableAmount.length > 0){
+            if (subscriptionAvailableAmount > 0){
                 await updateSubscriptionAmountSelect(subscriptionAvailableAmount);
             }
         };
 
-        const updateSubscriptionAmountSelect = async (orderableAmount) => {
-            let numericAmount = Number(orderableAmount);
+        const updateSubscriptionAmountSelect = async (numericAmount) => {
+            //let numericAmount = Number(orderableAmount);
             const newOptions = [];
             let division = 1;
             let divisionSize = 1;
@@ -117,7 +118,8 @@ function Nav2Sub1() {
         const updateSelectedDeposit = async () => {
             const commissionNum = Number(commission.replace(/,/g,'')) //수수료
             const grade = 0.5; // 할인율 50% 할인;
-            const price = parseFloat(subscriptionPrice.replace(/,/g,'')); //공모가
+            //const price = parseFloat(subscriptionPrice.replace(/,/g,'')); //공모가
+            const price = subscriptionPrice;
             const amount = Number(selectedAmount); //청약 수량
     
             // (수수료*할인율) + (공모가*청약수량)
@@ -128,7 +130,8 @@ function Nav2Sub1() {
            
             result = Math.round(result * 100) / 100;  // 소수점 둘째자리에서 반올림
             const resultStr = result.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 결과값을 돈 형식(콤마 형식)의 문자열로 변환
-            const balanceNum =parseFloat(balance.replace(/,/g,''));
+            //const balanceNum =parseFloat(balance.replace(/,/g,''));
+            const balanceNum = balance;
 
             if(result > balanceNum){
                 setSelectedDeposit('');
@@ -144,17 +147,19 @@ function Nav2Sub1() {
 
     const handleSubmit = async () => {
         // REST API의 URL
-        const apiUrl = `${BASE_URL}/orders/account/veri fy`;
+        const apiUrl = `${BASE_URL}/orders/account/verify`;
 
         try{
             const response = await fetch(apiUrl, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
-                  'Content-Type': 'application/json',
-                  'accountNum': accountNum,
-                  'accountPw' : accountPassword,
-                  'ipoId' : ipoId
+                  'Content-Type': 'application/json'
                 },
+                body: JSON.stringify({ // Convert the data to JSON format
+                    'accountNum': accountNum,
+                    'accountPw' : accountPassword,
+                    'ipoId' : ipoId
+                }),
               });
 
             const subscriptionJson  = await response.json();
@@ -165,6 +170,7 @@ function Nav2Sub1() {
                 setSubscriptionAvailableAmount(subscriptionJson.data.orderableAmount);
                 setSubscriptionPrice(subscriptionJson.data.slprc);
                 setBalance(subscriptionJson.data.balance);
+
             }else {
                 console.error('Error retrieving data:', subscriptionJson.resultMessage);
             }

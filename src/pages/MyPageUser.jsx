@@ -65,7 +65,7 @@ function MyPage() {
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>핸드폰</TitleDiv>
-                    <TextDiv>{data.phone}</TextDiv>
+                    <TextDiv>{data.phoneNum}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>Email</TitleDiv>

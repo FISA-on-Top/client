@@ -23,7 +23,7 @@ function MyPageWithdraw() {
 
         try {
             const response = await fetch(apiUrl, {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                     'userId': localStorage.getItem('userId')
