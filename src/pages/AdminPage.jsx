@@ -12,7 +12,7 @@ function AdminPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`/alluserinfo?index=${currentPage}`);
+                const response = await fetch(`${BASE_URL}/alluserinfo?index=${currentPage}`);
 
                 if (!response.ok) {
                     throw new Error('API 호출 중 에러 발생');

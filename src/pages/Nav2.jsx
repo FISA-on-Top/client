@@ -37,8 +37,7 @@ function SubscriptionRequest() {
 
     const fetchData = async () => {
         //const apiUrl = '/api/orders/';
-        // const apiUrl = `${BASE_URL}/orders/`;
-        const apiUrl = `${temp_URL}/orders/`;
+        const apiUrl = `${BASE_URL}/orders/`;
 
         if (currentPage === '0') {
             return;

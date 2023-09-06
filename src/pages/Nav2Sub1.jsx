@@ -33,16 +33,12 @@ function Nav2Sub1() {
     const Options =[
         { value: 'select..', label: '계좌 인증 필요', isDisabled: true},
     ];
-
-    // testUrl
-    const temp_URL = 'https://db4d417c-9e4a-46b3-bd45-9245a9d99984.mock.pstmn.io/api';
     
     useEffect(() => {
         // 서버로부터 비동기
         const fetchEvents = async () => {
             // REST API의 URL
-            // const apiUrl = `${BASE_URL}/orders/account`;            
-            const apiUrl = `${temp_URL}/orders/account`;            
+            const apiUrl = `${BASE_URL}/orders/account`;            
             // localStorage에서 userId 정보를 가져옵니다.
             const userId = localStorage.getItem('userId');
             
@@ -148,8 +144,7 @@ function Nav2Sub1() {
 
     const handleSubmit = async () => {
         // REST API의 URL
-        // const apiUrl = `${BASE_URL}/orders/account/veri fy`;
-        const apiUrl = `${temp_URL}/orders/account/verify`;
+        const apiUrl = `${BASE_URL}/orders/account/veri fy`;
 
         try{
             const response = await fetch(apiUrl, {

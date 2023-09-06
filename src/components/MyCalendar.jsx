@@ -27,7 +27,7 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/ipo/calendar?yyyy=${yy}&mm=${mm}`);
+                const response = await fetch(`${BASE_URL}/calendar?yyyy=${yy}&mm=${mm}`);
     
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');

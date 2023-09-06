@@ -12,7 +12,7 @@ function MyPage() {
     useEffect(() => {
         async function fetchData() {
             try {
-                const REST_API_URL = `${BASE_URL}/userinfo`; // 이 부분을 실제 API URL로 변경하세요.
+                const REST_API_URL = `${BASE_URL}/userinfo`;
 
                 const response = await fetch(REST_API_URL, {
                     method: 'GET',
