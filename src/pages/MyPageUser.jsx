@@ -1,12 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import BASE_URL from '../config';
 
 function MyPage() {
     const navigate = useNavigate();
+    const [data, setData] = useState('');
+
+    // const temp_URL = 'https://db4d417c-9e4a-46b3-bd45-9245a9d99984.mock.pstmn.io/api';
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const REST_API_URL = `${BASE_URL}/userinfo`; // 이 부분을 실제 API URL로 변경하세요.
+
+                const response = await fetch(REST_API_URL, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'userId': localStorage.getItem('userId')
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const datas = await response.json();
+                setData(datas.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        fetchData();
+    }, []);
 
     const onModClick = () => {
-        navigate('/mypage/mod');
+        navigate('/mypage/mod', {
+            state: data
+        });
     }
 
     const onWithdrawClick = () => {
@@ -20,27 +53,27 @@ function MyPage() {
             <WrapperDiv>
                 <ContentsDiv>
                     <TitleDiv>이름</TitleDiv>
-                    <TextDiv>확인 후 받아오고</TextDiv>
+                    <TextDiv>{data.userName}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>ID</TitleDiv>
-                    <TextDiv>확인 후 받아오고</TextDiv>
+                    <TextDiv>{data.userId}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>생년월일</TitleDiv>
-                    <TextDiv>확인 후 받아오고</TextDiv>
+                    <TextDiv>{data.birth}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>핸드폰</TitleDiv>
-                    <TextDiv>확인 후 받아오고</TextDiv>
+                    <TextDiv>{data.phone}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>Email</TitleDiv>
-                    <TextDiv>확인 후 받아오고</TextDiv>
+                    <TextDiv>{data.email}</TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>계좌 번호</TitleDiv>
-                    <TextDiv>확인 후 받아오고</TextDiv>
+                    <TextDiv>{data.accountNum}</TextDiv>
                 </ContentsDiv>
             </WrapperDiv>
 
@@ -48,7 +81,7 @@ function MyPage() {
                 <button onClick={onModClick}>수정하기</button>
                 <button onClick={onWithdrawClick}>탈퇴하기</button>
             </div>
-            
+
         </ContainerDiv>
     );
 }

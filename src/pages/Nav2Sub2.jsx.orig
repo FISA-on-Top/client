@@ -34,9 +34,6 @@ function Nav2Sub2() {
         navigate('/nav2');
     }
 
-    //testURL
-    const temp_URL = 'https://db4d417c-9e4a-46b3-bd45-9245a9d99984.mock.pstmn.io/api';
-
     useEffect(() => {
         const blockNavigation = (event) => {
           // popstate 이벤트 발생 시 (뒤로 가기 동작 시)
@@ -71,8 +68,7 @@ function Nav2Sub2() {
             const deposit = parseFloat(selectedDeposit.replace(/,/g,''));
 
             // REST API의 URL
-            // const apiUrl = `${BASE_URL}/orders/approval`;
-            const apiUrl = `${temp_URL}/orders/approval`;
+            const apiUrl = `${BASE_URL}/orders/approval`;
             // localStorage에서 userId 정보를 가져옵니다.
             const userId = localStorage.getItem('userId');
 

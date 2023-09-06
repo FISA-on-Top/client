@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
 import BASE_URL from '../config';
 
 const LogginDiv = styled.div`
@@ -26,17 +24,14 @@ const TextInputDiv = styled.div`
     margin: 8px;
 `;
 
-function LoginPage({ currentNav}) {
+function LoginPage({ isLoggedIn, onLogin, currentNav }) {
     const navigate = useNavigate();
-    const isUserLoggedIn = useSetRecoilState(userLoggedIn);
-    const setUserId = useSetRecoilState(userIdInfo);
-    const setIsAdmin = useSetRecoilState(isAdminAtom);
 
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
 
-    const fetchEvents = async () => {
-        try {
+        const fetchEvents = async () => {
+            try {
                 const response = await fetch(`${BASE_URL}/loginauth`, {
                     method: 'POST',
                     headers: {
@@ -53,35 +48,25 @@ function LoginPage({ currentNav}) {
 
                 const datas = await response.json();
                 
-            if (datas.resultCode === '0000' && datas.userId === 'admin') {
-                localStorage.setItem("userId", id);
-                setUserId(id);
-                isUserLoggedIn(true);
-                setIsAdmin(true);
-                setId('');
-                navigate('/adminPage');
-            } else if (datas.resultCode === '0000') {
-                localStorage.setItem("userId", id);
-                setUserId(id);
-                isUserLoggedIn(true);
-                setIsAdmin(false);
-                setId('');
-                navigate(`/${currentNav}`);
+                if (datas.resultCode === '0000') {
+                    localStorage.setItem("userId", id);
+                    onLogin();
+                    navigate(`/${currentNav}`);
+                }
+                
+            } catch (error) {
+                console.error('Error fetching events:', error);
+                alert('다시 시도해주세요');
             }
+        };
 
-        } catch (error) {
-            console.error('Error fetching events:', error);
-            alert('다시 시도해주세요');
+        const handleLoginClick = () => {
+            fetchEvents();
         }
-    };
 
-    const handleLoginClick = () => {
-        fetchEvents();
-    }
-
-    const handleSignUpClick = () => {
-        navigate('/signupAccount');
-    }
+        const handleSignUpClick = () => {
+            navigate('/signupAccount');
+        }
 
     return (
         <LogginDiv>
@@ -102,9 +87,9 @@ function LoginPage({ currentNav}) {
                         setPw(event.target.value);
                     }}
                 />
-                {/* <button onClick={handleSignUpClick}>회원가입</button> */}
+                <button onClick={handleSignUpClick}>회원가입</button>
             </TextInputDiv>
-            <button onClick={handleLoginClick}>로그인</button>
+                <button onClick={handleLoginClick}>로그인</button>
         </LogginDiv>
     );
 }

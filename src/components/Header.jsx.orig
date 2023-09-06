@@ -1,8 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
 
 const HeaderDiv = styled.div`
   display: flex;
@@ -18,12 +16,8 @@ const LogButtonDiv = styled.div`
   gap: 4px;
 `;
 
-function Header() {
+function Header({ isLoggedIn, onLogin, onLogout }) {
     const navigate = useNavigate();
-    const isLoggedIn = useRecoilValue(userLoggedIn);
-    const resetIsLoggedIn = useResetRecoilState(userLoggedIn);
-    const resetUserId = useResetRecoilState(userIdInfo);
-    const resetIsAdmin = useResetRecoilState(isAdminAtom);
 
     const handleMyPageClick = () => {
         navigate('/mypage');
@@ -34,10 +28,8 @@ function Header() {
     };
 
     const handleLogoutClick = () => {
-        resetIsAdmin();
-        resetIsLoggedIn();
-        resetUserId();
-        navigate('/login');
+        navigate('/nav1');
+        onLogout();
     };
 
     return (
@@ -50,7 +42,7 @@ function Header() {
                     </LogButtonDiv>
 
                 ) : (
-                    <button onClick={handleLoginClick}>로그인 버튼</button>
+                    <button onClick={handleLoginClick} isLoggedIn={isLoggedIn} onLogin={onLogin}>로그인 버튼</button>
                     
                 )}
             </header>

@@ -14,7 +14,7 @@ function Nav3Sub1() {
     const fetchCancelOrder = async () => {
         try {
             const response = await fetch(`${BASE_URL}/orders/cancel`, {
-                method: 'DELETE',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'accountNum': location.state.userAccount,
@@ -29,12 +29,12 @@ function Nav3Sub1() {
                 throw new Error('Account response was not ok');
             }
 
-            const data = await response.json();
+            const datas = await response.json();
             setChecked(true);
 
-            if (data.resultCode === '0000') {
+            if (datas.resultCode === '0000') {
                 setPasswordCheck(true);
-                setDatas(data.data);
+                setDatas(datas.data);
             } else {
                 setPasswordCheck(false);
             }
@@ -62,7 +62,6 @@ function Nav3Sub1() {
                     row: datas
                 }
             });
-            console.log(datas);
 
         }
 
@@ -110,7 +109,7 @@ function Nav3Sub1() {
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>청약 구분</TitleDiv>
-                        <TextDiv>상장</TextDiv>
+                        <TextDiv>{location.state.row.subscriptionClassification}</TextDiv>
                         <TitleDiv>청약 증거금</TitleDiv>
                         <TextDiv>{location.state.row.deposit}</TextDiv>
                     </ContentsDiv>
