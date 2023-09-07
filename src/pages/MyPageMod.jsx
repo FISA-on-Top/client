@@ -25,7 +25,6 @@ function MyPageMod() {
                     'userId': localStorage.getItem('userId')
                 },
                 body: JSON.stringify({
-                    userId: location.state.userId,
                     email: formData.email,
                     phoneNum: formData.phone,
                     userPw: formData.userPw,

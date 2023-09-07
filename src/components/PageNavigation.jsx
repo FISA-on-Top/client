@@ -24,9 +24,9 @@ function PageNavigation({ currentPage, totalPage, onPageChange }) {
         <div>
             <ButtonDiv>
                 <button
-                    className={currentPage === 1 ? 'disabled' : ''}
+                    className={currentPage <= 1 ? 'disabled' : ''}
                     onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage === 1}
+                    disabled={currentPage <= 1}
                 >
                     &laquo;
                 </button>

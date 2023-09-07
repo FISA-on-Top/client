@@ -7,17 +7,14 @@ function MyPage() {
     const navigate = useNavigate();
     const [data, setData] = useState('');
 
-    // const temp_URL = 'https://db4d417c-9e4a-46b3-bd45-9245a9d99984.mock.pstmn.io/api';
-
     useEffect(() => {
         async function fetchData() {
             try {
-                const REST_API_URL = `${BASE_URL}/userinfo`;
+                const API_URL = `${BASE_URL}/userinfo`;
 
-                const response = await fetch(REST_API_URL, {
+                const response = await fetch(API_URL, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
                         'userId': localStorage.getItem('userId')
                     }
                 });

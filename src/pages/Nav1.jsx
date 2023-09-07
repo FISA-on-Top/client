@@ -37,7 +37,7 @@ function Nav1() {
                 <NavButton onClick={nav1ButtonClick} isActive={true}>청약 일정 조회</NavButton>
                 <NavButton onClick={nav1subButtonClick}>청약 목록 조회</NavButton>
             </NavButtonDiv>
-            <MyCalendar onChange={onChange} value={calData} />
+            <MyCalendar />
         </div>
     );
     

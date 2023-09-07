@@ -1,13 +1,117 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import BASE_URL from "../config";
 
 
 function SignupId() {
     const navigate = useNavigate();
+    const location = useLocation();
+    const [userId, setUserId] = useState('');
+    const [userPw, setUserPw] = useState('');
+    const [userPwConfirm, setUserPwConfirm] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNum, setPhoneNum] = useState('');
+    const [isIdValid, setIsIdValid] = useState(true);
+
+    const checkDuplication = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/signup/check-id`, {
+                method: 'GET',
+                headers: {
+                    'userId': userId
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Request failed');
+            }
+
+            const data = response.json();
+
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const fetchRegisterUser = async () => {
+        if (isIdValid) {
+            alert('ID 중복 확인을 해주세요.');
+            return;
+        }
+
+        if (userPw !== userPwConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${BASE_URL}/signup/register`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "userName": location.state,
+                    "userId": userId,
+                    "userPw": userPw,
+                    "email": email,
+                    "phoneNum": phoneNum
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error('Request failed');
+            }
+
+            const data = await response.json();
+            console.log(data);
+
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
+            navigate('/login');
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    const handleCheckDuplicateClick = () => {
+        checkDuplication();
+
+        if (userId.length < 5) {
+            setIsIdValid(true);
+            alert('ID는 5자 이상이어야 합니다.');
+        } else {
+            setIsIdValid(false);
+            alert('사용 가능한 ID입니다.');
+        }
+    };
+
+    const handleUserIdChange = (event) => {
+        setUserId(event.target.value);
+        setIsIdValid(true);
+    };
+
+    const validatePhoneNumber = (phone) => {
+        const regex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+        return regex.test(phone);
+    };
 
     const onNextButton = () => {
-        navigate('/login');
+        if (!validatePhoneNumber(phoneNum)) {
+            alert('전화번호 형식이 잘못되었습니다. xxx-xxxx-xxxx 형식으로 입력해주세요.');
+            return;
+        }
+        fetchRegisterUser();
     }
 
     return (
@@ -30,38 +134,59 @@ function SignupId() {
                 <ContentsDiv>
                     <TitleDiv>이름</TitleDiv>
                     <TextDiv>
-                        <input />
+                        {location.state}
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>ID입력</TitleDiv>
                     <TextDiv>
-                        <input />
-                        <button>중복확인</button>
+                        <input
+                            type="text"
+                            value={userId}
+                            onChange={handleUserIdChange}
+                            className={!isIdValid ? "invalid" : ""}
+                        />
+                        <button onClick={handleCheckDuplicateClick}>중복확인</button>
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>PW입력</TitleDiv>
                     <TextDiv>
-                        <input />
+                        <input
+                            type="password"
+                            value={userPw}
+                            onChange={(e) => setUserPw(e.target.value)}
+                        />
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>PW확인</TitleDiv>
                     <TextDiv>
-                        <input />
+                        <input
+                            type="password"
+                            value={userPwConfirm}
+                            onChange={(e) => setUserPwConfirm(e.target.value)}
+                        />
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
-                    <TitleDiv>email</TitleDiv>
+                    <TitleDiv>Email</TitleDiv>
                     <TextDiv>
-                        <input />
+                        <input
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
                     <TitleDiv>전화번호</TitleDiv>
                     <TextDiv>
-                        <input />
+                        <input
+                            type="tel"
+                            value={phoneNum}
+                            onChange={(e) => setPhoneNum(e.target.value)}
+                        />
                     </TextDiv>
                 </ContentsDiv>
             </WrapperDiv>

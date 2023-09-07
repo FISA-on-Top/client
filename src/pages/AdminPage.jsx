@@ -13,7 +13,11 @@ function AdminPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/alluserinfo?index=${currentPage}`);
+                const response = await fetch(`${BASE_URL}/alluserinfo?index=${currentPage}`, {
+                    headers: {
+                        "userId": localStorage.getItem('userId')
+                    }
+                });
 
                 if (!response.ok) {
                     throw new Error('API 호출 중 에러 발생');
@@ -23,7 +27,7 @@ function AdminPage() {
 
                 if (result.resultCode === '0000') {
                     setTotalPage(result.data.currentPage);
-                    setData(result.data);
+                    setData(result.data.userInfo);
                 } else {
                     console.error('API 호출 중 에러 발생:', result.resultMessage);
                 }

@@ -16,7 +16,7 @@ function Nav3() {
     useEffect(() => {
         const fetchAccount = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/orders/account/`, {
+                const response = await fetch(`${BASE_URL}/orders/account`, {
                     method: 'GET',
                     headers: { 'userId': userId }
                 });
@@ -26,6 +26,12 @@ function Nav3() {
                 }
 
                 const data = await response.json();
+
+                if (data.resultCode !== '0000') {
+                    alert(data.data);
+                    return;
+                }
+
                 setUserAccount(data.data.accountNum);
             } catch (error) {
                 console.error('Error:', error);
@@ -40,7 +46,7 @@ function Nav3() {
             const response = await fetch(`${BASE_URL}/orders?date=${urlDate}`, {
                 method: 'GET',
                 header: { 
-                    // 'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                     'userId': userId 
                 }
             });
@@ -50,8 +56,8 @@ function Nav3() {
             }
 
             const datas = await response.json();
-            setData(datas.data[0].orderList);
-            
+            setData(datas.data.ipoSummary);
+            console.log(data);
         } catch (error) {
             console.error('데이터를 불러오는 도중 오류가 발생했습니다.', error);
         }
@@ -64,6 +70,7 @@ function Nav3() {
     };
 
     const handleButtonClick = (row) => {
+        console.log(row);
         navigate('/nav3/sub1', {
             state: {
                 userAccount: userAccount,

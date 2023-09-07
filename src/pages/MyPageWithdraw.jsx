@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useResetRecoilState } from 'recoil';
 import { userIdInfo, userLoggedIn } from '../state/state';
 import BASE_URL from '../config';

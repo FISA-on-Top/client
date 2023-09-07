@@ -1,12 +1,47 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import BASE_URL from "../config";
 
 function SignupAccount() {
     const navigate = useNavigate();
     const [accountNum, setAccountNum] = useState();
     const [accountPw, setAccountPw] = useState();
     const [birthDay, setBirthDay] = useState();
+
+    const fetchSignupAccount = async () => {
+        try {
+            const response = await fetch(`${BASE_URL}/signup/account`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "accountNum": accountNum,
+                    "accountPw": accountPw,
+                    "birth": birthDay
+                })
+            });
+    
+            if (!response.ok) {
+                throw new Error('Request failed');
+            }
+
+            const data = await response.json();
+
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
+            navigate('/signupId', {
+                state: data.data.name
+            });
+    
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
 
     const handleAccountNumChange = (event) => {
         setAccountNum(event.target.value);
@@ -20,8 +55,17 @@ function SignupAccount() {
         setBirthDay(event.target.value);
     }
 
+    const validateBirthDate = (date) => {
+        const regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(date);
+    };
+
     const onNextButton = () => {
-        navigate('/signupId');
+        if (!validateBirthDate(birthDay)) {
+            alert('생년월일 형식이 잘못되었습니다. xxxx-xx-xx 형식으로 입력해주세요.');
+            return;
+        }
+        fetchSignupAccount();
     }
 
     return (

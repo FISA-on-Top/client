@@ -11,6 +11,8 @@ function Nav3Sub1() {
     const navigate = useNavigate();
     const location = useLocation();
 
+    console.log(location.state);
+
     const fetchCancelOrder = async () => {
         try {
             const response = await fetch(`${BASE_URL}/orders/cancel`, {
@@ -30,6 +32,12 @@ function Nav3Sub1() {
             }
 
             const data = await response.json();
+
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
             setChecked(true);
 
             if (data.resultCode === '0000') {

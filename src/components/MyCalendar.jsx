@@ -27,14 +27,20 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/calendar?yyyy=${yy}&mm=${mm}`);
+                const response = await fetch(`${BASE_URL}/ipo/calendar?yyyy=${yy}&mm=${mm}`);
     
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
 
                 const eventData = await response.json();
-                setEvents(eventData.data.ipo);
+
+                if (eventData.resultCode !== '0000') {
+                    alert(eventData.data);
+                    return;
+                }
+                
+                setEvents(eventData.data);
 
             } catch (error) {
                 console.error('Error fetching events:', error);
@@ -46,14 +52,20 @@ function MyCalendar() {
     
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`${BASE_URL}/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`${BASE_URL}/ipo?ipoId=${ipoId}`);
 
             if (!response.ok){
                 throw new Error('Failed to fetch detail');
             }
 
             const detailData = await response.json();
-            setPopupEvent(detailData.data.ipo[0]);
+
+            if (detailData.resultCode !== '0000') {
+                alert(detailData.data);  // alert로 메시지 출력
+                return;
+            }
+
+            setPopupEvent(detailData.data);
 
         } catch (error) {
             console.error('Error fetching Detail:', error);

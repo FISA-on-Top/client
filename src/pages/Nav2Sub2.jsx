@@ -84,7 +84,7 @@ function Nav2Sub2() {
                         body: JSON.stringify({
                             "ipoId" : ipoId,   //ipo id
                             "orderAmount" : selectedAmount,    // 청약한 주식 수 
-                            "PhoneNumber" : phoneNum,
+                            "PhoneNum" : phoneNum,
                             "orderDate" : requestDateTime,    // 청약신청한 날짜
                             "deposit" : deposit //청약증거금                             
                         }),
@@ -92,6 +92,11 @@ function Nav2Sub2() {
 
                     const contractJson = await response.json();
                     console.log(contractJson);
+
+                    if (contractJson.resultCode !== '0000') {
+                        alert(contractJson.data);
+                        return;
+                    }
 
                     if (contractJson.resultCode === "0000") {
 
@@ -125,7 +130,7 @@ function Nav2Sub2() {
                     </TextDiv>
                     <TitleDiv>청약계좌명</TitleDiv>
                     <TextDiv>
-                        {contractData && contractData.accountName? contractData.accountName:""}
+                        {contractData && contractData.name? contractData.name:""}
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
@@ -161,7 +166,7 @@ function Nav2Sub2() {
                 <ContentsDiv>
                     <TitleDiv>연락처</TitleDiv>
                     <TextDiv>
-                        {contractData && contractData.phoneNum ?contractData.phoneNum : ""}
+                        {contractData && phoneNum ? phoneNum : ""}
                     </TextDiv>
                     <TitleDiv>환불계좌</TitleDiv>
                     <TextDiv>

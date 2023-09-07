@@ -36,13 +36,14 @@ function LoginPage({ currentNav}) {
     const [pw, setPw] = useState('');
 
     const fetchEvents = async () => {
+    console.log(`${BASE_URL}/loginauth`);
         try {
                 const response = await fetch(`${BASE_URL}/loginauth`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json', // Specify the content type
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ // Convert the data to JSON format
+                    body: JSON.stringify({
                         userId: id,
                         userPw: pw,
                     }),
@@ -102,7 +103,7 @@ function LoginPage({ currentNav}) {
                         setPw(event.target.value);
                     }}
                 />
-                {/* <button onClick={handleSignUpClick}>회원가입</button> */}
+                <button onClick={handleSignUpClick}>회원가입</button>
             </TextInputDiv>
             <button onClick={handleLoginClick}>로그인</button>
         </LogginDiv>
