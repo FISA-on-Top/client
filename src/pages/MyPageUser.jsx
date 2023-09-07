@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallContainedButton} from '../styled/StyledContents';
+import styled from 'styled-components';
 import BASE_URL from '../config';
+
+const ButtonDiv = styled.div`
+  display: flex; // flex display를 활성화하여 버튼들을 일렬로 정렬합니다.
+  flex-direction: row; // 버튼들을 수평으로 정렬합니다.
+  gap: 8px; // 버튼 사이의 간격을 설정합니다.
+`;
 
 function MyPage() {
     const navigate = useNavigate();
@@ -77,10 +84,10 @@ function MyPage() {
                 </ContentsDiv>
             </WrapperDiv>
 
-            <div>
-                <button onClick={onModClick}>수정하기</button>
-                <button onClick={onWithdrawClick}>탈퇴하기</button>
-            </div>
+            <ButtonDiv>
+                <SmallContainedButton onClick={onModClick}>수정하기</SmallContainedButton>
+                <SmallContainedButton onClick={onWithdrawClick}>탈퇴하기</SmallContainedButton>
+            </ButtonDiv>
 
         </ContainerDiv>
     );

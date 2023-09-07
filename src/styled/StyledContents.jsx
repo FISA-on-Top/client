@@ -46,3 +46,61 @@ flex-direction: row;
   margin-left: 4px;
   margin-right: 4px; /* 우측 여백 */
 `;
+
+export const Button = styled.button`
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #2B64CE;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #2453A6;
+  }
+`;
+
+export const SmallContainedButton = styled.button` 
+  padding: 8px 16px; 
+  border: none;
+  background-color: #0083CB;
+  color: white;
+  cursor: pointer;
+  font-weight: bold; 
+  transition: background-color 0.3s;
+  
+  &:hover {
+    background-color: #2453A6;
+  }
+`;
+
+export const SmallEmptyButton = styled.button`
+  padding: 8px 16px;
+  border: 2px solid #0083CB; // border의 색상을 지정하고, 배경색을 없앱니다.
+  background-color: transparent; // 배경색을 투명하게 설정합니다.
+  color: #0083CB; // 텍스트 색상을 border 색상과 동일하게 설정합니다.
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color: #2453A6;
+  }
+`;
+
+export const NavButton = styled.button`
+    background-color: ${props => props.isActive ? '#0083CB' : '#D9D9D9'};
+    color: ${props => props.isActive ? 'white' : 'black'};
+    padding: 8px 16px;
+    text-decoration: none;
+    margin-right: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+      background-color: ${props => props.isActive ? '#2453A6' : '#9C9C9C'};
+    }
+`;

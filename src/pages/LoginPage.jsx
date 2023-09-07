@@ -2,28 +2,41 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
+import { Button } from '../styled/StyledContents';
 import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
 import BASE_URL from '../config';
 
-const LogginDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    background-color: grey;
+const LoginContainer = styled.div`
+  display: flex;
+  margin : 5rem auto;
+  justify-content: center;
+  align-items: center;
+  height: flex;
+  background-color: #f4f4f4;
+  font-family: 'Inter', sans-serif;
+`;
+const LoginBox = styled.div`
+  width: 300px;
+  padding: 20px;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+`;
+const Title = styled.h1`
+  font-size: 24px;
+  color: #2B64CE;
+  text-align: center;
+  margin-bottom: 20px;
 `;
 
-const HelpTextDiv = styled.div`
-    background-color: white;
-    margin: 8px;
-    object-fit: contain;
-`;
-
-const TextInputDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    background-color: yellow;
-    margin: 8px;
+const Input = styled.input`
+  width: 92%;
+  padding: 10px;
+  margin: 0.5rem auto; // 위아래 간격은 2rem으로, 좌우 중앙 정렬을 위해 auto 사용
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Inter', sans-serif;
+  display: block; // input이 block 요소로 표시되도록 설정
 `;
 
 function LoginPage({ currentNav}) {
@@ -84,28 +97,28 @@ function LoginPage({ currentNav}) {
     }
 
     return (
-        <LogginDiv>
-            <HelpTextDiv>
-                <p>아이디:</p>
-                <p>비밀번호:</p>
-            </HelpTextDiv>
-            <TextInputDiv>
-                <input
+        <LoginContainer>
+            <LoginBox>
+                <Title>Login</Title>
+                <Input
+                    type= "text"
+                    placeholder="아이디 입력"
                     value={id}
                     onChange={(event) => {
                         setId(event.target.value);
                     }}
                 />
-                <input
+                <Input
+                    type="password"
+                    placeholder='비밀번호 입력'
                     value={pw}
                     onChange={(event) => {
                         setPw(event.target.value);
                     }}
                 />
-                {/* <button onClick={handleSignUpClick}>회원가입</button> */}
-            </TextInputDiv>
-            <button onClick={handleLoginClick}>로그인</button>
-        </LogginDiv>
+                <Button onClick={handleLoginClick}>Login</Button>
+            </LoginBox>
+        </LoginContainer>
     );
 }
 

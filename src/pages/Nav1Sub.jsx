@@ -5,16 +5,7 @@ import PageNavigation from '../components/PageNavigation';
 import Nav1Popup from '../components/Nav1Popup.jsx';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 import BASE_URL from '../config';
-
-const NavButton = styled.button`
-    background-color: ${props => props.isActive ? 'blue' : 'gray'};
-    color: white;
-    padding: 8px 16px;
-    text-decoration: none;
-    margin-right: 16px;
-    border: none;
-    cursor: pointer;
-`;
+import { NavButton } from '../styled/StyledContents';
 
 const NavButtonDiv = styled.div`
     display: flex;

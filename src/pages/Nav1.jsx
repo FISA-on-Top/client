@@ -2,16 +2,7 @@ import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import MyCalendar from '../components/MyCalendar';
-
-const NavButton = styled.button`
-    background-color: ${props => props.isActive ? 'blue' : 'gray'};
-    color: white;
-    padding: 8px 16px;
-    text-decoration: none;
-    margin-right: 16px;
-    border: none;
-    cursor: pointer;
-`;
+import { NavButton } from '../styled/StyledContents';
 
 const NavButtonDiv = styled.div`
     display: flex;
