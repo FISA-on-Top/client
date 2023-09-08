@@ -47,7 +47,7 @@ function Nav1Popup({ event, isVisible, onClose }) {
 
     return (
         <PopupOverlay isVisible={isVisible}>
-            
+
             <PopupContent>
                 <h2>이벤트 상세 정보</h2>
                 {event ? (

@@ -7,29 +7,34 @@ function MyPage() {
     const navigate = useNavigate();
     const [data, setData] = useState('');
 
-    // const temp_URL = 'https://db4d417c-9e4a-46b3-bd45-9245a9d99984.mock.pstmn.io/api';
-
     useEffect(() => {
         async function fetchData() {
             try {
-                const REST_API_URL = `${BASE_URL}/userinfo`;
+                const API_URL = `${BASE_URL}/userinfo`;
 
-                const response = await fetch(REST_API_URL, {
+                const response = await fetch(API_URL, {
                     method: 'GET',
                     headers: {
-                        'Content-Type': 'application/json',
                         'userId': localStorage.getItem('userId')
                     }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    throw new Error('User Info Request failed');
                 }
 
                 const datas = await response.json();
+
+                if (datas.resultCode !== '0000') {
+                    alert(datas.data);
+                    return;
+                }
+
                 setData(datas.data);
+
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error:', error);
+                alert("잠시 후 다시 시도해 주세요");
             }
         }
 
