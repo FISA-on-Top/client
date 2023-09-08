@@ -1,11 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
+import { NavPageContainedButton } from '../styled/StyledContents';
 
 const ButtonDiv = styled.div`
     display: flex;
     justify-content: center;
     padding-bottom: 8px;
 `;
+
 
 function PageNavigation({ currentPage, totalPage, onPageChange }) {
     const pageNumbers = [];
@@ -23,31 +25,31 @@ function PageNavigation({ currentPage, totalPage, onPageChange }) {
     return (
         <div>
             <ButtonDiv>
-                <button
+                <NavPageContainedButton
                     className={currentPage === 1 ? 'disabled' : ''}
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage === 1}
                 >
                     &laquo;
-                </button>
+                </NavPageContainedButton>
 
                 {pageNumbers.map((pageNumber) => (
-                    <button
+                    <NavPageContainedButton
                         key={pageNumber}
                         className={currentPage === pageNumber ? 'active' : ''}
                         onClick={() => handlePageChange(pageNumber)}
                         style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
                         {pageNumber}
-                    </button>
+                    </NavPageContainedButton>
                 ))}
 
-                <button
+                <NavPageContainedButton
                     className={currentPage === totalPage ? 'disabled' : ''}
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPage}
                 >
                     &raquo;
-                </button>
+                </NavPageContainedButton>
             </ButtonDiv>
         </div>
     );

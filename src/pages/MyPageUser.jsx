@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallContainedButton} from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, NavContainedButton} from '../styled/StyledContents';
 import styled from 'styled-components';
 import BASE_URL from '../config';
 
@@ -85,8 +85,8 @@ function MyPage() {
             </WrapperDiv>
 
             <ButtonDiv>
-                <SmallContainedButton onClick={onModClick}>수정하기</SmallContainedButton>
-                <SmallContainedButton onClick={onWithdrawClick}>탈퇴하기</SmallContainedButton>
+                <NavContainedButton onClick={onModClick}>수정하기</NavContainedButton>
+                <NavContainedButton onClick={onWithdrawClick}>탈퇴하기</NavContainedButton>
             </ButtonDiv>
 
         </ContainerDiv>

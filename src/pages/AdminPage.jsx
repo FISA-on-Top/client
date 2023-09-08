@@ -23,7 +23,7 @@ function AdminPage() {
 
                 if (result.resultCode === '0000') {
                     setTotalPage(result.data.currentPage);
-                    setData(result.data);
+                    setData(result.data.userInfo);
                 } else {
                     console.error('API 호출 중 에러 발생:', result.resultMessage);
                 }
@@ -44,7 +44,7 @@ function AdminPage() {
         <ContainerDiv>
             <h1>고객정보조회</h1>
             <WrapperDiv>
-                <Table>
+            <Table>
                     <thead>
                         <TableRow>
                             <TableHeader>이름</TableHeader>

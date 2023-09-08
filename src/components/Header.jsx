@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
-import { SmallContainedButton } from '../styled/StyledContents';
+import { NavContainedButton } from '../styled/StyledContents';
 
 const HeaderDiv = styled.div`
   display: flex;
@@ -46,12 +46,12 @@ function Header() {
         <HeaderDiv>
                 {isLoggedIn ? (
                     <LogButtonDiv>
-                        <SmallContainedButton onClick={handleMyPageClick}>마이페이지</SmallContainedButton>
-                        <SmallContainedButton onClick={handleLogoutClick}>로그아웃</SmallContainedButton>
+                        <NavContainedButton onClick={handleMyPageClick}>마이페이지</NavContainedButton>
+                        <NavContainedButton onClick={handleLogoutClick}>로그아웃</NavContainedButton>
                     </LogButtonDiv>
 
                 ) : (                       
-                    <SmallContainedButton onClick={handleLoginClick}>로그인</SmallContainedButton>                  
+                    <NavContainedButton onClick={handleLoginClick}>로그인</NavContainedButton>                  
                 )}
         </HeaderDiv>
     );
