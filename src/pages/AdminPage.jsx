@@ -50,7 +50,7 @@ function AdminPage() {
         <ContainerDiv>
             <h1>고객정보조회</h1>
             <WrapperDiv>
-                <Table>
+            <Table>
                     <thead>
                         <TableRow>
                             <TableHeader>이름</TableHeader>

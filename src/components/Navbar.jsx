@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { userLoggedIn } from '../state/state';
 
 const NavContainer = styled.div`
-    background-color: blue;
+    background-color: #0067ac;
     height: 50px;
     display: flex;
     align-items: center;

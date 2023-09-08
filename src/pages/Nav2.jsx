@@ -1,9 +1,9 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { StyledDatePicker } from '../styled/StyledDatePicker.jsx';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import { SmallContainedButton } from '../styled/StyledContents';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { calendarDate, ipoList, selectedIpo } from '../state/stateForNav2.js';
 import BASE_URL from '../config.js';
@@ -85,12 +85,14 @@ function SubscriptionRequest() {
     return (
         <div>
             <h1>청약 신청 조회</h1>
-            <DatePicker
-                dateFormat="yyyy-MM-dd"
-                selected={selectedDate}
-                onChange={handleDateChange} />
-            {/* <button onClick={fetchData}>조회</button> */}
-            <button onClick={onSearchClick}>조회</button>
+            <div>
+            <SmallContainedButton onClick={onSearchClick}>조회</SmallContainedButton>
+                <StyledDatePicker
+                    dateFormat="yyyy-MM-dd"
+                    selected={selectedDate}
+                    onChange={handleDateChange} />
+                
+            </div>
             <Nav2TableContainer>
                 <Table>
                     <thead>
@@ -111,7 +113,7 @@ function SubscriptionRequest() {
                                     ipoData.data.ipoSummary.map((item) => (
                                         <TableRow key={item.ipoId}>
                                             <TableCell>
-                                                <button onClick={() => onRequestClick(item.ipoId)}>청약하기</button>
+                                                <SmallContainedButton onClick={() => onRequestClick(item.ipoId)}>청약하기</SmallContainedButton>
                                             </TableCell>
                                             <TableCell>{item.corpCls}</TableCell>
                                             <TableCell>{item.corpName}</TableCell>
@@ -125,7 +127,7 @@ function SubscriptionRequest() {
                                 ) : (
                                     <TableRow key={ipoData.data.ipoSummary.ipoId}>
                                         <TableCell>
-                                            <button onClick={() => onRequestClick(ipoData.data.ipoSummary.ipoId)}>청약하기</button>
+                                            <SmallContainedButton onClick={() => onRequestClick(ipoData.data.ipoSummary.ipoId)}>청약하기</SmallContainedButton>
                                         </TableCell>
                                         <TableCell>{ipoData.data.ipoSummary.corpCls}</TableCell>
                                         <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>

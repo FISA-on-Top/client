@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
+import { NavContainedButton } from '../styled/StyledContents';
 
 const HeaderDiv = styled.div`
   display: flex;
@@ -13,10 +14,11 @@ const HeaderDiv = styled.div`
 `;
 
 const LogButtonDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 4px;
+  display: flex; // flex display를 활성화하여 버튼들을 일렬로 정렬합니다.
+  flex-direction: row; // 버튼들을 수평으로 정렬합니다.
+  gap: 8px; // 버튼 사이의 간격을 설정합니다.
 `;
+
 
 function Header() {
     const navigate = useNavigate();
@@ -42,18 +44,15 @@ function Header() {
 
     return (
         <HeaderDiv>
-            <header>
                 {isLoggedIn ? (
                     <LogButtonDiv>
-                        <button onClick={handleMyPageClick}>마이페이지 버튼</button>
-                        <button onClick={handleLogoutClick}>로그아웃 버튼</button>
+                        <NavContainedButton onClick={handleMyPageClick}>마이페이지</NavContainedButton>
+                        <NavContainedButton onClick={handleLogoutClick}>로그아웃</NavContainedButton>
                     </LogButtonDiv>
-
-                ) : (
-                    <button onClick={handleLoginClick}>로그인 버튼</button>
+                ) : (                       
+                    <NavContainedButton onClick={handleLoginClick}>로그인</NavContainedButton>                  
 
                 )}
-            </header>
         </HeaderDiv>
     );
 }

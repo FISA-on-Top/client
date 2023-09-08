@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv , NavContainedButton } from '../styled/StyledContents';
 import { useLocation, useNavigate } from 'react-router';
 import BASE_URL from '../config';
 
@@ -109,7 +109,7 @@ function MyPageMod() {
                 </ContentsDiv>
             </WrapperDiv>
             <div>
-                <button onClick={onModClick}>수정하기</button>
+                <NavContainedButton onClick={onModClick}>수정하기</NavContainedButton>
             </div>
         </ContainerDiv>
     );

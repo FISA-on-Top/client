@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, NavContainedButton } from '../styled/StyledContents';
 import { useNavigate } from 'react-router';
 import { useResetRecoilState } from 'recoil';
 import { userIdInfo, userLoggedIn } from '../state/state';
@@ -106,7 +106,7 @@ function MyPageWithdraw() {
                 </ContentsDiv>
             </WrapperDiv>
             <div>
-                <button onClick={onWithdrawClick}>탈퇴하기</button>
+                <NavContainedButton onClick={onWithdrawClick}>탈퇴하기</NavContainedButton>
             </div>
         </ContainerDiv>
     );

@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DatePicker from 'react-datepicker';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
-import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
+import { StyledDatePicker } from '../styled/StyledDatePicker.jsx';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallContainedButton } from '../styled/StyledContents';
+import { TableContainer, Table, TableHeader, TableRow, TableCell  } from '../styled/StyledTable.jsx';
 import BASE_URL from '../config';
 
 function Nav3() {
@@ -103,13 +103,16 @@ function Nav3() {
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>조회 기간</TitleDiv>
-                        <TextDiv><DatePicker
+                        <div style={{'padding':'none'}}>
+                        <StyledDatePicker
                             dateFormat="yyyy-MM-dd"
                             selected={selectedDate}
-                            onChange={handleDateChange} /></TextDiv>
+                            onChange={handleDateChange} />
+                        </div>
+
                     </ContentsDiv>
                 </WrapperDiv>
-                <button onClick={onInquiryClick}>조회</button>
+                <SmallContainedButton onClick={onInquiryClick}>조회</SmallContainedButton>
             </ContainerDiv>
 
             <TableContainer>
@@ -130,7 +133,7 @@ function Nav3() {
                         {data.length > 0 && data.map((row, index) => (
                             <TableRow key={index}>
                                 <TableCell>
-                                    <button onClick={() => handleButtonClick(row)}>취소하기</button>
+                                    <SmallContainedButton onClick={() => handleButtonClick(row)}>취소하기</SmallContainedButton>
                                 </TableCell>
                                 <TableCell>{row.corpCls}</TableCell>
                                 <TableCell>{row.corpName}</TableCell>
