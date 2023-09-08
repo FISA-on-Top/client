@@ -20,13 +20,21 @@ function MyPage() {
                 });
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch data');
+                    throw new Error('User Info Request failed');
                 }
 
                 const datas = await response.json();
+
+                if (datas.resultCode !== '0000') {
+                    alert(datas.data);
+                    return;
+                }
+
                 setData(datas.data);
+
             } catch (error) {
-                console.error('Error fetching data:', error);
+                console.error('Error:', error);
+                alert("잠시 후 다시 시도해 주세요");
             }
         }
 

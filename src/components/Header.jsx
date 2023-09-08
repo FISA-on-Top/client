@@ -51,7 +51,7 @@ function Header() {
 
                 ) : (
                     <button onClick={handleLoginClick}>로그인 버튼</button>
-                    
+
                 )}
             </header>
         </HeaderDiv>

@@ -22,9 +22,9 @@ function SignupAccount() {
                     "birth": birthDay
                 })
             });
-    
+
             if (!response.ok) {
-                throw new Error('Request failed');
+                throw new Error('Signup Account Request failed');
             }
 
             const data = await response.json();
@@ -35,11 +35,15 @@ function SignupAccount() {
             }
 
             navigate('/signupId', {
-                state: data.data.name
+                state: {
+                    name: data.data.name,
+                    accountNum: accountNum
+                }
             });
-    
+
         } catch (error) {
             console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     }
 
@@ -55,16 +59,27 @@ function SignupAccount() {
         setBirthDay(event.target.value);
     }
 
+    const validateAccountNumber = (accountNum) => {
+        const regex = /^[0-9-]+$/;
+        return regex.test(accountNum);
+    };
+
     const validateBirthDate = (date) => {
         const regex = /^\d{4}-\d{2}-\d{2}$/;
         return regex.test(date);
     };
 
     const onNextButton = () => {
-        if (!validateBirthDate(birthDay)) {
-            alert('생년월일 형식이 잘못되었습니다. xxxx-xx-xx 형식으로 입력해주세요.');
+        if (!validateAccountNumber(birthDay)) {
+            alert('계좌 형식이 잘못되었습니다./n - 없이 입력해주세요.');
             return;
         }
+
+        if (!validateBirthDate(birthDay)) {
+            alert('생년월일 형식이 잘못되었습니다./n xxxx-xx-xx 형식으로 입력해주세요.');
+            return;
+        }
+
         fetchSignupAccount();
     }
 

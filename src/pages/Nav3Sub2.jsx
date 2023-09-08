@@ -75,7 +75,7 @@ function Nav3Sub2() {
                     </TextDiv>
                 </ContentsDiv>
             </WrapperDiv>
-            
+
             <button onClick={onSubmitClick}>확인</button>
         </ContainerDiv>
     );

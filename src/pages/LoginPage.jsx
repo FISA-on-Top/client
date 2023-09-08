@@ -26,46 +26,50 @@ const TextInputDiv = styled.div`
     margin: 8px;
 `;
 
-function LoginPage({ currentNav}) {
+function LoginPage({ currentNav }) {
     const navigate = useNavigate();
-    const isUserLoggedIn = useSetRecoilState(userLoggedIn);
+    const setIsLoggedIn = useSetRecoilState(userLoggedIn);
     const setUserId = useSetRecoilState(userIdInfo);
     const setIsAdmin = useSetRecoilState(isAdminAtom);
 
     const [id, setId] = useState('');
     const [pw, setPw] = useState('');
 
-    const fetchEvents = async () => {
-    console.log(`${BASE_URL}/loginauth`);
+    const fetchLoginAuth = async () => {
         try {
-                const response = await fetch(`${BASE_URL}/loginauth`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        userId: id,
-                        userPw: pw,
-                    }),
-                });
-                if (!response.ok) {
-                    throw new Error('Failed to login');
-                }
+            const response = await fetch(`${BASE_URL}/loginauth`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    userId: id,
+                    userPw: pw,
+                }),
+            });
 
-                const datas = await response.json();
-                
-            if (datas.resultCode === '0000' && datas.userId === 'admin') {
-                localStorage.setItem("userId", id);
-                setUserId(id);
-                isUserLoggedIn(true);
+            if (!response.ok) {
+                throw new Error('Failed to login');
+            }
+
+            const datas = await response.json();
+
+            if (datas.resultCode !== '0000') {
+                alert(datas.data);
+                return;
+            }
+            
+            localStorage.setItem("userId", id);
+            setUserId(id);
+            setIsLoggedIn(true);
+            
+            if (localStorage.getItem("userId") === 'admin') {
                 setIsAdmin(true);
                 setId('');
                 navigate('/adminPage');
-            } else if (datas.resultCode === '0000') {
-                localStorage.setItem("userId", id);
-                setUserId(id);
-                isUserLoggedIn(true);
-                setIsAdmin(false);
+            } else {
+                // setIsAdmin(false);
+                // navigate('/');
                 setId('');
                 navigate(`/${currentNav}`);
             }
@@ -77,7 +81,7 @@ function LoginPage({ currentNav}) {
     };
 
     const handleLoginClick = () => {
-        fetchEvents();
+        fetchLoginAuth();
     }
 
     const handleSignUpClick = () => {

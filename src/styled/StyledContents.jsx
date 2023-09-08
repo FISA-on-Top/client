@@ -13,10 +13,10 @@ export const ContainerDiv = styled.div`
 `;
 
 export const WrapperDiv = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    border-top: 1px solid #ccc; 
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+  border-top: 1px solid #ccc; 
 `;
 
 export const ContentsDiv = styled.div`
@@ -36,8 +36,8 @@ export const TitleDiv = styled.div`
 `;
 
 export const TextDiv = styled.div`
-display: flex;
-flex-direction: row;
+  display: flex;
+  flex-direction: row;
   width: 60%;
   height: 30px;
   background-color: #e0e0e0;

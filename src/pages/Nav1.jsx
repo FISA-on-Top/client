@@ -40,7 +40,7 @@ function Nav1() {
             <MyCalendar />
         </div>
     );
-    
+
 }
 
 export default Nav1;

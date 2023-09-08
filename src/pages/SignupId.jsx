@@ -24,7 +24,7 @@ function SignupId() {
             });
 
             if (!response.ok) {
-                throw new Error('Request failed');
+                throw new Error('Check Duplication Request failed');
             }
 
             const data = response.json();
@@ -36,20 +36,11 @@ function SignupId() {
 
         } catch (error) {
             console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     }
 
     const fetchRegisterUser = async () => {
-        if (isIdValid) {
-            alert('ID 중복 확인을 해주세요.');
-            return;
-        }
-
-        if (userPw !== userPwConfirm) {
-            alert('비밀번호가 일치하지 않습니다.');
-            return;
-        }
-
         try {
             const response = await fetch(`${BASE_URL}/signup/register`, {
                 method: 'POST',
@@ -57,20 +48,20 @@ function SignupId() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "userName": location.state,
+                    "userName": location.state.name,
                     "userId": userId,
                     "userPw": userPw,
                     "email": email,
-                    "phoneNum": phoneNum
+                    "phoneNum": phoneNum,
+                    "accountNum": location.state.accountNum
                 })
             });
 
             if (!response.ok) {
-                throw new Error('Request failed');
+                throw new Error('Register User Request failed');
             }
 
             const data = await response.json();
-            console.log(data);
 
             if (data.resultCode !== '0000') {
                 alert(data.data);
@@ -81,6 +72,7 @@ function SignupId() {
 
         } catch (error) {
             console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     }
 
@@ -101,16 +93,37 @@ function SignupId() {
         setIsIdValid(true);
     };
 
+    const validateEmail = (email) => {
+        let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return regex.test(email);
+    };
+
     const validatePhoneNumber = (phone) => {
-        const regex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
+        let regex = /^[0-9]{3}-[0-9]{4}-[0-9]{4}$/;
         return regex.test(phone);
     };
 
     const onNextButton = () => {
-        if (!validatePhoneNumber(phoneNum)) {
-            alert('전화번호 형식이 잘못되었습니다. xxx-xxxx-xxxx 형식으로 입력해주세요.');
+        if (isIdValid) {
+            alert('ID 중복 확인을 해주세요.');
             return;
         }
+
+        if (userPw !== userPwConfirm) {
+            alert('비밀번호가 일치하지 않습니다.');
+            return;
+        }
+
+        if (!validateEmail(email)) {
+            alert('이메일 주소가 올바르지 않습니다.');
+            return;
+        }
+
+        if (!validatePhoneNumber(phoneNum)) {
+            alert('전화번호 형식이 잘못되었습니다.\n xxx-xxxx-xxxx 형식으로 입력해주세요.');
+            return;
+        }
+
         fetchRegisterUser();
     }
 
@@ -134,7 +147,7 @@ function SignupId() {
                 <ContentsDiv>
                     <TitleDiv>이름</TitleDiv>
                     <TextDiv>
-                        {location.state}
+                        {location.state.name}
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>

@@ -20,20 +20,22 @@ function AdminPage() {
                 });
 
                 if (!response.ok) {
-                    throw new Error('API 호출 중 에러 발생');
+                    throw new Error('All User Info Request failed');
                 }
 
                 const result = await response.json();
 
-                if (result.resultCode === '0000') {
-                    setTotalPage(result.data.currentPage);
-                    setData(result.data.userInfo);
-                } else {
-                    console.error('API 호출 중 에러 발생:', result.resultMessage);
+                if (result.resultCode !== '0000') {
+                    alert(result.data);
+                    return;
                 }
 
+                setTotalPage(result.data.currentPage);
+                setData(result.data.userInfo);
+
             } catch (error) {
-                console.error('API 호출 중 에러 발생:', error);
+                console.error('Error:', error);
+                alert("잠시 후 다시 시도해 주세요");
             }
         };
 

@@ -22,7 +22,6 @@ function SubscriptionRequest() {
     const [totalPage, setTotalPage] = useState(0);
 
     useEffect(() => {
-        console.log(currentPage);
         if (currentPage !== 0) {
             fetchData();
         }
@@ -39,7 +38,6 @@ function SubscriptionRequest() {
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];
 
-            // URL의 쿼리 매개변수 생성
             const queryParams = new URLSearchParams();
             queryParams.append('date', formattedDate);
             queryParams.append('index', currentPage);
@@ -47,22 +45,23 @@ function SubscriptionRequest() {
             const response = await fetch(`${apiUrl}?${queryParams}`);
 
             if (!response.ok) {
-                throw new Error('Failed to fetch data');
+                throw new Error('Orders Index Request failed');
             }
-        
+
             const data = await response.json();
-        
+
             if (data.resultCode !== '0000') {
                 alert(data.data);
                 return;
             }
-        
+
             setTotalPage(data.data.totalPage);
             setCurrentPage(data.data.currentPage);
             setIpoData(data);
 
         } catch (error) {
-            console.error('Error fetching data:', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     };
 

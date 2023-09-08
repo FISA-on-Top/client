@@ -11,8 +11,6 @@ function Nav3Sub1() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    console.log(location.state);
-
     const fetchCancelOrder = async () => {
         try {
             const response = await fetch(`${BASE_URL}/orders/cancel`, {
@@ -28,7 +26,7 @@ function Nav3Sub1() {
             });
 
             if (!response.ok) {
-                throw new Error('Account response was not ok');
+                throw new Error('Cancel Order Request failed');
             }
 
             const data = await response.json();
@@ -48,7 +46,8 @@ function Nav3Sub1() {
             }
 
         } catch (error) {
-            console.error('Error fetching the data', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     };
 
@@ -70,10 +69,7 @@ function Nav3Sub1() {
                     row: datas
                 }
             });
-            console.log(datas);
-
         }
-
     }
 
     return (
@@ -123,7 +119,7 @@ function Nav3Sub1() {
                         <TextDiv>{location.state.row.deposit}</TextDiv>
                     </ContentsDiv>
                 </WrapperDiv>
-                
+
                 <div>
                     <button onClick={onReturnClick}>이전</button>
                     <button onClick={onSubmitClick}>실행</button>

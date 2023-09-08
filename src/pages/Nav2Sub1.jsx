@@ -24,7 +24,6 @@ function Nav2Sub1() {
     const [accountNum, setAccountNum] = useRecoilState(accountNumber);//계좌번호 
     const commission = useRecoilValue(commissionPrice);  //수수료 -> 고정값 2000
     const [phoneNum, setPhoneNum] = useRecoilState(phoneNumber);//연락처
-    const [phoneError, setPhoneError] = useState('');
 
     const [subscriptionAmountSelect, setSubscriptionAmountSelect] = useState([]); //청약 수량 select 배열
     const ipoId = useRecoilValue(selectedIpo);
@@ -50,8 +49,11 @@ function Nav2Sub1() {
                         }
                     });
 
+                    if (!response.ok) {
+                        throw new Error('Orders Account Resquest failed');
+                    }
+
                     const accountJson = await response.json();
-                    console.log(accountJson);
 
                     if (accountJson.resultCode !== '0000') {
                         alert(accountJson.data);
@@ -61,11 +63,11 @@ function Nav2Sub1() {
                     if (accountJson.resultCode === "0000") {
                         //계좌 정보 초기 설정
                         setAccountNum(accountJson.data.accountNum);
-                    } else {
-                        console.error('Error retrieving data:', accountJson.resultMessage);
+
                     }
                 } catch (error) {
-                    console.error("Error fetching the data", error);
+                    console.error('Error:', error);
+                    alert("잠시 후 다시 시도해 주세요");
                 }
             }
             else {
@@ -115,8 +117,6 @@ function Nav2Sub1() {
             const amount = Number(selectedAmount); //청약 수량
 
             // (수수료*할인율) + (공모가*청약수량)
-            console.log('price :' + price)
-            console.log('amount :' + amount)
             let result = (commissionNum * grade) + (price * amount);
 
 
@@ -138,7 +138,6 @@ function Nav2Sub1() {
     }, [selectedAmount]);
 
     const handleSubmit = async () => {
-        // REST API의 URL
         const apiUrl = `${BASE_URL}/orders/account/verify`;
 
         try {
@@ -154,6 +153,10 @@ function Nav2Sub1() {
                 }),
             });
 
+            if (!response.ok) {
+                throw new Error('Handle Submit Request failed');
+            }
+
             const subscriptionJson = await response.json();
 
             if (subscriptionJson.resultCode !== '0000') {
@@ -166,17 +169,15 @@ function Nav2Sub1() {
                 setSubscriptionAvailableAmount(subscriptionJson.data.orderableAmount);
                 setSubscriptionPrice(subscriptionJson.data.slprc);
                 setBalance(subscriptionJson.data.balance);
-
-            } else {
-                console.error('Error retrieving data:', subscriptionJson.resultMessage);
             }
         } catch (error) {
-            console.error("Error fetching the data", error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     };
 
     const handlePhoneNum = (event) => {
-        setPhoneNum(event.target.value);
+        setPhoneNum(phoneNumber);
     };
 
     const onPreClick = () => {
@@ -189,11 +190,11 @@ function Nav2Sub1() {
         //연락처 유효성 검증
         const phoneRegex = /^[0-9]{3}-[0-9]{3,4}-[0-9]{4}$/;
 
-        if (!phoneRegex.test(phoneNum)) {
-            setPhoneError("연락처를 다시 확인해 주세요.");
+        if (!phoneNum) {
+            alert("연락처를 입력해 주세요.");
+        } else if (!phoneRegex.test(phoneNum)) {
+            alert("연락처를 다시 확인해 주세요.");
             verify = false;
-        } else {
-            setPhoneError('');
         }
 
         //증거금 유효성 검증
@@ -288,14 +289,6 @@ function Nav2Sub1() {
                     }}>
                         <button onClick={onPreClick}>이전</button>
                         <button onClick={onNextClick}>다음</button>
-                    </div>
-                    <div>
-                        {phoneError &&
-                            <div>
-                                <p style={{ color: 'red', textAlign: 'center' }}>
-                                    {phoneError}
-                                </p>
-                            </div>}
                     </div>
                 </WrapperDiv>
             </ContainerDiv >
