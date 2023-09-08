@@ -52,7 +52,7 @@ function NavbarAdmin() {
                     <p className='bold'>우리증권</p>
                 </NavLinkStyled>
             </LogoDiv>
-            
+
             <NavUl>
                 <li>
                     {isLoggedIn ? (

@@ -156,4 +156,14 @@ export const Input = styled.input`
   border-radius: 5px;
   font-family: 'Inter', sans-serif;
   display: block; // input이 block 요소로 표시되도록 설정
+  
+export const StyledInput = styled.input`
+    display: inline-block;
+    flex: 1;
+    margin-right: 4px;
+    width: 50px;
+    border: none;
+    outline: none;
+    background: transparent;
+
 `;

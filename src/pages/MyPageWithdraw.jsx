@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, NavContainedButton } from '../styled/StyledContents';
-import { Navigate, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { useResetRecoilState } from 'recoil';
 import { userIdInfo, userLoggedIn } from '../state/state';
 import BASE_URL from '../config';
@@ -9,7 +9,6 @@ function MyPageWithdraw() {
     const navigate = useNavigate();
     const isUserLoggedIn = useResetRecoilState(userIdInfo);
     const setUserId = useResetRecoilState(userLoggedIn);
-    const [isValid, setIsValid] = useState(false);
     const [datas, setDatas] = useState('');
     const [formData, setFormData] = useState({
         userName: '',
@@ -37,6 +36,11 @@ function MyPageWithdraw() {
 
             const data = await response.json();
 
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
             if (data.resultCode === '0000' && data.data.status === 'withdrawal') {
                 setUserId();
                 isUserLoggedIn();
@@ -46,7 +50,8 @@ function MyPageWithdraw() {
             }
 
         } catch (error) {
-            console.error('Withdrawal error:', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     }
 
@@ -103,12 +108,6 @@ function MyPageWithdraw() {
             <div>
                 <NavContainedButton onClick={onWithdrawClick}>탈퇴하기</NavContainedButton>
             </div>
-            {!isValid &&
-                <div>
-                    <p style={{ color: 'red', textAlign: 'center' }}>
-                        {datas}
-                    </p>
-                </div>}
         </ContainerDiv>
     );
 }

@@ -49,9 +49,9 @@ function Header() {
                         <NavContainedButton onClick={handleMyPageClick}>마이페이지</NavContainedButton>
                         <NavContainedButton onClick={handleLogoutClick}>로그아웃</NavContainedButton>
                     </LogButtonDiv>
-
                 ) : (                       
                     <NavContainedButton onClick={handleLoginClick}>로그인</NavContainedButton>                  
+
                 )}
         </HeaderDiv>
     );

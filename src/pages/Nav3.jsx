@@ -16,19 +16,26 @@ function Nav3() {
     useEffect(() => {
         const fetchAccount = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/orders/account/`, {
+                const response = await fetch(`${BASE_URL}/orders/account`, {
                     method: 'GET',
                     headers: { 'userId': userId }
                 });
 
                 if (!response.ok) {
-                    throw new Error('Account response was not ok');
+                    throw new Error('Orders Account Request failed');
                 }
 
                 const data = await response.json();
+
+                if (data.resultCode !== '0000') {
+                    alert(data.data);
+                    return;
+                }
+
                 setUserAccount(data.data.accountNum);
             } catch (error) {
                 console.error('Error:', error);
+                alert("잠시 후 다시 시도해 주세요\n" + error);
             }
         };
 
@@ -39,21 +46,27 @@ function Nav3() {
         try {
             const response = await fetch(`${BASE_URL}/orders?date=${urlDate}`, {
                 method: 'GET',
-                header: { 
-                    // 'Content-Type': 'application/json',
-                    'userId': userId 
+                header: {
+                    'Content-Type': 'application/json',
+                    'userId': userId
                 }
             });
 
             if (!response.ok) {
-                throw new Error('Account response was not ok');
+                throw new Error('Orders ?Date Request failed');
             }
 
             const datas = await response.json();
-            setData(datas.data[0].orderList);
-            
+
+            if (datas.resultCode !== '0000') {
+                alert(datas.data);
+                return;
+            }
+
+            setData(datas.data.ipoSummary);
         } catch (error) {
-            console.error('데이터를 불러오는 도중 오류가 발생했습니다.', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     };
 

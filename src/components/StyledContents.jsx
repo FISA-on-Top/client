@@ -36,8 +36,8 @@ export const TitleDiv = styled.div`
 `;
 
 export const TextDiv = styled.div`
-display: flex;
-flex-direction: row;
+  display: flex;
+  flex-direction: row;
   width: 60%;
   height: 30px;
   background-color: #e0e0e0;

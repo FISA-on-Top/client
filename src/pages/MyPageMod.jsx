@@ -6,7 +6,6 @@ import BASE_URL from '../config';
 function MyPageMod() {
     const navigater = useNavigate();
     const location = useLocation();
-    const [isValid, setIsValid] = useState(false);
     const [datas, setDatas] = useState('');
     const [formData, setFormData] = useState({
         phone: '',
@@ -25,7 +24,6 @@ function MyPageMod() {
                     'userId': localStorage.getItem('userId')
                 },
                 body: JSON.stringify({
-                    userId: location.state.userId,
                     email: formData.email,
                     phoneNum: formData.phone,
                     userPw: formData.userPw,
@@ -33,19 +31,25 @@ function MyPageMod() {
             });
 
             if (!response.ok) {
-                throw new Error('Account response was not ok');
+                throw new Error('User Info Modify Request failed');
             }
 
             const data = await response.json();
+
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
             setDatas(data.data);
 
             if (data.resultCode === '0000') {
-                setIsValid(true);
                 navigater(-1);
             }
 
         } catch (error) {
-            console.error("Error fetching the data", error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     };
 
@@ -107,12 +111,6 @@ function MyPageMod() {
             <div>
                 <NavContainedButton onClick={onModClick}>수정하기</NavContainedButton>
             </div>
-            {!isValid &&
-                <div>
-                    <p style={{ color: 'red', textAlign: 'center' }}>
-                        {datas}
-                    </p>
-                </div>}
         </ContainerDiv>
     );
 }

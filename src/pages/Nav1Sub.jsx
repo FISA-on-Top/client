@@ -28,15 +28,22 @@ function Nav1Sub() {
                 const response = await fetch(`${BASE_URL}/ipo/list?index=${currentPage}`);
 
                 if (!response.ok) {
-                    throw new Error('Failed to fetch events');
+                    throw new Error('Ipo List Request failed');
                 }
 
                 const eventData = await response.json();
-                setEvents(eventData.data.ipoSummary);
+
+                if (eventData.resultCode !== '0000') {
+                    alert(eventData.data);
+                    return;
+                }
+
+                setEvents(eventData.data.ipo);
                 setTotalPage(eventData.data.totalPage);
-                
+
             } catch (error) {
-                console.error('Error fetching events:', error);
+                console.error('Error:', error);
+                alert("잠시 후 다시 시도해 주세요");
             }
         };
 
@@ -45,17 +52,24 @@ function Nav1Sub() {
 
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`${BASE_URL}/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`${BASE_URL}/ipo?ipoId=${ipoId}`);
 
-            if (!response.ok){
+            if (!response.ok) {
                 throw new Error('Failed to fetch detail');
             }
 
             const detailData = await response.json();
-            setSelectedEvent(detailData.data.ipo[0]);
+
+            if (detailData.resultCode !== '0000') {
+                alert(detailData.data);
+                return;
+            }
+
+            setSelectedEvent(detailData.data);
 
         } catch (error) {
-            console.error('Error fetching Detail:', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
 
     }

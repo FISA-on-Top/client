@@ -27,39 +27,53 @@ function MyCalendar() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch(`${BASE_URL}/calendar?yyyy=${yy}&mm=${mm}`);
-    
+                const response = await fetch(`${BASE_URL}/ipo/calendar?yyyy=${yy}&mm=${mm}`);
+
                 if (!response.ok) {
-                    throw new Error('Failed to fetch events');
+                    throw new Error('Calendar Events Request failed');
                 }
 
                 const eventData = await response.json();
-                setEvents(eventData.data.ipo);
+
+                if (eventData.resultCode !== '0000') {
+                    alert(eventData.data);
+                    return;
+                }
+
+                setEvents(eventData.data);
 
             } catch (error) {
-                console.error('Error fetching events:', error);
+                console.error('Error:', error);
+                alert("잠시 후 다시 시도해 주세요");
             }
         };
-        
+
         fetchEvents();
     }, [yy, mm]);
-    
+
     const fetchDetails = async (ipoId) => {
         try {
-            const response = await fetch(`${BASE_URL}/ipo/list?ipoId=${ipoId}`);
+            const response = await fetch(`${BASE_URL}/ipo?ipoId=${ipoId}`);
 
-            if (!response.ok){
-                throw new Error('Failed to fetch detail');
+            if (!response.ok) {
+                throw new Error('Details Request failed');
             }
 
             const detailData = await response.json();
-            setPopupEvent(detailData.data.ipo[0]);
+
+            if (detailData.resultCode !== '0000') {
+                alert(detailData.data);
+                return;
+            }
+
+            setPopupEvent(detailData.data);
 
         } catch (error) {
-            console.error('Error fetching Detail:', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     }
-    
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
     }
@@ -77,7 +91,7 @@ function MyCalendar() {
         }
     }
 
-    const handleNextClick = ({activeStartDate}) => {
+    const handleNextClick = ({ activeStartDate }) => {
         setyy(activeStartDate.getFullYear());
         setmm(String(activeStartDate.getMonth() + 1).padStart(2, '0'));
     }
@@ -119,7 +133,7 @@ function MyCalendar() {
                 next2Label={null}
                 onActiveStartDateChange={handleNextClick}
             />
-            
+
             <Nav1Popup event={popupEvent} isVisible={!!popupEvent} onClose={closePopup} />
         </div>
     );

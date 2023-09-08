@@ -26,10 +26,16 @@ function Nav3Sub1() {
             });
 
             if (!response.ok) {
-                throw new Error('Account response was not ok');
+                throw new Error('Cancel Order Request failed');
             }
 
             const data = await response.json();
+
+            if (data.resultCode !== '0000') {
+                alert(data.data);
+                return;
+            }
+
             setChecked(true);
 
             if (data.resultCode === '0000') {
@@ -40,7 +46,8 @@ function Nav3Sub1() {
             }
 
         } catch (error) {
-            console.error('Error fetching the data', error);
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
     };
 
@@ -62,10 +69,7 @@ function Nav3Sub1() {
                     row: datas
                 }
             });
-            console.log(datas);
-
         }
-
     }
 
     return (
@@ -115,7 +119,7 @@ function Nav3Sub1() {
                         <TextDiv>{location.state.row.deposit}</TextDiv>
                     </ContentsDiv>
                 </WrapperDiv>
-                
+
                 <div>
                     <button onClick={onReturnClick}>이전</button>
                     <button onClick={onSubmitClick}>실행</button>
