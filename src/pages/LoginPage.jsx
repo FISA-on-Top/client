@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { Button } from '../styled/StyledContents';
+import { Button, SmallEmptyButton } from '../styled/StyledContents';
 import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
 import BASE_URL from '../config';
 
@@ -122,7 +122,7 @@ function LoginPage({ currentNav }) {
                     }}
                 />
                 <Button onClick={handleLoginClick}>Login</Button>
-                <Button onClick={handleSignUpClick}>회원가입</Button>
+                <SmallEmptyButton style={{'font-size':'0.5 rem'}}onClick={handleSignUpClick}>회원가입</SmallEmptyButton>
             </LoginBox>
         </LoginContainer>
 

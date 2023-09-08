@@ -58,6 +58,7 @@ export const Button = styled.button`
   padding: 10px;
   border: none;
   border-radius: 8px;
+  margin-bottom: 5px;
   background-color: #2B64CE;
   color: white;
   cursor: pointer;
@@ -119,7 +120,6 @@ export const SmallEmptyButton = styled.button`
 export const SmallContainedButton = styled.button`
   padding: 1px 12px;
   margin-right: 5px;
-  font-size: 1rem;
   font-weight: 800;
   border: 2px solid #2B64CE;
   border-radius: 5px;
@@ -156,6 +156,7 @@ export const Input = styled.input`
   border-radius: 5px;
   font-family: 'Inter', sans-serif;
   display: block; // input이 block 요소로 표시되도록 설정
+`;
   
 export const StyledInput = styled.input`
     display: inline-block;
