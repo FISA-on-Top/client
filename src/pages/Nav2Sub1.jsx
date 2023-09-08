@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, StyledInput } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, StyledInput, SmallContainedButton, SmallEmptyButton } from '../styled/StyledContents';
 import CustomSelect from '../components/CustomSelect';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { accountNumber, phoneNumber, commissionPrice, orderAmount, deposit, selectedIpo } from '../state/stateForNav2.js';
@@ -119,7 +119,6 @@ function Nav2Sub1() {
             // (수수료*할인율) + (공모가*청약수량)
             let result = (commissionNum * grade) + (price * amount);
 
-
             result = Math.round(result * 100) / 100;  // 소수점 둘째자리에서 반올림
             const resultStr = result.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 결과값을 돈 형식(콤마 형식)의 문자열로 변환
             //const balanceNum =parseFloat(balance.replace(/,/g,''));
@@ -232,7 +231,7 @@ function Nav2Sub1() {
                                 style={{ display: 'inline-block', flex: '1', marginRight: '4px', width: '50px', border: 'none', outline: 'none', background: 'transparent' }}
                                 onChange={(e) => setAccountPassword(e.target.value)}
                             />
-                            <button style={{ display: 'inline-block' }} onClick={handleSubmit}>확인</button>
+                            <SmallContainedButton style={{ display: 'inline-block' }} onClick={handleSubmit}>확인</SmallContainedButton>
                         </TextDiv>
                     </ContentsDiv>
 
@@ -276,7 +275,7 @@ function Nav2Sub1() {
                                 type="text"
                                 placeholder="010-xxxx-xxxx"
                                 value={phoneNum}
-                                onChange={handlePhoneNum}
+                                onChange={(e)=>setPhoneNum(e.target.value)}
                             />
                         </TextDiv>
                     </ContentsDiv>
@@ -287,8 +286,8 @@ function Nav2Sub1() {
                         alignItems: 'center',
                         marginTop: '10px'
                     }}>
-                        <button onClick={onPreClick}>이전</button>
-                        <button onClick={onNextClick}>다음</button>
+                        <SmallEmptyButton onClick={onPreClick}>이전</SmallEmptyButton>
+                        <SmallContainedButton onClick={onNextClick}>다음</SmallContainedButton>
                     </div>
                 </WrapperDiv>
             </ContainerDiv >

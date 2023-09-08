@@ -104,7 +104,7 @@ export const NavPageContainedButton = styled.button`
 export const SmallEmptyButton = styled.button`
   padding: 1px 12px; // 패딩을 조금 줄입니다.
   margin-right: 5px;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 800;
   border: 2px solid #2B64CE;
   border-radius: 5px; // 끝을 둥글게 만듭니다.
@@ -178,12 +178,11 @@ export const Input = styled.input`
 `;
   
 export const StyledInput = styled.input`
-    display: inline-block;
-    flex: 1;
-    margin-right: 4px;
-    width: 50px;
-    border: none;
-    outline: none;
-    background: transparent;
-
+    width: 92%;
+    padding: 10px;
+    margin: 0.5rem auto; // 위아래 간격은 2rem으로, 좌우 중앙 정렬을 위해 auto 사용
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: 'Inter', sans-serif;
+    display: block; // input이 block 요소로 표시되도록 설정
 `;

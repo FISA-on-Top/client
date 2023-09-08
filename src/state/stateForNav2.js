@@ -25,7 +25,7 @@ export const commissionPrice = atom({
 });
 export const phoneNumber = atom({
     key: 'phoneNumber', // unique ID (with respect to other atoms/selectors)
-    default: null,  // default value (aka initial value)
+    default: '',  // default value (aka initial value)
 });
 
 /* for request */

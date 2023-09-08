@@ -2,6 +2,30 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import { StyledInput } from '../styled/StyledContents';
 
+const customStyles = {
+    control: (provided) => ({
+      ...provided,
+      height: 30,  // TextDiv와 높이 일치
+      backgroundColor: '#ffffff',  // TextDiv 배경색과 동일하게 설정
+      borderRadius: '5px',  // TextDiv와 비슷하게 둥글게 처리
+      boxShadow: 'none',  // 그림자 제거
+      borderColor: '#ccc',
+      padding: '0 30px',  // TextDiv 패딩과 유사하게 조절
+    }),
+    singleValue: (provided) => ({
+      ...provided,
+      color: '#333',  // 텍스트 색상 설정
+    }),
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: '#333',  // 드롭다운 표시 색상 설정
+    }),
+    option: (provided) => ({
+      ...provided,
+      padding: '10px 20px',
+    }),
+  };
+
 const CSelect = (props) => {
     const { children, ...restProps } = props;
 
@@ -46,7 +70,7 @@ export default function CustomSelect({ options, onOptionChange }) {
                 isRtl={isRtl}
                 isSearchable={isSearchable}
                 options={options}
-                styles={{ maxHeight: '10px' }}
+                styles={customStyles}
                 onChange={onOptionChange} // 사용자가 선택할 때마다 상위 컴포넌트로 선택된 옵션을 전달합니다.
             />
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallContainedButton, Button } from '../styled/StyledContents';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { calendarDate, ipoList, selectedIpo, accountNumber, commissionPrice, phoneNumber, orderAmount, deposit } from '../state/stateForNav2.js';
@@ -179,7 +179,7 @@ function Nav2Sub2() {
                     </TextDiv>
                 </ContentsDiv>
             </WrapperDiv>
-            <button onClick={onConfirmClick}>확인</button>
+            <Button style={{'width' : '20%'}} onClick={onConfirmClick}>확인</Button>
         </ContainerDiv>
     );
 }
