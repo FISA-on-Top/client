@@ -50,13 +50,14 @@ function Navbar({ onNavClick }) {
                 {isLoggedIn ? (
                     <NavLinkStyled to="/nav1" onClick={() => onNavClick('nav1')}>
                         <ImgLogo src="/img/logo.png" alt="로고 이미지" />
-                        <p className='bold'>우리증권</p>
+                        <p></p>
+                        <p className='bold' style={{'margin-left' : '8px'}}>우리증권</p>
                     </NavLinkStyled>
 
                 ) : (
                     <NavLinkStyled to="/login" onClick={() => onNavClick('nav1')}>
                         <ImgLogo src="/img/logo.png" alt="로고 이미지" />
-                        <p className='bold'>우리증권</p>
+                        <p className='bold' style={{'margin-left' : '8px'}}>우리증권</p>
                     </NavLinkStyled>
                 )}
             </LogoDiv>

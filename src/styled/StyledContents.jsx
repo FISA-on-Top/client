@@ -5,7 +5,7 @@ export const ContainerDiv = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  width: 700px;
+  width: 1000px;
   height: auto; /* 원하는 높이로 조정 */
   border: 1px solid #ccc; /* 테두리 스타일 */
   padding: 20px; /* 내부 여백 */
@@ -31,7 +31,7 @@ export const TitleDiv = styled.div`
   display: flex;
   align-items: center; // 세로 중앙 정렬
   justify-content: center; // 가로 중앙 정렬 추가
-  width: 30%;
+  width: 40%;
   height: 40px; 
   background-color: #dae7f3; 
   padding: 0 15px;
@@ -44,13 +44,15 @@ export const TitleDiv = styled.div`
 
 export const TextDiv = styled.div`
   display: flex;
-  align-items: center; // 내용을 중앙으로 정렬
+  align-items: center; // 세로 중앙 정렬
+  justify-content: center; // 가로 중앙 정렬 추가
   width: 60%;
   height: 40px;
   background-color: #e8edf3; // 좀 더 부드러운 색상으로 변경
   padding: 0 15px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); // 그림자 추가
   border-radius: 5px; // 둥근 모서리 추가
+  margin-right: 15px; // 오른쪽 여백 추가
 `;
 
 export const Button = styled.button`
