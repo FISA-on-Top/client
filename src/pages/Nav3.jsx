@@ -44,10 +44,9 @@ function Nav3() {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/orders?date=${urlDate}`, {
+            const response = await fetch(`${BASE_URL}/orders/list?date=${urlDate}`, {
                 method: 'GET',
                 header: {
-                    'Content-Type': 'application/json',
                     'userId': userId
                 }
             });
@@ -94,7 +93,7 @@ function Nav3() {
             <ContainerDiv>
                 <h1>청약 결과 조회</h1>
 
-                <WrapperDiv>
+                <WrapperDiv style={{'flex-direction': 'row'}}>
                     <ContentsDiv>
                         <TitleDiv>계좌 설정</TitleDiv>
                         <TextDiv>
@@ -103,12 +102,10 @@ function Nav3() {
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>조회 기간</TitleDiv>
-                        <div style={{'padding':'none'}}>
                         <StyledDatePicker
                             dateFormat="yyyy-MM-dd"
                             selected={selectedDate}
                             onChange={handleDateChange} />
-                        </div>
 
                     </ContentsDiv>
                 </WrapperDiv>
