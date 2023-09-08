@@ -25,22 +25,43 @@ const PopupContent = styled.div`
 const CloseButton = styled.button`
     display: block;
     margin: 0 auto;
+    padding: 1px 12px;
+    font-weight: 800;
+    border: 2px solid #2B64CE;
+    border-radius: 5px;
+    background-color: #2B64CE; // 배경색을 border 색상으로 변경합니다.
+    color: #ffffff;  // 텍스트 색상을 #ffffff로 변경합니다.
+    cursor: pointer;
+    transition: background-color 0.3s;
+  
+    &:hover {
+      background-color: #2453A6;
+    }
 `;
 
 const Table = styled.table`
     width: 100%;
     border-collapse: collapse;
+
+    thead {
+        border-top: 2px solid #DDD; // 헤더의 아래쪽 경계를 굵게 만듭니다.
+        border-bottom: 1px solid #DDD; // 헤더의 아래쪽 경계를 굵게 만듭니다.
+    }
 `;
 
 const Th = styled.th`
-    background-color: #f2f2f2;
-    text-align: left;
-    padding: 8px;
+    padding: 8px 12px;
+    text-align: center;
+    background-color: #E1EBF9;
+    border-left: 1px solid #DDDD;
+    border-right: 1px solid #DDDD;
 `;
 
 const Td = styled.td`
-    padding: 8px;
-    border-bottom: 1px solid #ddd;
+    padding: 8px 3px 5px 5px;
+    text-align: center;
+    border-left: 1px solid #DDDD;
+    border-right: 1px solid #DDDD;
 `;
 
 function Nav1Popup({ event, isVisible, onClose }) {
@@ -49,62 +70,54 @@ function Nav1Popup({ event, isVisible, onClose }) {
         <PopupOverlay isVisible={isVisible}>
 
             <PopupContent>
-                <h2>이벤트 상세 정보</h2>
+                <h2>청약종목안내 상세</h2>
                 {event ? (
                     <Table>
                         <tbody>
                             <tr>
-                                <Th>항목</Th>
-                                <Th>값</Th>
-                            </tr>
-                            <tr>
-                                <Td>ipo_id</Td>
-                                <Td>{event.ipoId}</Td>
-                            </tr>
-                            <tr>
-                                <Td>corp_code</Td>
+                                <Th>기업코드</Th>
                                 <Td>{event.corpCode}</Td>
                             </tr>
                             <tr>
-                                <Td>corp_name</Td>
+                                <Th>기업명</Th>
                                 <Td>{event.corpName}</Td>
                             </tr>
                             <tr>
-                                <Td>sbd</Td>
+                                <Th>청약기일</Th>
                                 <Td>{event.sbd}</Td>
                             </tr>
                             <tr>
-                                <Td>pymd</Td>
+                                <Th>납입기일</Th>
                                 <Td>{event.pymd}</Td>
                             </tr>
                             <tr>
-                                <Td>refund</Td>
+                                <Th>환불일</Th>
                                 <Td>{event.refund}</Td>
                             </tr>
                             <tr>
-                                <Td>ipo_date</Td>
+                                <Th>상장예정일</Th>
                                 <Td>{event.ipoDate}</Td>
                             </tr>
                             <tr>
-                                <Td>slprc</Td>
+                                <Th>확정발행가</Th>
                                 <Td>{event.slprc}</Td>
                             </tr>
                             <tr>
-                                <Td>corp_cls</Td>
+                                <Th>(법인)구분</Th>
                                 <Td>{event.corpCls}</Td>
                             </tr>
                             <tr>
-                                <Td>stkcnt</Td>
+                                <Th>증권수량</Th>
                                 <Td>{event.stkcnt}</Td>
                             </tr>
                             <tr>
-                                <Td>capital_increase</Td>
+                                <Th>증자방법</Th>
                                 <Td>{event.capitalIncrease}</Td>
                             </tr>
                         </tbody>
                     </Table>
                 ) : (
-                    <p>이벤트 정보를 찾을 수 없습니다.</p>
+                    <p> 상세 정보를 찾을 수 없습니다.</p>
                 )}
 
                 <CloseButton onClick={onClose}>닫기</CloseButton>

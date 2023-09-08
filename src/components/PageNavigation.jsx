@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { NavPageContainedButton } from '../styled/StyledContents';
+import { NavPageContainedButton, CellButton } from '../styled/StyledContents';
 
 const ButtonDiv = styled.div`
     display: flex;
@@ -35,13 +35,13 @@ function PageNavigation({ currentPage, totalPage, onPageChange }) {
                 </NavPageContainedButton>
 
                 {pageNumbers.map((pageNumber) => (
-                    <NavPageContainedButton
+                    <CellButton
                         key={pageNumber}
                         className={currentPage === pageNumber ? 'active' : ''}
                         onClick={() => handlePageChange(pageNumber)}
-                        style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
+                        style={{ border: 'none', background: 'none', cursor: 'pointer'  }}>
                         {pageNumber}
-                    </NavPageContainedButton>
+                    </CellButton>
                 ))}
 
                 <NavPageContainedButton

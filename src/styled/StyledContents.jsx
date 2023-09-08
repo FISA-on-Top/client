@@ -150,6 +150,23 @@ export const NavButton = styled.button`
     }
 `;
 
+export const CellButton = styled.button`
+  padding: 1px 12px;
+  margin-right: 5px;
+  font-weight: bold; // 텍스트를 굵게 설정합니다.
+  text-decoration: underline; // 텍스트 밑줄 추가
+  border: none; // 테투리를 없앱니다.
+  background-color: transparent; // 배경색을 투명하게 설정합니다.
+  color: #0083cb;  // 텍스트 색상을 검은색으로 변경합니다.
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: #0067ac; // 호버 시의 배경색을 약간의 회색으로 설정합니다.
+  }
+`;
+
+
 export const Input = styled.input`
   width: 92%;
   padding: 10px;

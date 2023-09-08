@@ -5,7 +5,7 @@ import PageNavigation from '../components/PageNavigation';
 import Nav1Popup from '../components/Nav1Popup.jsx';
 import { TableContainer, Table, TableHeader, TableRow, TableCell } from '../styled/StyledTable.jsx';
 import BASE_URL from '../config';
-import { NavButton } from '../styled/StyledContents';
+import { NavButton, CellButton } from '../styled/StyledContents';
 
 const NavButtonDiv = styled.div`
     display: flex;
@@ -124,9 +124,9 @@ function Nav1Sub() {
                                     <TableCell>{event.ipoId}</TableCell>
                                     <TableCell>{event.corpCls}</TableCell>
                                     <TableCell>
-                                        <button onClick={() => handleTableClick(event)}>
+                                        <CellButton  onClick={() => handleTableClick(event)}>
                                             {event.corpName}
-                                        </button>
+                                        </CellButton>
                                     </TableCell>
                                     <TableCell>{event.leadManager}</TableCell>
                                     <TableCell>{event.sbd}</TableCell>
