@@ -75,12 +75,13 @@ function Nav2Sub2() {
                     const response = await fetch(apiUrl, {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
+                            'userId': userId
                         },
                         body: JSON.stringify({
                             "ipoId": ipoId,   //ipo id
                             "orderAmount": selectedAmount,    // 청약한 주식 수 
-                            "PhoneNum": phoneNum,
+                            "phoneNum": phoneNum,
                             "orderDate": requestDateTime,    // 청약신청한 날짜
                             "deposit": deposit //청약증거금                             
                         }),

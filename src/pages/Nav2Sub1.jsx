@@ -176,7 +176,7 @@ function Nav2Sub1() {
     };
 
     const handlePhoneNum = (event) => {
-        setPhoneNum(phoneNumber);
+        setPhoneNum(event.target.value);
     };
 
     const onPreClick = () => {
@@ -275,7 +275,7 @@ function Nav2Sub1() {
                                 type="text"
                                 placeholder="010-xxxx-xxxx"
                                 value={phoneNum}
-                                onChange={(e)=>setPhoneNum(e.target.value)}
+                                onChange={handlePhoneNum}
                             />
                         </TextDiv>
                     </ContentsDiv>

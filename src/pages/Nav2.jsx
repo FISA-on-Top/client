@@ -66,6 +66,9 @@ function SubscriptionRequest() {
     };
 
     const onSearchClick = () => {
+        if (currentPage !== 0) {
+            fetchData();
+        }
         setCurrentPage(1);
     }
 

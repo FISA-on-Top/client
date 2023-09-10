@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { userLoggedIn } from '../state/state';
 
 const NavContainer = styled.div`
     background-color: blue;
@@ -39,16 +41,26 @@ const NavLinkStyled = styled(NavLink)`
     align-items: center;
 `;
 
-function Navbar({ onNavClick, isLoggedIn }) {
+function Navbar({ onNavClick }) {
+    const isLoggedIn = useRecoilValue(userLoggedIn);
+
     return (
         <NavContainer>
             <LogoDiv>
-                <NavLinkStyled to="/nav1" onClick={() => onNavClick('nav1')}>
-                    <ImgLogo src="/img/logo.png" alt="로고 이미지" />
-                    <p className='bold'>우리증권</p>
-                </NavLinkStyled>
+                {isLoggedIn ? (
+                    <NavLinkStyled to="/nav1" onClick={() => onNavClick('nav1')}>
+                        <ImgLogo src="/img/logo.png" alt="로고 이미지" />
+                        <p className='bold'>우리증권</p>
+                    </NavLinkStyled>
+
+                ) : (
+                    <NavLinkStyled to="/login" onClick={() => onNavClick('nav1')}>
+                        <ImgLogo src="/img/logo.png" alt="로고 이미지" />
+                        <p className='bold'>우리증권</p>
+                    </NavLinkStyled>
+                )}
             </LogoDiv>
-            
+
             <NavUl>
                 <li>
                     {isLoggedIn ? (
@@ -57,7 +69,7 @@ function Navbar({ onNavClick, isLoggedIn }) {
                         </NavLinkStyled>
                     ) : (
                         <NavLinkStyled to="/login" onClick={() => onNavClick('nav2')}>
-                            공모주 신청
+                            공모주 조회
                         </NavLinkStyled>
                     )}
                 </li>
