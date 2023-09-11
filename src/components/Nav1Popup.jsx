@@ -96,7 +96,7 @@ function Nav1Popup({ event, isVisible, onClose }) {
                             </tr>
                             <tr>
                                 <Th>상장예정일</Th>
-                                <Td>{event.ipoDate}</Td>
+                                <Td>{new Date(event.ipoDate).toISOString().split('T')[0]}</Td>
                             </tr>
                             <tr>
                                 <Th>확정발행가</Th>

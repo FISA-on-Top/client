@@ -46,7 +46,7 @@ function Nav3() {
         try {
             const response = await fetch(`${BASE_URL}/orders/list?date=${urlDate}`, {
                 method: 'GET',
-                header: {
+                headers: {
                     'userId': userId
                 }
             });
