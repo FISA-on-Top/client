@@ -108,7 +108,7 @@ function Nav3Sub1() {
                     </ContentsDiv>
                     <ContentsDiv>
                         <TitleDiv>청약 상태</TitleDiv>
-                        <TextDiv>{location.state.row.orderStatus}</TextDiv>
+                        <TextDiv>{location.state.row.status}</TextDiv>
                         <TitleDiv>청약 수량</TitleDiv>
                         <TextDiv>{location.state.row.orderAmount}</TextDiv>
                     </ContentsDiv>

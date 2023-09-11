@@ -11,9 +11,9 @@ function MyPageWithdraw() {
     const setUserId = useResetRecoilState(userLoggedIn);
     const [datas, setDatas] = useState('');
     const [formData, setFormData] = useState({
+        birth: '',
+        userId: '',
         userName: '',
-        phone: '',
-        email: '',
         userPw: ''
     });
 
@@ -69,28 +69,28 @@ function MyPageWithdraw() {
                     <TextDiv>
                         <input
                             type="text"
+                            value={formData.birth}
+                            onChange={(e) => setFormData({ ...formData, birth: e.target.value })}
+                        />
+                    </TextDiv>
+                </ContentsDiv>
+                <ContentsDiv>
+                    <TitleDiv>ID</TitleDiv>
+                    <TextDiv>
+                        <input
+                            type="text"
+                            value={formData.userId}
+                            onChange={(e) => setFormData({ ...formData, userId: e.target.value })}
+                        />
+                    </TextDiv>
+                </ContentsDiv>
+                <ContentsDiv>
+                    <TitleDiv>이름</TitleDiv>
+                    <TextDiv>
+                        <input
+                            type="text"
                             value={formData.userName}
                             onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
-                        />
-                    </TextDiv>
-                </ContentsDiv>
-                <ContentsDiv>
-                    <TitleDiv>핸드폰</TitleDiv>
-                    <TextDiv>
-                        <input
-                            type="text"
-                            value={formData.phone}
-                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        />
-                    </TextDiv>
-                </ContentsDiv>
-                <ContentsDiv>
-                    <TitleDiv>Email</TitleDiv>
-                    <TextDiv>
-                        <input
-                            type="text"
-                            value={formData.email}
-                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                         />
                     </TextDiv>
                 </ContentsDiv>
