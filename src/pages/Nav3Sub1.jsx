@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallEmptyButton, SmallContainedButton } from '../styled/StyledContents';
 import BASE_URL from '../config';
 
 function Nav3Sub1() {
@@ -91,7 +91,7 @@ function Nav3Sub1() {
                         </TitleDiv>
                         <TextDiv>
                             <input
-                                type="text"
+                                type="password"
                                 value={inputValue}
                                 onChange={handleInputChange}
                             />
@@ -121,8 +121,8 @@ function Nav3Sub1() {
                 </WrapperDiv>
 
                 <div>
-                    <button onClick={onReturnClick}>이전</button>
-                    <button onClick={onSubmitClick}>실행</button>
+                    <SmallEmptyButton onClick={onReturnClick}>이전</SmallEmptyButton>
+                    <SmallContainedButton onClick={onSubmitClick}>실행</SmallContainedButton>
                 </div>
             </ContainerDiv>
 

@@ -65,7 +65,7 @@ function MyPageWithdraw() {
             <h3>탈퇴 확인</h3>
             <WrapperDiv>
                 <ContentsDiv>
-                    <TitleDiv>이름</TitleDiv>
+                    <TitleDiv>생년월일</TitleDiv>
                     <TextDiv>
                         <input
                             type="text"
