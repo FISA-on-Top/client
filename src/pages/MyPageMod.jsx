@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv , NavContainedButton } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, NavContainedButton } from '../styled/StyledContents';
 import { useLocation, useNavigate } from 'react-router';
 import BASE_URL from '../config';
 
@@ -50,8 +50,6 @@ function MyPageMod() {
             alert("잠시 후 다시 시도해 주세요");
         }
     };
-
-
 
     const validateEmail = (email) => {
         let regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;

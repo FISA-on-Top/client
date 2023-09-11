@@ -124,9 +124,9 @@ function Nav2Sub2() {
                     <TextDiv>
                         {accountNum ? accountNum : ""}
                     </TextDiv>
-                    <TitleDiv>청약계좌명</TitleDiv>
+                    <TitleDiv>청약아이디</TitleDiv>
                     <TextDiv>
-                        {contractData && contractData.name ? contractData.name : ""}
+                        {contractData && contractData.userName ? contractData.userName : ""}
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>
@@ -136,7 +136,7 @@ function Nav2Sub2() {
                     </TextDiv>
                     <TitleDiv>청약구분</TitleDiv>
                     <TextDiv>
-                        "상장"
+                        상장
                     </TextDiv>
                 </ContentsDiv>
                 <ContentsDiv>

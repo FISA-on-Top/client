@@ -92,7 +92,7 @@ function Nav1Popup({ event, isVisible, onClose }) {
                             </tr>
                             <tr>
                                 <Th>환불일</Th>
-                                <Td>{event.refund}</Td>
+                                <Td>{new Date(event.refund).toISOString().split('T')[0]}</Td>
                             </tr>
                             <tr>
                                 <Th>상장예정일</Th>
