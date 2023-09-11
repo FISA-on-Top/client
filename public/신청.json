@@ -1,0 +1,28 @@
+[
+  {
+    "ipoId": 1,
+    "corpCode": 123456,
+    "corpName": "Company 1",
+    "sbd": "2023-08-01",
+    "pymd": "2023-08-15",
+    "refund": "2023-08-20",
+    "ipoDate": "2023-08-25",
+    "slprc": 100.123,
+    "corpCls": "Class A",
+    "stkcnt": 10000,
+    "capitalIncrease": "Increase"
+  },
+  {
+    "ipoId": 2,
+    "corpCode": 789012,
+    "corpName": "Company 2",
+    "sbd": "2023-08-02",
+    "pymd": "2023-08-16",
+    "refund": "2023-08-21",
+    "ipoDate": "2023-08-25",
+    "slprc": 200.456,
+    "corpCls": "Class B",
+    "stkcnt": 20000,
+    "capitalIncrease": "Decrease"
+  }
+]

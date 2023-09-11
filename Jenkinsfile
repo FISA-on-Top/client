@@ -1,12 +1,16 @@
 pipeline{
     agent any   
+
     environment {
+        //REPOSITORY_CREDENTIAL_ID = 'gitlab-jenkins-key'
         REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
-        TARGET_BRANCH = 'main'
+        //TARGET_BRANCH = ''
 
         AWS_CREDENTIAL_NAME = 'ECR-access'
+        ECR_NAME = 'AWS'
         ECR_PATH = '038331013212.dkr.ecr.ap-northeast-2.amazonaws.com'
         IMAGE_NAME = 'web'
+        IMAGE_VERSION = "0.${BUILD_NUMBER}"
         REGION = 'ap-northeast-2'        
 
         WEBSERVER_USERNAME = 'ubuntu'
@@ -15,47 +19,14 @@ pipeline{
 
         FOLDER_NAME = 'frontend'
     }
-    stages {
-        stage('init') {
-            steps {
-                echo 'init stage'
-                deleteDir()
-            }
-            post {
-                success {
-                    echo 'success init in pipeline'
-                }
-                failure {
-                    error 'fail init in pipeline'
-                }
-            }
-        }  
-        stage('Clone'){
-            steps{
-                git branch: "$TARGET_BRANCH", 
-                url: "$REPOSITORY_URL"
-                sh "ls -al"
-            }
-            post{
-                success {
-                    echo 'success clone project'
-                }
-                failure {
-                    error 'fail clone project' // exit pipeline
-                }     
-            }
-        }
+    stages {  
         stage('Build Docker Image'){
-            when{
-                // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
-                changeset "dockerfile"
-            }
             steps{
                 script{
                     sh '''
-                    docker build --no-cache -t ${IMAGE_NAME}:${BUILD_NUMBER} .
+                    docker build -t ${IMAGE_NAME}:${IMAGE_VERSION} .
                     docker build -t ${IMAGE_NAME}:latest .
-                    docker tag $IMAGE_NAME:$BUILD_NUMBER $ECR_PATH/$IMAGE_NAME:$BUILD_NUMBER
+                    docker tag $IMAGE_NAME:$IMAGE_VERSION $ECR_PATH/$IMAGE_NAME:$IMAGE_VERSION
                     docker tag $IMAGE_NAME:latest $ECR_PATH/$IMAGE_NAME:latest
                     '''
                 }
@@ -70,22 +41,24 @@ pipeline{
             }
         }
         stage('Push to ECR') {
-            when{
-                // Dockerfile에 대한 변경 사항이 있는 경우에만 실행
-                changeset "dockerfile"
-            }
             steps {
                 script {
                     // cleanup current user docker credentials
                     sh 'rm -f ~/.dockercfg ~/.docker/config.json || true'
 
                     docker.withRegistry("https://${ECR_PATH}", "ecr:${REGION}:${AWS_CREDENTIAL_NAME}") {
-                      docker.image("${IMAGE_NAME}:${BUILD_NUMBER}").push()
+                      docker.image("${IMAGE_NAME}:${IMAGE_VERSION}").push()
                       docker.image("${IMAGE_NAME}:latest").push()
                     }
                 }
             }
             post {
+                always {
+                    sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:${IMAGE_VERSION}")
+                    sh("docker rmi -f ${ECR_PATH}/${IMAGE_NAME}:latest")
+                    sh("docker rmi -f ${IMAGE_NAME}:${IMAGE_VERSION}")
+                    sh("docker rmi -f ${IMAGE_NAME}:latest")
+                }                
                 success {
                     echo 'success upload image'
                 }
@@ -94,33 +67,55 @@ pipeline{
                 }
             }
         }
-        stage('Pull and Delpoy'){
+        stage('Pull and Delpoy to web server'){
+            when {
+                branch 'develop'
+                // anyOf {
+                //     branch 'feature/*'
+                //     branch 'develop'
+                // }
+            }
             steps { 
+                echo "Current branch is ${env.BRANCH_NAME}"
+
                 sshagent(credentials: ['devfront']){
                     sh """  
-                        ssh -o StrictHostKeyChecking=yes $WEBSERVER_USERNAME@$WEBSERVER_IP '
-                        ls
+                        ssh -o StrictHostKeyChecking=no $WEBSERVER_USERNAME@$WEBSERVER_IP '
+                            ls
 
-                        # Login to ECR and pull the Docker image
-                        aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR_PATH
-                        
-                        # Pull image from ECR to web server
-                        docker pull $ECR_PATH/$IMAGE_NAME:latest
+                            # Login to ECR and pull the Docker image
+                            echo "login into aws"
+                            aws ecr get-login-password --region $REGION | docker login --username $ECR_NAME --password-stdin $ECR_PATH
+                            
+                            # Pull image from ECR to web server
+                            echo "pull the image from ECR "
+                            docker pull $ECR_PATH/$IMAGE_NAME:latest
 
-                        # Remove the existing folder, if it exists
-                        if cd -a | grep $FOLDER_NAME; then
-                            rm -rf $FOLDER_NAME
-                        fi
+                            # Remove the existing folder, if it exists
+                            echo " remove $FOLDER_NAME folder if it exists"
+                            if ls ~/ | grep $FOLDER_NAME; then
+                                rm -rf $FOLDER_NAME
+                            fi
 
-                        git clone -b $TARGET_BRANCH https://github.com/FISA-on-Top/frontend.git frontend
-                        cd frontend
+                            echo "clone git repo"
+                            git clone -b $env.BRANCH_NAME https://github.com/FISA-on-Top/frontend.git frontend
+                            cd frontend
 
-                        # Run a new Docker container using the image from ECR
-                        docker run --rm -p 3000:3000 \
-                        -v ~/nginx/build:/usr/src/app/build \
-                        --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
+                            # Run a new Docker container using the image from ECR
+                            echo "docker run"
+                            docker run --rm \
+                            -v ~/nginx/build:/usr/src/app/build \
+                            --name $CONTAINER_NAME $ECR_PATH/$IMAGE_NAME:latest
                         '
                     """                
+                }
+            }
+            post{
+                success {
+                    echo 'success deploy to web server'
+                }
+                failure {
+                    error 'fail deploy to web server' // exit pipeline
                 }
             }
         
