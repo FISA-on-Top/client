@@ -3,7 +3,8 @@ pipeline{
 
     environment {
         //REPOSITORY_CREDENTIAL_ID = 'gitlab-jenkins-key'
-        REPOSITORY_URL = 'https://github.com/FISA-on-Top/frontend.git'
+        NGINX_URL = 'https://github.com/FISA-on-Top/Nginx.git'
+        WEB_URL = 'https://github.com/FISA-on-Top/frontend.git'
 
         AWS_CREDENTIAL_NAME = 'ECR-access'
         ECR_NAME = 'AWS'
