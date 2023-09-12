@@ -117,7 +117,7 @@ function Nav2Sub1() {
             const amount = Number(selectedAmount); //청약 수량
 
             // (수수료*할인율) + (공모가*청약수량) -> (공모가*청약수량)*할인률 + 수수료
-            // (commissionNum * grade) + (price * amount); -> ((price * amount) * grade + commission);
+            // (commissionNum * grade) + (price * amount); -> ((price * amount) * grade + commissionNum);
             let result = ((price * amount) * grade + commissionNum);
 
             result = Math.round(result * 100) / 100;  // 소수점 둘째자리에서 반올림

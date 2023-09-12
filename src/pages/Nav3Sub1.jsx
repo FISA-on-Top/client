@@ -64,15 +64,6 @@ function Nav3Sub1() {
 
     const onSubmitClick = () => {
         fetchCancelOrder();
-
-        if (passwordCheck) {
-            navigate('/nav3/sub2', {
-                state: {
-                    userAccount: location.state.userAccount,
-                    row: datas
-                }
-            });
-        }
     }
 
     return (
