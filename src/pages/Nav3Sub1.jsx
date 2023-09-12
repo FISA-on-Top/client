@@ -41,6 +41,13 @@ function Nav3Sub1() {
             setPasswordCheck(true);
             setDatas(data.data);
 
+            navigate('/nav3/sub2', {
+                state: {
+                    userAccount: location.state.userAccount,
+                    row: datas
+                }
+            });
+
         } catch (error) {
             console.error('Error:', error);
             alert("잠시 후 다시 시도해 주세요");
@@ -55,24 +62,18 @@ function Nav3Sub1() {
         navigate(-1);
     }
 
-    const onSubmitClick = async () => {
-        try {
-            await fetchCancelOrder();
+    const onSubmitClick = () => {
+        fetchCancelOrder();
 
-            if (passwordCheck) {
-                navigate('/nav3/sub2', {
-                    state: {
-                        userAccount: location.state.userAccount,
-                        row: datas
-                    }
-                });
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert("잠시 후 다시 시도해 주세요");
+        if (passwordCheck) {
+            navigate('/nav3/sub2', {
+                state: {
+                    userAccount: location.state.userAccount,
+                    row: datas
+                }
+            });
         }
-    };
-
+    }
 
     return (
         <div>
