@@ -14,7 +14,7 @@ pipeline{
         REGION = 'ap-northeast-2'        
 
         WEBSERVER_USERNAME = 'ubuntu'
-        WEBSERVER_IP = '43.201.20.90' 
+        WEBSERVER_IP = '43.202.105.57' 
         CONTAINER_NAME = 'react-build18'
 
         FOLDER_NAME = 'frontend'
