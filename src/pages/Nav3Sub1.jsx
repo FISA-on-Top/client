@@ -44,6 +44,7 @@ function Nav3Sub1() {
             // 임시
             console.log("data: "+data.data);
             console.log("datas: "+datas);
+            console.log("state.row: "+location.state.row);
 
             navigate('/nav3/sub2', {
                 state: {
