@@ -11,6 +11,9 @@ function Nav3Sub2() {
         navigate('/nav3');
     }
 
+    // 임시
+    console.log(location.state.row);
+
     return (
         <ContainerDiv>
             <h1>청약 취소 확인</h1>
