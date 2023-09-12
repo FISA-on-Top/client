@@ -16,7 +16,7 @@ function SignupId() {
 
     const checkDuplication = async () => {
         try {
-            const response = await fetch(`${BASE_URL}/signup/check-id`, {
+            const response = await fetch(`${BASE_URL}/signup/check`, {
                 method: 'GET',
                 headers: {
                     'userId': userId
@@ -48,7 +48,6 @@ function SignupId() {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "userName": location.state.name,
                     "userId": userId,
                     "userPw": userPw,
                     "email": email,

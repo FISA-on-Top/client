@@ -33,7 +33,7 @@ function SubscriptionRequest() {
 
 
     const fetchData = async () => {
-        const apiUrl = `${BASE_URL}/orders/`;
+        const apiUrl = `${BASE_URL}/orders`;
 
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];

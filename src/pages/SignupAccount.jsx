@@ -60,7 +60,7 @@ function SignupAccount() {
     }
 
     const validateAccountNumber = (accountNum) => {
-        const regex = /^[0-9-]+$/;
+        const regex = /^[0-9]+$/;
         return regex.test(accountNum);
     };
 

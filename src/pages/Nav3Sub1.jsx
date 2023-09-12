@@ -32,18 +32,14 @@ function Nav3Sub1() {
             const data = await response.json();
 
             if (data.resultCode !== '0000') {
+                setPasswordCheck(false);
                 alert(data.data);
                 return;
             }
 
             setChecked(true);
-
-            if (data.resultCode === '0000') {
-                setPasswordCheck(true);
-                setDatas(data.data);
-            } else {
-                setPasswordCheck(false);
-            }
+            setPasswordCheck(true);
+            setDatas(data.data);
 
         } catch (error) {
             console.error('Error:', error);
@@ -59,18 +55,24 @@ function Nav3Sub1() {
         navigate(-1);
     }
 
-    const onSubmitClick = () => {
-        fetchCancelOrder();
+    const onSubmitClick = async () => {
+        try {
+            await fetchCancelOrder();
 
-        if (passwordCheck) {
-            navigate('/nav3/sub2', {
-                state: {
-                    userAccount: location.state.userAccount,
-                    row: datas
-                }
-            });
+            if (passwordCheck) {
+                navigate('/nav3/sub2', {
+                    state: {
+                        userAccount: location.state.userAccount,
+                        row: datas
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert("잠시 후 다시 시도해 주세요");
         }
-    }
+    };
+
 
     return (
         <div>
@@ -126,15 +128,6 @@ function Nav3Sub1() {
                 </div>
             </ContainerDiv>
 
-            <div>
-                {checked && passwordCheck === false && (
-                    <div>
-                        <p style={{ color: 'red', textAlign: 'center' }}>
-                            비밀번호를 확인해주세요
-                        </p>
-                    </div>
-                )}
-            </div>
         </div>
     );
 }
