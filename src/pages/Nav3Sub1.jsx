@@ -42,12 +42,6 @@ function Nav3Sub1() {
             setPasswordCheck(true);
             setDatas(data.data);
 
-            // 임시
-            console.log("data: "+data.data);
-            console.log("datas: "+datas);
-            console.log("state.row: "+location.state.row);
-            console.log(data.data.balance);
-
             navigate('/nav3/sub2', {
                 state: {
                     userAccount: location.state.userAccount,

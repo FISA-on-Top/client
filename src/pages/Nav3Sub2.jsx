@@ -11,11 +11,6 @@ function Nav3Sub2() {
         navigate('/nav3');
     }
 
-    // 임시
-    console.log("location.state: "+location.state);
-    console.log("location.state.row: "+location.state.row);
-    console.log(location.state.balance);
-
     return (
         <ContainerDiv>
             <h1>청약 취소 확인</h1>
