@@ -6,9 +6,9 @@ export const ContainerDiv = styled.div`
   justify-content: flex-start;
   align-items: center;
   width: 1000px;
-  height: auto; /* 원하는 높이로 조정 */
-  border: 1px solid #ccc; /* 테두리 스타일 */
-  padding: 20px; /* 내부 여백 */
+  height: auto;
+  border: 1px solid #ccc;
+  padding: 20px;
   whiteSpace: "nowrap",
 `;
 
@@ -17,20 +17,20 @@ export const WrapperDiv = styled.div`
   flex-direction: column;
   width: 100%;
   border-top: 2px solid #e1e1e1; 
-  padding: 10px 0; // 상하 간격 추가
+  padding: 10px 0;
 `;
 
 export const ContentsDiv = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  margin: 5px 5px; // 상하 간격을 더 크게 조정
+  margin: 5px 5px;
 `;
 
 export const TitleDiv = styled.div`
   display: flex;
-  align-items: center; // 세로 중앙 정렬
-  justify-content: center; // 가로 중앙 정렬 추가
+  align-items: center;
+  justify-content: center;
   width: 40%;
   height: 40px; 
   background-color: #dae7f3; 
@@ -39,20 +39,20 @@ export const TitleDiv = styled.div`
   border-radius: 5px; 
   font-size: 1rem;
   font-weight: 800;
-  margin-right: 15px; // 오른쪽 여백 추가
+  margin-right: 15px;
 `;
 
 export const TextDiv = styled.div`
   display: flex;
-  align-items: center; // 세로 중앙 정렬
-  justify-content: center; // 가로 중앙 정렬 추가
+  align-items: center;
+  justify-content: center;
   width: 60%;
   height: 40px;
-  background-color: #e8edf3; // 좀 더 부드러운 색상으로 변경
+  background-color: #e8edf3;
   padding: 0 15px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1); // 그림자 추가
-  border-radius: 5px; // 둥근 모서리 추가
-  margin-right: 15px; // 오른쪽 여백 추가
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin-right: 15px;
 `;
 
 export const Button = styled.button`
@@ -102,13 +102,13 @@ export const NavPageContainedButton = styled.button`
 `;
 
 export const SmallEmptyButton = styled.button`
-  padding: 1px 12px; // 패딩을 조금 줄입니다.
+  padding: 1px 12px;
   margin-right: 5px;
   font-size: 0.9rem;
   font-weight: 800;
   border: 2px solid #2B64CE;
-  border-radius: 5px; // 끝을 둥글게 만듭니다.
-  background-color: transparent; // 배경색을 투명하게 설정합니다.
+  border-radius: 5px;
+  background-color: transparent;
   color: #2B64CE; 
   cursor: pointer;
   
@@ -125,8 +125,8 @@ export const SmallContainedButton = styled.button`
   font-weight: 800;
   border: 2px solid #2B64CE;
   border-radius: 5px;
-  background-color: #2B64CE; // 배경색을 border 색상으로 변경합니다.
-  color: #ffffff;  // 텍스트 색상을 #ffffff로 변경합니다.
+  background-color: #2B64CE;
+  color: #ffffff;
   cursor: pointer;
   transition: background-color 0.3s;
 
@@ -153,16 +153,16 @@ export const NavButton = styled.button`
 export const CellButton = styled.button`
   padding: 1px 12px;
   margin-right: 5px;
-  font-weight: bold; // 텍스트를 굵게 설정합니다.
-  text-decoration: underline; // 텍스트 밑줄 추가
-  border: none; // 테투리를 없앱니다.
-  background-color: transparent; // 배경색을 투명하게 설정합니다.
-  color: #0083cb;  // 텍스트 색상을 검은색으로 변경합니다.
+  font-weight: bold;
+  text-decoration: underline;
+  border: none;
+  background-color: transparent;
+  color: #0083cb;
   cursor: pointer;
   transition: color 0.3s;
 
   &:hover {
-    color: #0067ac; // 호버 시의 배경색을 약간의 회색으로 설정합니다.
+    color: #0067ac;
   }
 `;
 
@@ -170,19 +170,19 @@ export const CellButton = styled.button`
 export const Input = styled.input`
   width: 92%;
   padding: 10px;
-  margin: 0.5rem auto; // 위아래 간격은 2rem으로, 좌우 중앙 정렬을 위해 auto 사용
+  margin: 0.5rem auto;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-family: 'Inter', sans-serif;
-  display: block; // input이 block 요소로 표시되도록 설정
+  display: block;
 `;
   
 export const StyledInput = styled.input`
     width: 92%;
     padding: 10px;
-    margin: 0.5rem auto; // 위아래 간격은 2rem으로, 좌우 중앙 정렬을 위해 auto 사용
+    margin: 0.5rem auto;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-family: 'Inter', sans-serif;
-    display: block; // input이 block 요소로 표시되도록 설정
+    display: block;
 `;

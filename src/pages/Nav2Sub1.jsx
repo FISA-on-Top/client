@@ -14,7 +14,6 @@ function Nav2Sub1() {
     const [subscriptionData, setSubsriptionData] = useState('');
 
     const [balance, setBalance] = useState(''); //청약 가능 금액
-    //const [Grade, setGrade] = useState(''); // 청약등급 -> 고정 값
     const [subscriptionAvailableAmount, setSubscriptionAvailableAmount] = useState(''); //청약 가능 수량
     const [subscriptionPrice, setSubscriptionPrice] = useState(''); //공모가(확정발행가)
     const [selectedDepositError, setSelectedDepositError] = useState('');

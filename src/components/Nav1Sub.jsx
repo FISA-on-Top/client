@@ -27,7 +27,7 @@ function Nav1Sub() {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await fetch('./ipo.json'); // RestAPI경로
+                const response = await fetch('./ipo.json');
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }

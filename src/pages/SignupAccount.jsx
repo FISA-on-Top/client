@@ -89,13 +89,13 @@ function SignupAccount() {
             <WrapperDiv>
                 <ContentsDiv style={{
                     display: 'flex',
-                    justifyContent: 'space-between',  // Split contents evenly
+                    justifyContent: 'space-between',
                 }}>
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',  // Center horizontally
-                        textAlign: 'center',  // Center text
+                        alignItems: 'center',
+                        textAlign: 'center',
                         margin: '0 10px',
                     }}>
                         <img style={{ width: '200px' }} src="/img/signup_1_1.png" alt="Step 1" />
@@ -104,8 +104,8 @@ function SignupAccount() {
                     <div style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        alignItems: 'center',  // Center horizontally
-                        textAlign: 'center',  // Center text
+                        alignItems: 'center',
+                        textAlign: 'center',
                         margin: '0 10px',
                     }}>
                         <img style={{ width: '200px' }} src="/img/signup_1_2.png" alt="Step 2" />

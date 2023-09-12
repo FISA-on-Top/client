@@ -30,16 +30,14 @@ function LoginPage({ isLoggedIn, onLogin, currentNav }) {
 
         const fetchEvents = async () => {
             try {
-                const response = await fetch('./login.json'); // RestAPI경로
+                const response = await fetch('./login.json');
                 if (!response.ok) {
                     throw new Error('Failed to fetch events');
                 }
                 const eventData = await response.json();
 
-                // 비교하여 로그인 성공 여부 판단
                 const isValidLogin = eventData[0].user_id === id && eventData[0].user_pw === pw;
                 
-                // 로그인 성공 시, '/' 경로로 이동
                 if (isValidLogin) {
                     onLogin();
                     navigate(`/${currentNav}`);

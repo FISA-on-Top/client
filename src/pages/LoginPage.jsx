@@ -32,11 +32,11 @@ const Title = styled.h1`
 const Input = styled.input`
   width: 92%;
   padding: 10px;
-  margin: 0.5rem auto; // 위아래 간격은 2rem으로, 좌우 중앙 정렬을 위해 auto 사용
+  margin: 0.5rem auto;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-family: 'Inter', sans-serif;
-  display: block; // input이 block 요소로 표시되도록 설정
+  display: block;
 `;
 
 function LoginPage({ currentNav }) {
@@ -81,8 +81,6 @@ function LoginPage({ currentNav }) {
                 setId('');
                 navigate('/adminPage');
             } else {
-                // setIsAdmin(false);
-                // navigate('/');
                 setId('');
                 navigate(`/${currentNav}`);
             }

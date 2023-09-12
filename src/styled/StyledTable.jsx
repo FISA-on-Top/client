@@ -11,8 +11,8 @@ export const Table = styled.table`
     border-collapse: collapse;
     
     thead {
-        border-top: 2px solid #DDD; // 헤더의 아래쪽 경계를 굵게 만듭니다.
-        border-bottom: 1px solid #DDD; // 헤더의 아래쪽 경계를 굵게 만듭니다.
+        border-top: 2px solid #DDD;
+        border-bottom: 1px solid #DDD;
     }
 `;
 
