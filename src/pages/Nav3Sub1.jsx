@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallEmptyButton, SmallContainedButton } from '../styled/StyledContents';
 import BASE_URL from '../config';
+import { deposit } from '../state/stateForNav2';
 
 function Nav3Sub1() {
     const [inputValue, setInputValue] = useState('');
@@ -45,11 +46,13 @@ function Nav3Sub1() {
             console.log("data: "+data.data);
             console.log("datas: "+datas);
             console.log("state.row: "+location.state.row);
+            console.log(data.data.balance);
 
             navigate('/nav3/sub2', {
                 state: {
                     userAccount: location.state.userAccount,
-                    row: location.state.row
+                    row: location.state.row,
+                    balance: data.data.balance
                 }
             });
 

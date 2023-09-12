@@ -14,6 +14,7 @@ function Nav3Sub2() {
     // 임시
     console.log("location.state: "+location.state);
     console.log("location.state.row: "+location.state.row);
+    console.log(location.state.balance);
 
     return (
         <ContainerDiv>
@@ -60,7 +61,7 @@ function Nav3Sub2() {
                         잔액
                     </TitleDiv>
                     <TextDiv>
-                        {location.state.row.balance}
+                        {location.state.balance}
                     </TextDiv>
                 </ContentsDiv>
 
