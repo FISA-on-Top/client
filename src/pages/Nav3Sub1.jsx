@@ -49,7 +49,7 @@ function Nav3Sub1() {
             navigate('/nav3/sub2', {
                 state: {
                     userAccount: location.state.userAccount,
-                    row: datas
+                    row: location.state.row
                 }
             });
 

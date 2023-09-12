@@ -12,8 +12,8 @@ function Nav3Sub2() {
     }
 
     // 임시
-    console.log(location.state);
-    console.log(location.state.row);
+    console.log("location.state: "+location.state);
+    console.log("location.state.row: "+location.state.row);
 
     return (
         <ContainerDiv>
