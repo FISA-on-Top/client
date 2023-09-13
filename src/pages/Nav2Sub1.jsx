@@ -14,7 +14,6 @@ function Nav2Sub1() {
     const [subscriptionData, setSubsriptionData] = useState('');
 
     const [balance, setBalance] = useState(''); //청약 가능 금액
-    //const [Grade, setGrade] = useState(''); // 청약등급 -> 고정 값
     const [subscriptionAvailableAmount, setSubscriptionAvailableAmount] = useState(''); //청약 가능 수량
     const [subscriptionPrice, setSubscriptionPrice] = useState(''); //공모가(확정발행가)
     const [selectedDepositError, setSelectedDepositError] = useState('');
@@ -113,11 +112,12 @@ function Nav2Sub1() {
             const commissionNum = Number(commission.replace(/,/g, '')) //수수료
             const grade = 0.5; // 할인율 50% 할인;
             //const price = parseFloat(subscriptionPrice.replace(/,/g,'')); //공모가
-            const price = subscriptionPrice;
+            const price = Number(subscriptionPrice);
             const amount = Number(selectedAmount); //청약 수량
 
-            // (수수료*할인율) + (공모가*청약수량)
-            let result = (commissionNum * grade) + (price * amount);
+            // (수수료*할인율) + (공모가*청약수량) -> (공모가*청약수량)*할인률 + 수수료
+            // (commissionNum * grade) + (price * amount); -> ((price * amount) * grade + commissionNum);
+            let result = ((price * amount) * grade + commissionNum);
 
             result = Math.round(result * 100) / 100;  // 소수점 둘째자리에서 반올림
             const resultStr = result.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ","); // 결과값을 돈 형식(콤마 형식)의 문자열로 변환

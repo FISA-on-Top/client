@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallEmptyButton, SmallContainedButton } from '../styled/StyledContents';
 import BASE_URL from '../config';
+import { deposit } from '../state/stateForNav2';
 
 function Nav3Sub1() {
     const [inputValue, setInputValue] = useState('');
@@ -32,18 +33,22 @@ function Nav3Sub1() {
             const data = await response.json();
 
             if (data.resultCode !== '0000') {
+                setPasswordCheck(false);
                 alert(data.data);
                 return;
             }
 
             setChecked(true);
+            setPasswordCheck(true);
+            setDatas(data.data);
 
-            if (data.resultCode === '0000') {
-                setPasswordCheck(true);
-                setDatas(data.data);
-            } else {
-                setPasswordCheck(false);
-            }
+            navigate('/nav3/sub2', {
+                state: {
+                    userAccount: location.state.userAccount,
+                    row: location.state.row,
+                    balance: data.data.balance
+                }
+            });
 
         } catch (error) {
             console.error('Error:', error);
@@ -61,15 +66,6 @@ function Nav3Sub1() {
 
     const onSubmitClick = () => {
         fetchCancelOrder();
-
-        if (passwordCheck) {
-            navigate('/nav3/sub2', {
-                state: {
-                    userAccount: location.state.userAccount,
-                    row: datas
-                }
-            });
-        }
     }
 
     return (
@@ -126,15 +122,6 @@ function Nav3Sub1() {
                 </div>
             </ContainerDiv>
 
-            <div>
-                {checked && passwordCheck === false && (
-                    <div>
-                        <p style={{ color: 'red', textAlign: 'center' }}>
-                            비밀번호를 확인해주세요
-                        </p>
-                    </div>
-                )}
-            </div>
         </div>
     );
 }

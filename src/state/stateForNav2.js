@@ -1,39 +1,38 @@
 import { atom } from 'recoil';
 
 export const calendarDate = atom({
-    key: 'calendarDate', // unique ID (with respect to other atoms/selectors)
-    default: new Date(),  // default value (aka initial value)
+    key: 'calendarDate',
+    default: new Date(),
 });
 
 export const ipoList = atom({
-    key: 'ipoList', // unique ID (with respect to other atoms/selectors)
-    default: null,  // default value (aka initial value)
+    key: 'ipoList',
+    default: null,
 });
 
 export const selectedIpo = atom({
-    key: 'selectedIpo', // unique ID (with respect to other atoms/selectors)
-    default: null,  // default value (aka initial value)
+    key: 'selectedIpo',
+    default: null,
 });
 
 export const accountNumber = atom({
-    key: 'accountNumber', // unique ID (with respect to other atoms/selectors)
-    default: '',  // default value (aka initial value)
+    key: 'accountNumber',
+    default: '',
 });
 export const commissionPrice = atom({
-    key: 'commissionPrice', // unique ID (with respect to other atoms/selectors)
-    default: '2,000',  // default value (aka initial value)
+    key: 'commissionPrice',
+    default: '2,000',
 });
 export const phoneNumber = atom({
-    key: 'phoneNumber', // unique ID (with respect to other atoms/selectors)
-    default: '',  // default value (aka initial value)
+    key: 'phoneNumber',
+    default: '',
 });
 
-/* for request */
 export const orderAmount = atom({
-    key: 'orderAmount', // unique ID (with respect to other atoms/selectors)
-    default: 0,  // default value (aka initial value)
+    key: 'orderAmount',
+    default: 0,
 });
 export const deposit = atom({
-    key: 'deposit', // unique ID (with respect to other atoms/selectors)
-    default: '',  // default value (aka initial value)
+    key: 'deposit',
+    default: '',
 });

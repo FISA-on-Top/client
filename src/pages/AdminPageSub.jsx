@@ -1,11 +1,11 @@
 import React from "react";
-import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv } from '../styled/StyledContents';
+import { ContainerDiv, WrapperDiv, ContentsDiv, TitleDiv, TextDiv, SmallContainedButton } from '../styled/StyledContents';
 
 function AdminPageSub() {
-    const externalPageURL = 'http://43.200.191.48:3000/login'; // 외부 페이지 URL
+    const externalPageURL = 'http://43.200.191.48:3000/login';
 
     const openExternalGrafanaPage = () => {
-        window.open(externalPageURL, '_blank'); // 외부 페이지를 새 탭으로 엽니다.
+        window.open(externalPageURL, '_blank');
     };
 
     return (
@@ -14,7 +14,7 @@ function AdminPageSub() {
             <WrapperDiv>
                 <ContentsDiv>
                     <TitleDiv>Grafana</TitleDiv>
-                    <TextDiv><button onClick={openExternalGrafanaPage}>이동</button></TextDiv>
+                    <TextDiv><SmallContainedButton onClick={openExternalGrafanaPage}>이동</SmallContainedButton></TextDiv>
                 </ContentsDiv>
             </WrapperDiv>
         </ContainerDiv>

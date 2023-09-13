@@ -33,7 +33,7 @@ function SubscriptionRequest() {
 
 
     const fetchData = async () => {
-        const apiUrl = `${BASE_URL}/orders/`;
+        const apiUrl = `${BASE_URL}/orders`;
 
         try {
             const formattedDate = selectedDate.toISOString().split('T')[0];
@@ -81,6 +81,23 @@ function SubscriptionRequest() {
     };
 
     const onRequestClick = (data) => {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        const dayAfterTomorrow = new Date();
+        dayAfterTomorrow.setDate(currentDate.getDate() + 2);
+        dayAfterTomorrow.setHours(0, 0, 0, 0);
+
+        if (selectedDate < currentDate) {
+            alert("이미 지난 청약 종목입니다.");
+            return;
+        }
+        
+        if (selectedDate > dayAfterTomorrow) {
+            alert("아직 청약할 수 없는 종목입니다.");
+            return;
+        }
+
         setIpoId(data);
         navigate('/nav2/sub1');
     }
@@ -122,7 +139,7 @@ function SubscriptionRequest() {
                                             <TableCell>{item.corpName}</TableCell>
                                             {/* <TableCell>{item.leadManager}</TableCell> */}
                                             <TableCell>우리증권</TableCell>
-                                            <TableCell>{item.sbd}</TableCell>
+                                            <TableCell>{item.sbd} ~ {(new Date(item.sbd).getDate() + 1)}</TableCell>
                                             <TableCell>{item.refund}</TableCell>
                                             <TableCell>{item.slprc}</TableCell>
                                         </TableRow>
@@ -135,7 +152,7 @@ function SubscriptionRequest() {
                                         <TableCell>{ipoData.data.ipoSummary.corpCls}</TableCell>
                                         <TableCell>{ipoData.data.ipoSummary.corpName}</TableCell>
                                         <TableCell>우리증권</TableCell>
-                                        <TableCell>{ipoData.data.ipoSummary.sbd}</TableCell>
+                                        <TableCell>{ipoData.data.ipoSummary.sbd} ~ {(new Date(ipoData.data.ipoSummary.sbd).getDate() + 1)}</TableCell>
                                         <TableCell>{ipoData.data.ipoSummary.refund}</TableCell>
                                         <TableCell>{ipoData.data.ipoSummary.slprc}</TableCell>
                                     </TableRow>

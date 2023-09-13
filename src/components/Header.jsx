@@ -14,9 +14,9 @@ const HeaderDiv = styled.div`
 `;
 
 const LogButtonDiv = styled.div`
-  display: flex; // flex display를 활성화하여 버튼들을 일렬로 정렬합니다.
-  flex-direction: row; // 버튼들을 수평으로 정렬합니다.
-  gap: 8px; // 버튼 사이의 간격을 설정합니다.
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
 `;
 
 

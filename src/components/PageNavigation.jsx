@@ -8,6 +8,7 @@ const ButtonDiv = styled.div`
     padding-bottom: 8px;
 `;
 
+const PAGES_PER_GROUP = 10
 
 function PageNavigation({ currentPage, totalPage, onPageChange }) {
     const pageNumbers = [];
@@ -22,24 +23,27 @@ function PageNavigation({ currentPage, totalPage, onPageChange }) {
         }
     }
 
+    const startPage = Math.floor((currentPage - 1) / PAGES_PER_GROUP) * PAGES_PER_GROUP + 1;
+
+    const endPage = Math.min(startPage + PAGES_PER_GROUP - 1, totalPage);
+
     return (
         <div>
             <ButtonDiv>
                 <NavPageContainedButton
                     className={currentPage === 1 ? 'disabled' : ''}
-
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage <= 1}
                 >
                     &laquo;
                 </NavPageContainedButton>
 
-                {pageNumbers.map((pageNumber) => (
+                {pageNumbers.slice(startPage - 1, endPage).map((pageNumber) => (
                     <CellButton
                         key={pageNumber}
                         className={currentPage === pageNumber ? 'active' : ''}
                         onClick={() => handlePageChange(pageNumber)}
-                        style={{ border: 'none', background: 'none', cursor: 'pointer'  }}>
+                        style={{ border: 'none', background: 'none', cursor: 'pointer' }}>
                         {pageNumber}
                     </CellButton>
                 ))}

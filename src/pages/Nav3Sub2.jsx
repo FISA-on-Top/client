@@ -56,7 +56,7 @@ function Nav3Sub2() {
                         잔액
                     </TitleDiv>
                     <TextDiv>
-                        {location.state.row.balance}
+                        {location.state.balance}
                     </TextDiv>
                 </ContentsDiv>
 

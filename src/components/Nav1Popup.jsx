@@ -29,8 +29,8 @@ const CloseButton = styled.button`
     font-weight: 800;
     border: 2px solid #2B64CE;
     border-radius: 5px;
-    background-color: #2B64CE; // 배경색을 border 색상으로 변경합니다.
-    color: #ffffff;  // 텍스트 색상을 #ffffff로 변경합니다.
+    background-color: #2B64CE;
+    color: #ffffff; 
     cursor: pointer;
     transition: background-color 0.3s;
   
@@ -44,8 +44,8 @@ const Table = styled.table`
     border-collapse: collapse;
 
     thead {
-        border-top: 2px solid #DDD; // 헤더의 아래쪽 경계를 굵게 만듭니다.
-        border-bottom: 1px solid #DDD; // 헤더의 아래쪽 경계를 굵게 만듭니다.
+        border-top: 2px solid #DDD;
+        border-bottom: 1px solid #DDD;
     }
 `;
 
