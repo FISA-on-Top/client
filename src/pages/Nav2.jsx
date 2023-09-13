@@ -93,11 +93,11 @@ function SubscriptionRequest() {
             return;
         }
         
-        if (selectedDate < dayAfterTomorrow) {
+        if (selectedDate > dayAfterTomorrow) {
             alert("아직 청약할 수 없는 종목입니다.");
             return;
         }
-        
+
         setIpoId(data);
         navigate('/nav2/sub1');
     }
