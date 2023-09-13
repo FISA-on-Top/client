@@ -81,6 +81,14 @@ function SubscriptionRequest() {
     };
 
     const onRequestClick = (data) => {
+        const currentDate = new Date();
+        currentDate.setHours(0, 0, 0, 0);
+
+        if (selectedDate < currentDate) {
+            alert("이미 지난 청약 종목입니다.");
+            return;
+        }
+        
         setIpoId(data);
         navigate('/nav2/sub1');
     }
