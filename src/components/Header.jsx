@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
 import { NavContainedButton } from '../styled/StyledContents';
 

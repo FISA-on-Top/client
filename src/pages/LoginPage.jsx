@@ -120,7 +120,7 @@ function LoginPage({ currentNav }) {
                     }}
                 />
                 <Button onClick={handleLoginClick}>Login</Button>
-                <SmallEmptyButton style={{'font-size':'0.5 rem'}}onClick={handleSignUpClick}>회원가입</SmallEmptyButton>
+                <SmallEmptyButton style={{'font-size':'0.5 rem', 'margin-left': '209px'}}onClick={handleSignUpClick}>회원가입</SmallEmptyButton>
             </LoginBox>
         </LoginContainer>
 

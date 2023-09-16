@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { isAdminAtom, userIdInfo, userLoggedIn } from '../state/state';
+import { NavContainedButton } from '../styled/StyledContents';
 
 const HeaderDiv = styled.div`
   display: flex;
@@ -38,15 +39,13 @@ function HeaderAdmin() {
 
     return (
         <HeaderDiv>
-            <header>
                 {isLoggedIn ? (
                     <LogButtonDiv>
-                        <button onClick={handleLogoutClick}>로그아웃 버튼</button>
+                        <NavContainedButton onClick={handleLogoutClick}>로그아웃 버튼</NavContainedButton>
                     </LogButtonDiv>
                 ) : (
-                    <button onClick={handleLoginClick}>로그인 버튼</button>
+                    <NavContainedButton onClick={handleLoginClick}>로그인 버튼</NavContainedButton>
                 )}
-            </header>
         </HeaderDiv>
     );
 }

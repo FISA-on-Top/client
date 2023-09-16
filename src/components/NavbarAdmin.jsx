@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { userLoggedIn } from '../state/state';
 
 const NavContainer = styled.div`
-    background-color: blue;
+    background-color: #0067ac;
     height: 50px;
     display: flex;
     align-items: center;
@@ -40,7 +40,6 @@ const NavLinkStyled = styled(NavLink)`
     display: flex;
     align-items: center;
 `;
-
 function NavbarAdmin() {
     const isLoggedIn = useRecoilValue(userLoggedIn);
 
@@ -49,7 +48,7 @@ function NavbarAdmin() {
             <LogoDiv>
                 <NavLinkStyled to="/adminPage">
                     <ImgLogo src="/img/logo.png" alt="로고 이미지" />
-                    <p className='bold'>우리증권</p>
+                    <p className='bold' style={{'margin-left' : '8px'}}>우리증권</p>
                 </NavLinkStyled>
             </LogoDiv>
 

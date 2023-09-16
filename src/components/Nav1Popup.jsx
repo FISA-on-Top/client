@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import { TableRow } from '../styled/StyledTable.jsx';
 const PopupOverlay = styled.div`
+    class : PopupOverLay;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,7 +20,7 @@ const PopupContent = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     background: white;
-    padding: 16px;
+    padding: 100px;
 `;
 
 const CloseButton = styled.button`
@@ -40,7 +41,8 @@ const CloseButton = styled.button`
 `;
 
 const Table = styled.table`
-    width: 100%;
+    height: 300px;
+    width: 700px;
     border-collapse: collapse;
 
     thead {
@@ -52,6 +54,8 @@ const Table = styled.table`
 const Th = styled.th`
     padding: 8px 12px;
     text-align: center;
+    height: 100%;
+    width: 30%;
     background-color: #E1EBF9;
     border-left: 1px solid #DDDD;
     border-right: 1px solid #DDDD;
@@ -74,46 +78,46 @@ function Nav1Popup({ event, isVisible, onClose }) {
                 {event ? (
                     <Table>
                         <tbody>
-                            <tr>
+                            <TableRow>
                                 <Th>기업코드</Th>
                                 <Td>{event.corpCode}</Td>
-                            </tr>
-                            <tr>
+                                </TableRow>
+                            <TableRow>
                                 <Th>기업명</Th>
                                 <Td>{event.corpName}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>청약기일</Th>
                                 <Td>{event.sbd}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>납입기일</Th>
                                 <Td>{event.pymd}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>환불일</Th>
                                 <Td>{new Date(event.refund).toISOString().split('T')[0]}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>상장예정일</Th>
                                 <Td>{new Date(event.ipoDate).toISOString().split('T')[0]}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>확정발행가</Th>
                                 <Td>{event.slprc}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>(법인)구분</Th>
                                 <Td>{event.corpCls}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>증권수량</Th>
                                 <Td>{event.stkcnt}</Td>
-                            </tr>
-                            <tr>
+                            </TableRow>
+                            <TableRow>
                                 <Th>증자방법</Th>
                                 <Td>{event.capitalIncrease}</Td>
-                            </tr>
+                            </TableRow>
                         </tbody>
                     </Table>
                 ) : (
